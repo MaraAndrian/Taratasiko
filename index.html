@@ -7,6 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         :root {
             --primary: rgb(0, 14, 66);
@@ -228,8 +230,8 @@
             color: var(--white);
             font-size: 12px;
         }
-		
-		/* Confirmation et Suivi */
+        
+        /* Confirmation et Suivi */
         .confirmation-section {
             display: none;
             text-align: center;
@@ -282,11 +284,151 @@
                 transform: translateY(0);
             }
         }
-		/* Histoire complète (cachée initialement) */
+        
+        /* Histoire complète (cachée initialement) */
         .full-story {
             display: none;
             padding-top: 15px;
             animation: fadeIn 0.5s;
+        }
+
+        /* Nouveaux styles pour la section commande modifiée */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            min-height: 80px;
+        }
+
+        #map, #tracking-map {
+            width: 100%;
+            height: 250px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border: 1px solid #ddd;
+        }
+
+        .map-container {
+            position: relative;
+        }
+
+        .map-overlay {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+            font-size: 12px;
+        }
+
+        .confirmation-code-container {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .confirmation-code {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .confirmation-code input {
+            width: 50px;
+            height: 60px;
+            text-align: center;
+            font-size: 24px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            -webkit-text-security: disc;
+        }
+
+        .confirmation-code input.show-code {
+            -webkit-text-security: none;
+        }
+
+        .confirmation-code input:focus {
+            border-color: var(--secondary);
+            outline: none;
+        }
+
+        .toggle-code {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .toggle-code input {
+            margin-right: 8px;
+        }
+
+        .tracking-status {
+            margin: 20px 0;
+            padding: 15px;
+            background: var(--light);
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .status-item i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+
+        .status-item.active i {
+            color: var(--primary);
+        }
+
+        .status-item.active .status-text {
+            font-weight: bold;
+        }
+
+        .status-line {
+            height: 20px;
+            width: 2px;
+            background: #ddd;
+            margin-left: 14px;
+            margin-bottom: 5px;
+        }
+
+        .status-item:last-child .status-line {
+            display: none;
+        }
+
+        /* Styles pour les marqueurs Leaflet */
+        .leaflet-marker-icon {
+            filter: hue-rotate(320deg) !important;
         }
     </style>
 </head>
@@ -401,7 +543,7 @@
                 </ul>
                 <p>Mais au lieu de céder à la panique, il a une illumination. Et si quelqu'un d'autre pouvait le faire pour lui ? Un héros, un ninja de l'administration, un... coursier administratif. À pied, s'il le faut.</p>
                 <p>C'est ainsi qu'est née l'idée de cette entreprise : pour sauver des Sitraka en détresse administrative.</p>
-			</div>
+            </div>
             
             <button class="btn-primary" id="btn-lire-suite" style="margin-top: 15px;">Lire la suite</button>
         </section>
@@ -442,38 +584,61 @@
             <a href="#commander" class="btn-primary">Demander un devis gratuit</a>
         </section>
         
-        <!-- Section Commander -->
+        <!-- Section Commander (MODIFIÉE) -->
         <section class="section" id="commander">
             <h2><i class="fas fa-paper-plane"></i> Commander un coursier</h2>
             
-            <div style="margin-bottom: 20px;">
-                <label for="service-type">Type de service</label>
-                <select id="service-type" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ddd; margin-top: 8px;">
-                    <option value="">Sélectionnez un service</option>
-                    <option value="colis">Livraison Colis (5 500 Ar/km)</option>
-                    <option value="document">Démarches Administratives (10 000 Ar/h)</option>
+            <div class="form-group">
+                <label>Point de départ</label>
+                <div style="padding: 12px; background: #f5f5f5; border-radius: 8px;">
+                    33 Av. de L'Independance, Antananarivo 101
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="dossier-type">Type de dossier administratif</label>
+                <select id="dossier-type" class="form-control">
+                    <option value="">Sélectionnez un type de dossier</option>
+                    <option value="cni">Demande/renouvellement CNI (Bureau National d'Identification)</option>
+                    <option value="passeport">Demande/renouvellement passeport (Direction de l'Immigration)</option>
+                    <option value="extrait">Extrait de naissance (Mairie)</option>
+                    <option value="casier">Casier judiciaire (Tribunal)</option>
+                    <option value="scolarite">Attestation de scolarité (Établissement scolaire)</option>
+                    <option value="diplome">Certificat/legalisation de diplôme (Ministère de l'Éducation)</option>
+                    <option value="autre">Autre dossier administratif</option>
                 </select>
             </div>
             
-            <div id="colis-fields" style="display: none; margin-bottom: 20px;">
-                <label for="distance">Distance (km)</label>
-                <input type="number" id="distance" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ddd; margin-top: 8px;" placeholder="Ex: 5">
+            <div class="form-group" id="autre-dossier-group" style="display: none;">
+                <label for="autre-dossier">Précisez le type de dossier et l'adresse</label>
+                <input type="text" id="autre-dossier" placeholder="Ex: Demande de permis de construire à la Commune Urbaine">
             </div>
             
-            <div id="document-fields" style="display: none; margin-bottom: 20px;">
-                <label for="duree">Durée estimée (heures)</label>
-                <input type="number" id="duree" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ddd; margin-top: 8px;" placeholder="Ex: 2">
+            <div class="form-group">
+                <label for="adresse-livraison">Adresse de livraison</label>
+                <input type="text" id="adresse-livraison" placeholder="Ex: Lot II M 121 Bis, Antanimena">
             </div>
             
-            <div id="montant-container" style="text-align: center; margin: 20px 0; display: none;">
+            <div class="form-group">
+                <label for="instructions">Instructions spéciales</label>
+                <textarea id="instructions" placeholder="Ex: Le colis est fragile, ou informations spécifiques pour la démarche administrative"></textarea>
+            </div>
+            
+            <div class="map-container">
+                <div class="map-overlay">Chargement de la carte...</div>
+                <div id="map"></div>
+            </div>
+            
+            <div id="montant-container" style="text-align: center; margin: 20px 0;">
                 <p>Montant estimé :</p>
                 <h2 style="color: var(--secondary); font-size: 28px;" id="montant">0 Ar</h2>
+                <p style="font-size: 12px; color: #666;">(Frais de livraison + démarche administrative)</p>
             </div>
             
             <button class="btn-primary" id="btn-continuer">Continuer vers le paiement</button>
         </section>
         
-        <!-- Section Paiement -->
+        <!-- Section Paiement (MODIFIÉE) -->
         <section class="section" id="paiement" style="display: none;">
             <h2><i class="fas fa-money-bill-wave"></i> Paiement Mobile Money</h2>
             
@@ -490,38 +655,82 @@
                 <div class="payment-method" data-operator="airtel">
                     <img src="airtel-money.png" alt="Airtel Money">
                     <p>Airtel</p>
-					<p>Money</p>
+                    <p>Money</p>
                 </div>
                 <div class="payment-method" data-operator="orange">
                     <img src="orange-money.png" alt="Orange Money">
                     <p>Orange</p>
-					<p>Money</p>
+                    <p>Money</p>
                 </div>
             </div>
             
-            <div style="margin-top: 20px;">
+            <div class="form-group">
                 <label for="numero-tel">Numéro de téléphone</label>
-                <input type="tel" id="numero-tel" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ddd; margin-top: 8px;" placeholder="Votre numéro pour le paiement">
+                <input type="tel" id="numero-tel" placeholder="Votre numéro pour le paiement">
+            </div>
+            
+            <div class="confirmation-code-container">
+                <label>Code de confirmation (4 chiffres)</label>
+                <div class="confirmation-code">
+                    <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" autocomplete="one-time-code">
+                    <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                    <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                    <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                </div>
+                <div class="toggle-code">
+                    <input type="checkbox" id="show-code"> <label for="show-code">Afficher le code</label>
+                </div>
+                <p style="font-size: 12px; color: #666; text-align: center; margin-top: 10px;">Vous recevrez un code par SMS pour confirmer le paiement</p>
             </div>
             
             <button class="btn-primary" id="btn-payer" style="margin-top: 20px;">Payer maintenant</button>
             <button class="btn-primary" id="btn-retour" style="margin-top: 10px; background: var(--primary);">Retour</button>
         </section>
-		
-		<!-- Section Confirmation -->
+        
+        <!-- Section Confirmation -->
         <section class="section confirmation-section" id="confirmation">
             <div class="confirmation-icon">
                 <i class="fas fa-check-circle"></i>
             </div>
-            <h2>Confirmation</h2>
-            <p>Un coursier est assigné sous 1h</p>
+            <h2>Commande confirmée</h2>
+            <p>Votre coursier a été assigné</p>
             
-            <div style="margin: 30px 0;">
-                <h3 style="color: var(--secondary);">Suivi en temps réel</h3>
-                <p>Recevez des notifications sur l'avancement de votre demande</p>
-                <div style="margin: 20px 0; padding: 15px; background: var(--light); border-radius: 10px;">
-                    <p><i class="fas fa-circle" style="color: var(--secondary); font-size: 10px; margin-right: 10px;"></i> Statut: <strong>En attente de coursier</strong></p>
+            <div class="tracking-status">
+                <div class="status-item active">
+                    <i class="fas fa-check-circle"></i>
+                    <div class="status-text">Commande confirmée</div>
                 </div>
+                <div class="status-line"></div>
+                <div class="status-item">
+                    <i class="far fa-circle"></i>
+                    <div class="status-text">Coursier en route</div>
+                </div>
+                <div class="status-line"></div>
+                <div class="status-item">
+                    <i class="far fa-circle"></i>
+                    <div class="status-text">Démarche en cours</div>
+                </div>
+                <div class="status-line"></div>
+                <div class="status-item">
+                    <i class="far fa-circle"></i>
+                    <div class="status-text">Livraison en cours</div>
+                </div>
+                <div class="status-line"></div>
+                <div class="status-item">
+                    <i class="far fa-circle"></i>
+                    <div class="status-text">Commande terminée</div>
+                </div>
+            </div>
+            
+            <div class="map-container">
+                <div id="tracking-map"></div>
+            </div>
+            
+            <div style="margin: 20px 0; text-align: left;">
+                <h3 style="color: var(--primary); margin-bottom: 10px;">Détails du coursier</h3>
+                <p><strong>Nom:</strong> Jean Rakoto</p>
+                <p><strong>Téléphone:</strong> +261 34 12 345 67</p>
+                <p><strong>Numéro de suivi:</strong> TRTSK-2024-0567</p>
             </div>
             
             <button class="btn-primary" id="btn-accueil">Retour à l'accueil</button>
@@ -544,10 +753,40 @@
         </footer>
     </div>
 
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Leaflet Routing Machine -->
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+    <!-- Nominatim pour le géocodage -->
+    <script src="https://unpkg.com/leaflet-control-geocoder@2.4.0/dist/Control.Geocoder.js"></script>
+
     <script>
+        // Variables globales pour les cartes et marqueurs
+        let map;
+        let trackingMap;
+        let departureMarker;
+        let adminMarker;
+        let deliveryMarker;
+        let courierMarker;
+        let courierRoute;
+        let currentLeg = 0;
+        let currentStep = 0;
+        
+        // Coordonnées fixes pour le point de départ (33 Av. de L'Independance)
+        const departureCoords = [-18.9083, 47.5261];
+        
+        // Adresses des administrations à Madagascar avec coordonnées approximatives
+        const adminLocations = {
+            'cni': { name: 'Bureau National d\'Identification', coords: [-18.9145, 47.5316] },
+            'passeport': { name: 'Direction de l\'Immigration', coords: [-18.9138, 47.5283] },
+            'extrait': { name: 'Mairie d\'Antananarivo', coords: [-18.9088, 47.5254] },
+            'casier': { name: 'Tribunal d\'Antananarivo', coords: [-18.9112, 47.5278] },
+            'scolarite': { name: 'Ministère de l\'Éducation', coords: [-18.9101, 47.5302] },
+            'diplome': { name: 'Ministère de l\'Enseignement Supérieur', coords: [-18.9095, 47.5297] }
+        };
+
         document.addEventListener('DOMContentLoaded', function() {
-		
-			// Gestion de "Lire la suite"
+            // Gestion de "Lire la suite"
             const btnLireSuite = document.getElementById('btn-lire-suite');
             const fullStory = document.getElementById('fullStory');
             
@@ -560,48 +799,341 @@
                     btnLireSuite.textContent = 'Réduire';
                 }
             });
-			
-            // Gestion de la commande
-            const serviceType = document.getElementById('service-type');
-            const colisFields = document.getElementById('colis-fields');
-            const documentFields = document.getElementById('document-fields');
-            const montantContainer = document.getElementById('montant-container');
             
-            serviceType.addEventListener('change', function() {
-                const type = this.value;
-                colisFields.style.display = type === 'colis' ? 'block' : 'none';
-                documentFields.style.display = type === 'document' ? 'block' : 'none';
-                
-                if (type) {
-                    montantContainer.style.display = 'block';
-                    calculerMontant();
+            // Gestion du type de dossier
+            const dossierType = document.getElementById('dossier-type');
+            const autreDossierGroup = document.getElementById('autre-dossier-group');
+            
+            dossierType.addEventListener('change', function() {
+                if (this.value === 'autre') {
+                    autreDossierGroup.style.display = 'block';
                 } else {
-                    montantContainer.style.display = 'none';
+                    autreDossierGroup.style.display = 'none';
+                    updateMap();
                 }
+                calculerMontant();
             });
             
-            // Calcul du montant
-            function calculerMontant() {
-                const type = serviceType.value;
-                let montant = 0;
+            // Initialisation des cartes
+            function initMaps() {
+                // Carte principale
+                map = L.map('map').setView(departureCoords, 15);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                }).addTo(map);
                 
-                if (type === 'colis') {
-                    const distance = parseFloat(document.getElementById('distance').value) || 0;
-                    montant = 5500 * distance;
-                } else if (type === 'document') {
-                    const duree = parseFloat(document.getElementById('duree').value) || 0;
-                    montant = 10000 * duree;
-                }
+                // Carte de suivi
+                trackingMap = L.map('tracking-map').setView(departureCoords, 15);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                }).addTo(trackingMap);
                 
-                document.getElementById('montant').textContent = montant.toLocaleString('fr-FR') + ' Ar';
-                document.getElementById('montant-paiement').textContent = montant.toLocaleString('fr-FR') + ' Ar';
+                // Ajouter le marqueur de départ
+                departureMarker = L.marker(departureCoords, {
+                    icon: L.icon({
+                        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34]
+                    }),
+                    title: "Point de départ: 33 Av. de L'Independance"
+                }).addTo(map);
+                
+                document.querySelector('.map-overlay').style.display = 'none';
             }
             
-            // Écouteurs pour le calcul en temps réel
-            document.getElementById('distance')?.addEventListener('input', calculerMontant);
-            document.getElementById('duree')?.addEventListener('input', calculerMontant);
+            // Initialiser les cartes
+            initMaps();
             
-			// Gestion du paiement
+            // Calcul du montant (simplifié pour la démo)
+            function calculerMontant() {
+                // Simulation de calcul de distance et durée
+                const distance = Math.floor(Math.random() * 20) + 5; // 5-25 km
+                const duree = dossierType.value ? (Math.random() * 3 + 1).toFixed(1) : 0; // 1-4 heures si dossier admin
+                
+                const montantLivraison = 5500 * distance;
+                const montantDemarche = 10000 * duree;
+                const montantTotal = montantLivraison + montantDemarche;
+                
+                document.getElementById('montant').textContent = montantTotal.toLocaleString('fr-FR') + ' Ar';
+                document.getElementById('montant-paiement').textContent = montantTotal.toLocaleString('fr-FR') + ' Ar';
+            }
+            
+            // Mise à jour de la carte lorsque les adresses changent
+            function updateMap() {
+                const dossierTypeValue = document.getElementById('dossier-type').value;
+                const deliveryAddress = document.getElementById('adresse-livraison').value;
+                
+                if (!dossierTypeValue || !deliveryAddress) return;
+                
+                // Supprimer les anciens marqueurs s'ils existent
+                if (adminMarker) map.removeLayer(adminMarker);
+                if (deliveryMarker) map.removeLayer(deliveryMarker);
+                if (courierRoute) map.removeControl(courierRoute);
+                
+                // Géocodage de l'adresse administrative (simplifié avec coordonnées fixes)
+                const adminLocation = adminLocations[dossierTypeValue] || { 
+                    name: document.getElementById('autre-dossier').value,
+                    coords: [-18.9070, 47.5240] // Coordonnées par défaut pour "autre"
+                };
+                
+                adminMarker = L.marker(adminLocation.coords, {
+                    icon: L.icon({
+                        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34]
+                    }),
+                    title: adminLocation.name
+                }).addTo(map).bindPopup(adminLocation.name);
+                
+                // Géocodage de l'adresse de livraison (simplifié avec coordonnées aléatoires proches)
+                const deliveryCoords = [
+                    adminLocation.coords[0] + (Math.random() * 0.01 - 0.005),
+                    adminLocation.coords[1] + (Math.random() * 0.01 - 0.005)
+                ];
+                
+                deliveryMarker = L.marker(deliveryCoords, {
+                    icon: L.icon({
+                        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34]
+                    }),
+                    title: "Livraison: " + deliveryAddress
+                }).addTo(map).bindPopup("Livraison: " + deliveryAddress);
+                
+                // Calculer et afficher l'itinéraire
+                courierRoute = L.Routing.control({
+                    waypoints: [
+                        L.latLng(departureCoords[0], departureCoords[1]),
+                        L.latLng(adminLocation.coords[0], adminLocation.coords[1]),
+                        L.latLng(deliveryCoords[0], deliveryCoords[1])
+                    ],
+                    routeWhileDragging: true,
+                    showAlternatives: false,
+                    addWaypoints: false,
+                    draggableWaypoints: false,
+                    fitSelectedRoutes: true,
+                    lineOptions: {
+                        styles: [{color: '#3366ff', opacity: 0.7, weight: 5}]
+                    }
+                }).addTo(map);
+                
+                // Ajuster la vue pour voir tous les points
+                const featureGroup = L.featureGroup([departureMarker, adminMarker, deliveryMarker]);
+                map.fitBounds(featureGroup.getBounds().pad(0.2));
+            }
+            
+            // Simuler le suivi en temps réel après paiement
+            function simulateTracking() {
+                if (!departureMarker || !adminMarker || !deliveryMarker) return;
+                
+                // Supprimer l'ancien itinéraire de suivi s'il existe
+                if (courierRoute) trackingMap.removeControl(courierRoute);
+                if (courierMarker) trackingMap.removeLayer(courierMarker);
+                
+                // Créer un nouvel itinéraire pour la carte de suivi
+                courierRoute = L.Routing.control({
+                    waypoints: [
+                        L.latLng(departureCoords[0], departureCoords[1]),
+                        L.latLng(adminMarker.getLatLng().lat, adminMarker.getLatLng().lng),
+                        L.latLng(deliveryMarker.getLatLng().lat, deliveryMarker.getLatLng().lng)
+                    ],
+                    routeWhileDragging: true,
+                    show: false,
+                    addWaypoints: false,
+                    draggableWaypoints: false,
+                    fitSelectedRoutes: false,
+                    lineOptions: {
+                        styles: [{color: '#3366ff', opacity: 0.5, weight: 5}]
+                    }
+                }).addTo(trackingMap);
+                
+                // Ajouter les marqueurs à la carte de suivi
+                L.marker(departureCoords, {
+                    icon: L.icon({
+                        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34]
+                    })
+                }).addTo(trackingMap).bindPopup("Départ");
+                
+                L.marker(adminMarker.getLatLng(), {
+                    icon: L.icon({
+                        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34]
+                    })
+                }).addTo(trackingMap).bindPopup("Démarche administrative");
+                
+                L.marker(deliveryMarker.getLatLng(), {
+                    icon: L.icon({
+                        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34]
+                    })
+                }).addTo(trackingMap).bindPopup("Livraison");
+                
+                // Ajouter un marqueur mobile pour simuler le coursier
+                courierMarker = L.marker(departureCoords, {
+                    icon: L.icon({
+                        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-gold.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34]
+                    }),
+                    zIndexOffset: 1000
+                }).addTo(trackingMap).bindPopup("Coursier en route");
+                
+                // Obtenir les points de l'itinéraire
+                courierRoute.on('routesfound', function(e) {
+                    const routes = e.routes;
+                    const route = routes[0];
+                    const coordinates = route.coordinates;
+                    
+                    // Animation du marqueur
+                    animateCourier(coordinates);
+                });
+                
+                // Ajuster la vue pour voir tout l'itinéraire
+                const featureGroup = L.featureGroup([
+                    L.marker(departureCoords),
+                    L.marker(adminMarker.getLatLng()),
+                    L.marker(deliveryMarker.getLatLng())
+                ]);
+                trackingMap.fitBounds(featureGroup.getBounds().pad(0.2));
+            }
+            
+            // Animation du marqueur du coursier
+            function animateCourier(coordinates) {
+				let i = 0;
+				const totalPoints = coordinates.length;
+				const interval = 1000; // Vitesse d'animation (ms)
+				
+				const stepDurations = {
+					'Commande confirmée': 0.1,
+					'Coursier en route': 0.3,
+					'Démarche en cours': 0.4, 
+					'Livraison en cours': 0.15,
+					'Commande terminée': 0.05
+				};
+				
+				const transitionPoints = {
+					toCoursier: Math.floor(totalPoints * stepDurations['Commande confirmée']),
+					toDemarche: Math.floor(totalPoints * (stepDurations['Commande confirmée'] + stepDurations['Coursier en route'])),
+					toLivraison: Math.floor(totalPoints * (stepDurations['Commande confirmée'] + stepDurations['Coursier en route'] + stepDurations['Démarche en cours'])),
+					toTermine: totalPoints - 1 // Modifié ici
+				};
+
+				function moveMarker() {
+					// Modifier la condition pour inclure le dernier point
+					if (i <= transitionPoints.toTermine) { // <= au lieu de <
+						courierMarker.setLatLng([coordinates[i].lat, coordinates[i].lng]);
+						
+						if (i < transitionPoints.toCoursier) {
+							setActiveStatus(0);
+						} else if (i < transitionPoints.toDemarche) {
+							setActiveStatus(1);
+						} else if (i < transitionPoints.toLivraison) {
+							setActiveStatus(2);
+						} else if (i < transitionPoints.toTermine) {
+							setActiveStatus(3);
+						} else {
+							// Dernier point atteint
+							setActiveStatus(4); // Commande terminée
+						}
+
+						i++;
+						setTimeout(moveMarker, interval);
+					}
+				}
+				
+				moveMarker();
+			}
+            
+            // Mettre à jour la barre de statut en fonction de la progression
+            function updateStatus(progress) {
+                const statusItems = document.querySelectorAll('.status-item');
+                
+                if (progress < 0.25) {
+                    // Statut 1 actif
+                    setActiveStatus(0);
+                } else if (progress < 0.5) {
+                    // Statut 2 actif
+                    setActiveStatus(1);
+                } else if (progress < 0.75) {
+                    // Statut 3 actif
+                    setActiveStatus(2);
+                } else if (progress < 0.95) {
+                    // Statut 4 actif
+                    setActiveStatus(3);
+                } else {
+                    // Statut 5 actif
+                    setActiveStatus(4);
+                }
+            }
+            
+            function setActiveStatus(index) {
+                const statusItems = document.querySelectorAll('.status-item');
+                statusItems.forEach((item, i) => {
+                    if (i <= index) {
+                        item.classList.add('active');
+                        item.querySelector('i').className = 'fas fa-check-circle';
+                    } else {
+                        item.classList.remove('active');
+                        item.querySelector('i').className = 'far fa-circle';
+                    }
+                });
+            }
+            
+            // Écouteurs pour la mise à jour de la carte
+            document.getElementById('adresse-livraison')?.addEventListener('change', function() {
+                updateMap();
+                calculerMontant();
+            });
+            
+            document.getElementById('autre-dossier')?.addEventListener('change', function() {
+                updateMap();
+                calculerMontant();
+            });
+            
+            // Gestion du code de confirmation
+            const codeInputs = document.querySelectorAll('.confirmation-code input');
+            const showCodeCheckbox = document.getElementById('show-code');
+            
+            showCodeCheckbox.addEventListener('change', function() {
+                codeInputs.forEach(input => {
+                    if (this.checked) {
+                        input.classList.add('show-code');
+                    } else {
+                        input.classList.remove('show-code');
+                    }
+                });
+            });
+            
+            codeInputs.forEach((input, index) => {
+                input.addEventListener('input', function() {
+                    if (this.value.length === 1) {
+                        if (index < codeInputs.length - 1) {
+                            codeInputs[index + 1].focus();
+                        } else {
+                            this.blur();
+                        }
+                    }
+                });
+                
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Backspace' && this.value.length === 0 && index > 0) {
+                        codeInputs[index - 1].focus();
+                    }
+                });
+            });
+            
+            // Gestion du paiement
             const paymentMethods = document.querySelectorAll('.payment-method');
             paymentMethods.forEach(method => {
                 method.addEventListener('click', function() {
@@ -609,22 +1141,21 @@
                     this.classList.add('selected');
                 });
             });
-			
+            
             // Navigation entre sections
             const btnContinuer = document.getElementById('btn-continuer');
             const btnRetour = document.getElementById('btn-retour');
             const btnPayer = document.getElementById('btn-payer');
             const btnAccueil = document.getElementById('btn-accueil');
-            const btnCommander = document.getElementById('btn-commander');
-            const btnCommanderFooter = document.getElementById('btn-commander-footer');
             
             const commanderSection = document.getElementById('commander');
             const paiementSection = document.getElementById('paiement');
             const confirmationSection = document.getElementById('confirmation');
             
             btnContinuer.addEventListener('click', function() {
-                if (!serviceType.value) {
-                    alert('Veuillez sélectionner un type de service');
+                if (!document.getElementById('dossier-type').value || 
+                    !document.getElementById('adresse-livraison').value) {
+                    alert('Veuillez remplir tous les champs obligatoires');
                     return;
                 }
                 
@@ -640,6 +1171,11 @@
             btnPayer.addEventListener('click', function() {
                 const operator = document.querySelector('.payment-method.selected');
                 const phoneNumber = document.getElementById('numero-tel').value;
+                let codeComplete = true;
+                
+                codeInputs.forEach(input => {
+                    if (!input.value) codeComplete = false;
+                });
                 
                 if (!operator) {
                     alert('Veuillez sélectionner un opérateur de paiement');
@@ -651,16 +1187,16 @@
                     return;
                 }
                 
+                if (!codeComplete) {
+                    alert('Veuillez entrer le code de confirmation complet');
+                    return;
+                }
+                
                 paiementSection.style.display = 'none';
                 confirmationSection.style.display = 'block';
                 
-                // Simulation de suivi
-                setTimeout(() => {
-                    const statusElement = document.querySelector('#confirmation strong');
-                    if (statusElement) {
-                        statusElement.textContent = 'Coursier en route';
-                    }
-                }, 3000);
+                // Simuler le suivi
+                setTimeout(simulateTracking, 1000);
             });
             
             btnAccueil.addEventListener('click', function() {
@@ -668,27 +1204,26 @@
                 commanderSection.style.display = 'block';
                 
                 // Réinitialisation du formulaire
-                serviceType.value = '';
-                colisFields.style.display = 'none';
-                documentFields.style.display = 'none';
-                montantContainer.style.display = 'none';
+                document.getElementById('dossier-type').value = '';
+                document.getElementById('autre-dossier').value = '';
+                document.getElementById('adresse-livraison').value = '';
+                document.getElementById('instructions').value = '';
                 document.getElementById('numero-tel').value = '';
-                document.querySelectorAll('.operator').forEach(op => op.classList.remove('selected'));
-            });
-            
-            btnCommander.addEventListener('click', function() {
-                document.querySelector('.header').scrollIntoView({ behavior: 'smooth' });
-            });
-            
-            btnCommanderFooter.addEventListener('click', function() {
-                commanderSection.scrollIntoView({ behavior: 'smooth' });
-            });
-            
-            // Sélection opérateur Mobile Money
-            document.querySelectorAll('.operator').forEach(op => {
-                op.addEventListener('click', function() {
-                    document.querySelectorAll('.operator').forEach(o => o.classList.remove('selected'));
-                    this.classList.add('selected');
+                document.querySelectorAll('.payment-method').forEach(op => op.classList.remove('selected'));
+                codeInputs.forEach(input => input.value = '');
+                showCodeCheckbox.checked = false;
+                codeInputs.forEach(input => input.classList.remove('show-code'));
+                
+                // Réinitialiser les statuts
+                const statusItems = document.querySelectorAll('.status-item');
+                statusItems.forEach((item, index) => {
+                    if (index === 0) {
+                        item.classList.add('active');
+                        item.querySelector('i').className = 'fas fa-check-circle';
+                    } else {
+                        item.classList.remove('active');
+                        item.querySelector('i').className = 'far fa-circle';
+                    }
                 });
             });
         });
