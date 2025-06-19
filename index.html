@@ -3811,8 +3811,8 @@
                 return distanceData[startQuartier][endQuartier];
             }
             
-            return (Math.random() * 11.9 + 5).toFixed(1);; // Distance par défaut si non trouvée
-        }
+            return (5 + Math.random() * 11.9).toFixed(1);
+	}
 
         // Fonction pour calculer le montant
         function calculerMontant() {
