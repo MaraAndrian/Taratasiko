@@ -3803,16 +3803,19 @@
 
         // Fonction pour calculer la distance entre deux adresses
         // Fonction pour calculer la distance entre deux adresses
-        function calculerDistanceLivraison(startAddress, endAddress) {
-            const startQuartier = detecterQuartier(startAddress);
-            const endQuartier = detecterQuartier(endAddress);
-            
-            if (distanceData[startQuartier] && distanceData[startQuartier][endQuartier] !== undefined) {
-                return distanceData[startQuartier][endQuartier];
-            }
-            
-            return (5 + Math.random() * 11.9).toFixed(1);
-	}
+        // Fonction pour calculer la distance entre deux adresses
+function calculerDistanceLivraison(startAddress, endAddress) {
+    const startQuartier = detecterQuartier(startAddress);
+    const endQuartier = detecterQuartier(endAddress);
+    
+    if (distanceData[startQuartier] && distanceData[startQuartier][endQuartier] !== undefined) {
+        return distanceData[startQuartier][endQuartier];
+    }
+    
+    // Générer une distance aléatoire entre 5.0 et 16.9 km (garantie)
+    const randomDistance = (Math.random() * 11.9 + 5).toFixed(1);
+    return Math.max(5.0, Math.min(16.9, parseFloat(randomDistance)));
+}
 
         // Fonction pour calculer le montant
         function calculerMontant() {
