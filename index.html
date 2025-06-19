@@ -3867,33 +3867,36 @@ function calculerDistanceLivraison(startAddress, endAddress) {
 				document.getElementById('price-details').style.display = 'block';
 				return total;
             } else {
-                const startAddress = document.getElementById('adresse-recuperation').value;
-                const endAddress = document.getElementById('adresse-livraison-colis').value;
-                
-                if (!startAddress || !endAddress) {
-                    document.getElementById('montant').textContent = '0 Ar';
-                    document.getElementById('montant-description').textContent = '(Frais de livraison)';
-                    document.getElementById('price-details').style.display = 'none';
-                    return 0;
-                }
-                
-                // Calculer la distance
-                const distance = calculerDistanceLivraison(startAddress, endAddress);
-                const fraisLivraison = Math.round(distance * 5500);
-                
-                document.getElementById('montant').textContent = fraisLivraison.toLocaleString('fr-FR') + ' Ar';
-                document.getElementById('montant-description').textContent = '(Frais de livraison)';
-                document.getElementById('distance-livraison').textContent = `Distance : ${distance.toFixed(1)} km`;
-                document.getElementById('tarif-km').textContent = `Tarif par km : 5 500 Ar`;
-                document.getElementById('detailed-total').textContent = fraisLivraison.toLocaleString('fr-FR') + ' Ar';
-                
-                // Afficher les détails livraison et masquer admin
-                document.getElementById('admin-details').style.display = 'none';
-                document.getElementById('livraison-details').style.display = 'block';
-                
-                document.getElementById('price-details').style.display = 'block';
-                return fraisLivraison;
-            }
+        const startAddress = document.getElementById('adresse-recuperation').value;
+        const endAddress = document.getElementById('adresse-livraison-colis').value;
+        
+        if (!startAddress || !endAddress) {
+            document.getElementById('montant').textContent = '0 Ar';
+            document.getElementById('montant-description').textContent = '(Frais de livraison)';
+            document.getElementById('price-details').style.display = 'none';
+            return 0;
+        }
+        
+        // Calculer la distance (peut être aléatoire si adresse inconnue)
+        const distance = calculerDistanceLivraison(startAddress, endAddress);
+        const fraisLivraison = Math.round(distance * 5500);
+        
+        // Mettre à jour l'affichage
+        document.getElementById('montant').textContent = fraisLivraison.toLocaleString('fr-FR') + ' Ar';
+        document.getElementById('montant-description').textContent = '(Frais de livraison)';
+        
+        // Afficher TOUJOURS les détails, même pour les adresses aléatoires
+        document.getElementById('distance-livraison').textContent = `Distance : ${distance.toFixed(1)} km`;
+        document.getElementById('tarif-km').textContent = `Tarif par km : 5 500 Ar`;
+        document.getElementById('detailed-total').textContent = fraisLivraison.toLocaleString('fr-FR') + ' Ar';
+        
+        // Afficher les détails livraison et masquer admin
+        document.getElementById('admin-details').style.display = 'none';
+        document.getElementById('livraison-details').style.display = 'block';
+        
+        document.getElementById('price-details').style.display = 'block';
+        return fraisLivraison;
+    }
         }
 
         // Fonction pour animer le coursier
