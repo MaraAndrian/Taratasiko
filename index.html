@@ -1274,7 +1274,7 @@
 			"bypass": 10.8
 		  },
 		  "analakely": {
-			"67ha": 2.6,
+			"67ha": 3.2,
 			"anosy": 1.8,
 			"andoharanofotsy": 7.2,
 			"ivato": 8.1,
@@ -3806,15 +3806,23 @@
         // Fonction pour calculer la distance entre deux adresses
 // Fonction pour calculer la distance entre deux adresses
 function calculerDistanceLivraison(startAddress, endAddress) {
+    // Convertir en nombre flottant pour s'assurer du type numérique
+    const getRandomDistance = () => parseFloat((5 + Math.random() * 11.9).toFixed(1));
+    
+    if (!startAddress || !endAddress) return 0; // Cas vide
+    
     const startQuartier = detecterQuartier(startAddress);
     const endQuartier = detecterQuartier(endAddress);
     
-    if (distanceData[startQuartier] && distanceData[startQuartier][endQuartier] !== undefined) {
-        return distanceData[startQuartier][endQuartier];
+    if (startQuartier && endQuartier && 
+        distanceData[startQuartier] && 
+        distanceData[startQuartier][endQuartier] !== undefined) {
+        
+        const distance = distanceData[startQuartier][endQuartier];
+        return distance > 0 ? distance : getRandomDistance();
     }
     
-    // Retourne un nombre entre 5.0 et 16.9 (parseFloat pour convertir le toFixed en nombre)
-    return parseFloat((5 + Math.random() * 11.9).toFixed(1));
+    return getRandomDistance(); // Cas par défaut
 }
 
         // Fonction pour calculer le montant
@@ -3864,39 +3872,23 @@ function calculerDistanceLivraison(startAddress, endAddress) {
 				document.getElementById('price-details').style.display = 'block';
 				return total;
             } else {
-    const startAddress = document.getElementById('adresse-recuperation').value;
-    const endAddress = document.getElementById('adresse-livraison-colis').value;
-    
-    if (!startAddress || !endAddress) {
-        document.getElementById('montant').textContent = '0 Ar';
-        document.getElementById('montant-description').textContent = '(Frais de livraison)';
-        document.getElementById('price-details').style.display = 'none';
-        return 0;
+        const startAddress = document.getElementById('adresse-recuperation').value;
+        const endAddress = document.getElementById('adresse-livraison-colis').value;
+        
+        const distance = calculerDistanceLivraison(startAddress, endAddress);
+        const fraisLivraison = Math.round(distance * 5500);
+        
+        // FORCER l'affichage des détails
+        document.getElementById('distance-livraison').textContent = `Distance : ${distance.toFixed(1)} km`;
+        document.getElementById('tarif-km').textContent = `Tarif par km : 5 500 Ar`;
+        document.getElementById('detailed-total').textContent = fraisLivraison.toLocaleString('fr-FR') + ' Ar';
+        
+        // Activer l'affichage
+        document.getElementById('livraison-details').style.display = 'block';
+        document.getElementById('price-details').style.display = 'block';
+        
+        return fraisLivraison;
     }
-    
-    // Calculer la distance
-    const distance = calculerDistanceLivraison(startAddress, endAddress);
-    const fraisLivraison = Math.round(distance * 5500);
-    
-    // Mettre à jour l'affichage principal
-    document.getElementById('montant').textContent = fraisLivraison.toLocaleString('fr-FR') + ' Ar';
-    document.getElementById('montant-description').textContent = '(Frais de livraison)';
-    
-    // FORCER l'affichage des détails
-    document.getElementById('distance-livraison').textContent = `Distance : ${distance.toFixed(1)} km`;
-    document.getElementById('tarif-km').textContent = `Tarif par km : 5 500 Ar`;
-    document.getElementById('detailed-total').textContent = fraisLivraison.toLocaleString('fr-FR') + ' Ar';
-    
-    // Afficher la section des détails
-    document.getElementById('admin-details').style.display = 'none';
-    document.getElementById('livraison-details').style.display = 'block';
-    document.getElementById('price-details').style.display = 'block';
-    
-    // Mettre à jour la carte de livraison
-    updateDeliveryMap(startAddress, endAddress);
-    
-    return fraisLivraison;
-}
         }
 
         // Fonction pour animer le coursier
