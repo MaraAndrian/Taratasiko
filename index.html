@@ -898,12 +898,12 @@
 		  "67ha": {
 			"67ha": 0,
 			"anosy": 2.8,
-			"andoharanofotsy": 6.2,
+			"andoharanofotsy": 8.2,
 			"ivato": 11.5,
 			"talatamaty": 7.7,
 			"ambohijatovo": 4.3,
 			"ambodivona": 3.3,
-			"analakely": 2.6,
+			"analakely": 3.2,
 			"ankorondrano": 11.5,
 			"isotry": 3.2,
 			"mahamasina": 3.1,
@@ -952,7 +952,7 @@
 		  "anosy": {
 			"67ha": 2.8,
 			"anosy": 0,
-			"andoharanofotsy": 8.2,
+			"andoharanofotsy": 6.2,
 			"ivato": 9.9,
 			"talatamaty": 8.8,
 			"ambohijatovo": 2.8,
@@ -1004,16 +1004,16 @@
 			"bypass": 10.4
 		  },
 		  "andoharanofotsy": {
-			"67ha": 6.2,
-			"anosy": 8.2,
+			"67ha": 8.2,
+			"anosy": 6.2,
 			"andoharanofotsy": 0,
-			"ivato": 7.0,
-			"talatamaty": 7.3,
+			"ivato": 16.0,
+			"talatamaty": 13.3,
 			"ambohijatovo": 11.3,
 			"ambodivona": 10.4,
 			"analakely": 7.2,
 			"ankorondrano": 11.5,
-			"isotry": 6.2,
+			"isotry": 8.3,
 			"mahamasina": 9.0,
 			"tsaralalana": 6.4,
 			"antanimena": 8.4,
@@ -1060,9 +1060,9 @@
 		  "ivato": {
 			"67ha": 11.5,
 			"anosy": 9.9,
-			"andoharanofotsy": 7.0,
+			"andoharanofotsy": 16.0,
 			"ivato": 0,
-			"talatamaty": 11.8,
+			"talatamaty": 3.8,
 			"ambohijatovo": 7.7,
 			"ambodivona": 7.3,
 			"analakely": 8.1,
@@ -1114,8 +1114,8 @@
 		  "talatamaty": {
 			"67ha": 7.7,
 			"anosy": 8.8,
-			"andoharanofotsy": 7.3,
-			"ivato": 11.8,
+			"andoharanofotsy": 13.3,
+			"ivato": 3.8,
 			"talatamaty": 0,
 			"ambohijatovo": 11.3,
 			"ambodivona": 7.3,
@@ -3891,72 +3891,81 @@
         }
 
         // Fonction pour animer le coursier
-        // Fonction pour animer le coursier
-		function animateCourier() {
-			// Vérifier que nous avons des coordonnées de suivi
+        function animateCourier() {
 			if (!trackingCoordinates || trackingCoordinates.length === 0) {
 				console.error("Aucune coordonnée de suivi disponible");
 				return;
 			}
 
-			// Paramètres d'animation
+			// Durée totale de 2 minutes (120000 ms)
+			const totalDuration = 100000; 
 			const totalPoints = trackingCoordinates.length;
-			const interval = 2000; // 2 secondes entre chaque point
-			let currentIndex = 0;
-
-			// Définir les étapes de progression
+			
+			// Définir les étapes avec des pourcentages personnalisés
 			const progressSteps = {
 				admin: [
-					{ progress: 0.2, status: 1 }, // Coursier en route
-					{ progress: 0.5, status: 2 }, // Démarche en cours
-					{ progress: 0.8, status: 3 }, // Retour en cours
-					{ progress: 1.0, status: 4 }  // Terminé
+					{ progress: 0.3, status: 1 }, // 30% Coursier en route
+					{ progress: 0.6, status: 2 }, // 30% Démarche en cours
+					{ progress: 0.9, status: 3 }, // 30% Retour en cours
+					{ progress: 1.0, status: 4 }  // 10% Terminé
 				],
 				livraison: [
-					{ progress: 0.2, status: 1 }, // Coursier en route
-					{ progress: 0.5, status: 2 }, // Récupération en cours
-					{ progress: 0.8, status: 3 }, // Livraison en cours
-					{ progress: 1.0, status: 4 }  // Terminé
+					{ progress: 0.4, status: 1 }, // 40% Coursier en route
+					{ progress: 0.7, status: 2 }, // 30% Récupération en cours
+					{ progress: 0.9, status: 3 }, // 20% Livraison en cours
+					{ progress: 1.0, status: 4 }  // 10% Terminé
 				]
 			};
 
+			// Calculer l'intervalle entre les points
+			const interval = Math.floor(totalDuration / totalPoints);
+			
 			// Rendre le marqueur visible
 			courierMarker.setOpacity(1);
+			
+			// Démarrer avec seulement "Commande confirmée"
+			setActiveStatus(0);
+			
+			let currentIndex = 0;
+			const startTime = Date.now();
+			let lastStatus = 0;
 
-			// Fonction récursive pour déplacer le marqueur
 			const moveMarker = () => {
 				if (currentIndex >= totalPoints) {
-					return; // Animation terminée
+					setActiveStatus(4);
+					return;
 				}
 
-				// Mettre à jour la position du coursier
-				const currentCoord = trackingCoordinates[currentIndex];
-				courierMarker.setLatLng([currentCoord.lat, currentCoord.lng]);
+				// Mettre à jour la position
+				const coord = trackingCoordinates[currentIndex];
+				courierMarker.setLatLng([coord.lat, coord.lng]);
 
-				// Calculer la progression
-				const progress = currentIndex / totalPoints;
+				// Calculer la progression (0 à 1)
+				const elapsed = Date.now() - startTime;
+				const progress = elapsed / totalDuration;
+				
+				// Trouver l'étape actuelle
 				const steps = serviceType === 'admin' ? progressSteps.admin : progressSteps.livraison;
-
-				// Mettre à jour le statut en fonction de la progression
+				let currentStatus = 0;
+				
 				for (const step of steps) {
 					if (progress < step.progress) {
-						setActiveStatus(step.status);
+						currentStatus = step.status - 1;
 						break;
 					}
+					currentStatus = step.status;
+				}
+
+				// Mettre à jour seulement si le statut a changé
+				if (currentStatus !== lastStatus) {
+					setActiveStatus(currentStatus);
+					lastStatus = currentStatus;
 				}
 
 				currentIndex++;
-				
-				// Continuer l'animation
-				if (currentIndex < totalPoints) {
-					setTimeout(moveMarker, interval);
-				} else {
-					// Dernière étape - commande terminée
-					setActiveStatus(4);
-				}
+				setTimeout(moveMarker, interval);
 			};
 
-			// Démarrer l'animation
 			moveMarker();
 		}
 
@@ -3981,6 +3990,12 @@
 					step.classList.add('active');
 					icon.classList.remove('far', 'fa-circle');
 					icon.classList.add('fas', 'fa-check-circle');
+					
+					// S'assurer que "Commande confirmée" est toujours active
+					if (index === 0) {
+						step.classList.add('active');
+						icon.classList.add('fas', 'fa-check-circle');
+					}
 				} else {
 					step.classList.remove('active');
 					icon.classList.remove('fas', 'fa-check-circle');
@@ -4198,8 +4213,8 @@
 				document.getElementById('paiement').style.display = 'none';
 				document.getElementById('confirmation').style.display = 'block';
 				
-				// Initialiser les étapes de suivi
-				setActiveStatus(0); // Commencer à la première étape
+				// Initialiser seulement "Commande confirmée"
+				setActiveStatus(0);
 				
 				// Mettre à jour les détails de confirmation avec le montant
 				if (serviceType === 'admin') {
@@ -4216,24 +4231,19 @@
 					// Masquer la carte pour les démarches admin
 					document.getElementById('confirmation-map-container').style.display = 'none';
 					
-					// Simuler la progression des étapes pour admin
-					let currentStep = 0;
-					const adminInterval = setInterval(() => {
-						if (currentStep < 4) { // 4 étapes après "Commande confirmée"
-							currentStep++;
-							setActiveStatus(currentStep);
-							
-							// Accélérer la dernière étape
-							if (currentStep === 3) {
-								clearInterval(adminInterval);
-								setTimeout(() => {
-									setActiveStatus(4); // Commande terminée
-								}, 3000);
-							}
-						} else {
-							clearInterval(adminInterval);
-						}
-					}, 10000); // Changement d'étape toutes les 5 secondes
+					// Simulation admin
+					const steps = [
+						{time: 36000, status: 1},  // 36s (30%) Coursier en route
+						{time: 72000, status: 2},  // 36s (30%) Démarche en cours
+						{time: 108000, status: 3}, // 36s (30%) Retour en cours
+						{time: 120000, status: 4}  // 12s (10%) Terminé
+					];
+					
+					steps.forEach(step => {
+						setTimeout(() => {
+							setActiveStatus(step.status);
+						}, step.time);
+					});
 					
 				} else {
 					const description = document.getElementById('description-colis').value;
