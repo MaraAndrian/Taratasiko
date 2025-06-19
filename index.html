@@ -3871,21 +3871,20 @@ function calculerDistanceLivraison(startAddress, endAddress) {
 				
 				document.getElementById('price-details').style.display = 'block';
 				return total;
-            } else {
+            } else { // MODE LIVRAISON
         const startAddress = document.getElementById('adresse-recuperation').value;
         const endAddress = document.getElementById('adresse-livraison-colis').value;
         
         const distance = calculerDistanceLivraison(startAddress, endAddress);
         const fraisLivraison = Math.round(distance * 5500);
         
-        // FORCER l'affichage des détails
+        // AFFICHAGE LIVRAISON SEULEMENT
         document.getElementById('distance-livraison').textContent = `Distance : ${distance.toFixed(1)} km`;
         document.getElementById('tarif-km').textContent = `Tarif par km : 5 500 Ar`;
-        document.getElementById('detailed-total').textContent = fraisLivraison.toLocaleString('fr-FR') + ' Ar';
+        document.getElementById('detailed-total').textContent = `${fraisLivraison.toLocaleString('fr-FR')} Ar`;
         
-        // Activer l'affichage
+        document.getElementById('admin-details').style.display = 'none';
         document.getElementById('livraison-details').style.display = 'block';
-        document.getElementById('price-details').style.display = 'block';
         
         return fraisLivraison;
     }
