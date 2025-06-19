@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         :root {
@@ -39,7 +38,6 @@
             min-height: 100vh;
         }
         
-        /* Splash Screen comme une vraie APK */
         .splash {
             position: fixed;
             top: 0;
@@ -81,7 +79,6 @@
             to { opacity: 0; visibility: hidden; }
         }
         
-        /* Header Principal */
         .header {
             background: linear-gradient(135deg, var(--primary), #004080);
             color: var(--white);
@@ -105,7 +102,6 @@
             animation: fadeInDown 0.8s 0.2s both;
         }
         
-        /* Bouton Principal */
         .btn-primary {
             background: var(--secondary);
             color: var(--white);
@@ -124,7 +120,6 @@
             text-align: center;
         }
         
-        /* Sections conformes à Canva */
         .section {
             padding: 25px 20px;
             margin: 15px;
@@ -147,7 +142,6 @@
             color: var(--secondary);
         }
         
-        /* Nos Valeurs */
         .values {
             display: flex;
             flex-wrap: wrap;
@@ -170,7 +164,6 @@
             margin-bottom: 10px;
         }
         
-        /* Comment ça marche */
         .steps {
             display: flex;
             flex-direction: column;
@@ -196,7 +189,6 @@
             flex-shrink: 0;
         }
         
-        /* Paiement Mobile Money avec fond noir */
         .payment-methods {
             display: flex;
             justify-content: space-around;
@@ -231,7 +223,6 @@
             font-size: 12px;
         }
         
-        /* Confirmation et Suivi */
         .confirmation-section {
             display: none;
             text-align: center;
@@ -244,7 +235,6 @@
             margin-bottom: 20px;
         }
         
-        /* Footer avec contacts */
         .footer {
             background: var(--primary);
             color: var(--white);
@@ -262,7 +252,6 @@
             text-decoration: none;
         }
         
-        /* Animations */
         @keyframes fadeInDown {
             from {
                 opacity: 0;
@@ -285,14 +274,12 @@
             }
         }
         
-        /* Histoire complète (cachée initialement) */
         .full-story {
             display: none;
             padding-top: 15px;
             animation: fadeIn 0.5s;
         }
 
-        /* Nouveaux styles pour la section commande modifiée */
         .form-group {
             margin-bottom: 20px;
         }
@@ -426,14 +413,66 @@
             display: none;
         }
 
-        /* Styles pour les marqueurs Leaflet */
         .leaflet-marker-icon {
             filter: hue-rotate(320deg) !important;
         }
+        
+        .price-details {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: left;
+        }
+        
+        .price-details p {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .price-details .total {
+            font-weight: bold;
+            margin-top: 10px;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
+		.order-status {
+			display: flex;
+			justify-content: space-between;
+			margin: 20px 0;
+		}
+
+		.step {
+			flex: 1;
+			text-align: center;
+			padding: 10px;
+			position: relative;
+			color: #999;
+		}
+
+		.step.active {
+			color: #2c3e50;
+			font-weight: bold;
+		}
+
+		.step:not(:last-child):after {
+			content: '';
+			position: absolute;
+			top: 20px;
+			left: 50%;
+			right: -50%;
+			height: 2px;
+			background: #ddd;
+			z-index: -1;
+		}
+
+		.step.active:not(:last-child):after {
+			background: #2c3e50;
+		}
     </style>
 </head>
 <body>
-    <!-- Splash Screen comme une APK -->
+    <!-- Splash Screen -->
     <div class="splash">
         <img src="logo.png" alt="Logo Taratasiko" class="splash-logo animate__animated animate__pulse animate__infinite">
         <p class="splash-text animate__animated animate__fadeIn">Chargement...</p>
@@ -441,7 +480,7 @@
     
     <!-- App Container -->
     <div class="app-container">
-        <!-- En-tête -->
+        <!-- Header -->
         <header class="header animate__animated animate__fadeIn">
             <h1>Vos démarches administratives, simplifiées en un clic !</h1>
             <p>Confiez-nous vos urgences : dépôt de dossiers, retraits de documents</p>
@@ -584,7 +623,7 @@
             <a href="#commander" class="btn-primary">Demander un devis gratuit</a>
         </section>
         
-        <!-- Section Commander (MODIFIÉE) -->
+        <!-- Section Commander -->
         <section class="section" id="commander">
             <h2><i class="fas fa-paper-plane"></i> Commander un coursier</h2>
             
@@ -611,12 +650,12 @@
             
             <div class="form-group" id="autre-dossier-group" style="display: none;">
                 <label for="autre-dossier">Précisez le type de dossier et l'adresse</label>
-                <input type="text" id="autre-dossier" placeholder="Ex: Demande de permis de construire à la Commune Urbaine">
+                <input type="text" id="autre-dossier" placeholder="Ex: Mairie d'Antananarivo">
             </div>
             
             <div class="form-group">
                 <label for="adresse-livraison">Adresse de livraison</label>
-                <input type="text" id="adresse-livraison" placeholder="Ex: Lot II M 121 Bis, Antanimena">
+                <input type="text" id="adresse-livraison" placeholder="Ex: Lot II 67ha">
             </div>
             
             <div class="form-group">
@@ -635,10 +674,21 @@
                 <p style="font-size: 12px; color: #666;">(Frais de livraison + démarche administrative)</p>
             </div>
             
+            <div class="price-details" id="price-details" style="display: none;">
+                <p><strong>Détails du prix :</strong></p>
+                <p id="distance-details">Distance totale : 0 km</p>
+                <p id="admin-distance">Distance Av.33 → Admin : 0 km</p>
+                <p id="delivery-distance">Distance Admin → Livraison : 0 km</p>
+                <p id="duration-details">Durée estimée de la démarche : 0 heures</p>
+                <p id="delivery-cost">Frais de livraison : 0 Ar</p>
+                <p id="admin-cost">Frais de démarche : 0 Ar</p>
+                <p class="total">Total : <span id="detailed-total">0 Ar</span></p>
+            </div>
+            
             <button class="btn-primary" id="btn-continuer">Continuer vers le paiement</button>
         </section>
         
-        <!-- Section Paiement (MODIFIÉE) -->
+        <!-- Section Paiement -->
         <section class="section" id="paiement" style="display: none;">
             <h2><i class="fas fa-money-bill-wave"></i> Paiement Mobile Money</h2>
             
@@ -736,7 +786,7 @@
             <button class="btn-primary" id="btn-accueil">Retour à l'accueil</button>
         </section>
         
-        <!-- Footer avec contacts -->
+        <!-- Footer -->
         <footer class="footer">
             <h3 style="margin-bottom: 15px;">Contactez-nous</h3>
             <p><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> 33 Av. de L'Independance, Antananarivo 101</p>
@@ -755,478 +805,2055 @@
 
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <!-- Leaflet Routing Machine -->
     <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
-    <!-- Nominatim pour le géocodage -->
     <script src="https://unpkg.com/leaflet-control-geocoder@2.4.0/dist/Control.Geocoder.js"></script>
 
     <script>
-        // Variables globales pour les cartes et marqueurs
-        let map;
-        let trackingMap;
-        let departureMarker;
-        let adminMarker;
-        let deliveryMarker;
-        let courierMarker;
-        let courierRoute;
-        let currentLeg = 0;
-        let currentStep = 0;
-        
-        // Coordonnées fixes pour le point de départ (33 Av. de L'Independance)
-        const departureCoords = [-18.9083, 47.5261];
-        
-        // Adresses des administrations à Madagascar avec coordonnées approximatives
-        const adminLocations = {
-            'cni': { name: 'Bureau National d\'Identification', coords: [-18.9145, 47.5316] },
-            'passeport': { name: 'Direction de l\'Immigration', coords: [-18.9138, 47.5283] },
-            'extrait': { name: 'Mairie d\'Antananarivo', coords: [-18.9088, 47.5254] },
-            'casier': { name: 'Tribunal d\'Antananarivo', coords: [-18.9112, 47.5278] },
-            'scolarite': { name: 'Ministère de l\'Éducation', coords: [-18.9101, 47.5302] },
-            'diplome': { name: 'Ministère de l\'Enseignement Supérieur', coords: [-18.9095, 47.5297] }
+	
+        // DONNÉES COMPLÈTES DES DISTANCES
+        const distanceData = {
+            // 1. Admins principales (6)
+            principales: {
+                cni: {
+                    name: "Bureau National d'Identification",
+                    distanceFrom33av: 0.8,
+                    duration: 1.5,
+                    distancesToQuartiers: {
+                        '67ha': 5.2, 'anosy': 2.8, 'andoharanofotsy': 6.5, 'ivato': 8.3,
+                        'talatamaty': 10.1, 'ambohijatovo': 1.2, 'ambodivona': 0.8,
+                        'analakely': 0.5, 'ankorondrano': 3.2, 'isotry': 2.1,
+                        'mahamasina': 1.8, 'tsaralalana': 1.3, 'antanimena': 0.7,
+                        'ampandrana': 4.3, 'faravohitra': 1.9, 'ankadifotsy': 5.8,
+                        'ankadikely': 6.2, 'ampahibe': 7.1, 'ambohimanarina': 9.5,
+                        'ambohimangakely': 8.7, 'ambohibao': 7.8, 'amboditsiry': 5.5,
+                        'ambohijanaka': 8.2, 'ambohidratrimo': 12.5, 'ambohimanga': 15.3,
+                        'andranomena': 3.8, 'ankadinandriana': 4.7, 'ankadivato': 5.1,
+                        'ankaditapaka': 6.3, 'ankaditoho': 5.9, 'ankoronga': 4.2,
+                        'antanimora': 3.5, 'antsahabe': 6.8, 'behoririka': 2.5,
+                        'faravohitra': 1.9, 'fiadanana': 3.1, 'isoraka': 2.3,
+                        'itaosy': 9.8, 'mahazo': 4.6, 'manjakaray': 5.7,
+                        'miarinarivo': 11.2, 'nanisana': 3.9, 'soarano': 2.7,
+                        'tambohobe': 7.5, 'tsimbazaza': 1.5, 'tsararay': 4.4,
+                        'ankaditany': 5.3, 'ankaditapaka': 6.3, 'ankadivato': 5.1,
+                        'ambohitrimanjaka': 8.9, 'ambatobe': 6.7, 'ambohitsoa': 5.4,
+                        'ankadimanga': 4.8, 'ambohibary': 7.3, 'ambohidrapeto': 9.1
+                    }
+                },
+                passeport: {
+                    name: "Direction de l'Immigration",
+                    distanceFrom33av: 0.5,
+                    duration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 5.0, 'anosy': 2.5, 'andoharanofotsy': 6.0, 'ivato': 8.0,
+                        'talatamaty': 9.8, 'ambohijatovo': 1.0, 'ambodivona': 0.6,
+                        'analakely': 0.3, 'ankorondrano': 3.0, 'isotry': 1.9,
+                        'mahamasina': 1.6, 'tsaralalana': 1.1, 'antanimena': 0.5,
+                        'ampandrana': 4.0, 'faravohitra': 1.7, 'ankadifotsy': 5.5,
+                        'ankadikely': 6.0, 'ampahibe': 6.8, 'ambohimanarina': 9.2,
+                        'ambohimangakely': 8.4, 'ambohibao': 7.5, 'amboditsiry': 5.2,
+                        'ambohijanaka': 8.0, 'ambohidratrimo': 12.2, 'ambohimanga': 15.0,
+                        'andranomena': 3.5, 'ankadinandriana': 4.5, 'ankadivato': 4.9,
+                        'ankaditapaka': 6.1, 'ankaditoho': 5.7, 'ankoronga': 4.0,
+                        'antanimora': 3.3, 'antsahabe': 6.5, 'behoririka': 2.3,
+                        'faravohitra': 1.7, 'fiadanana': 3.0, 'isoraka': 2.1,
+                        'itaosy': 9.5, 'mahazo': 4.4, 'manjakaray': 5.5,
+                        'miarinarivo': 11.0, 'nanisana': 3.7, 'soarano': 2.5,
+                        'tambohobe': 7.2, 'tsimbazaza': 1.3, 'tsararay': 4.2,
+                        'ankaditany': 5.1, 'ankaditapaka': 6.1, 'ankadivato': 4.9,
+                        'ambohitrimanjaka': 8.7, 'ambatobe': 6.5, 'ambohitsoa': 5.2,
+                        'ankadimanga': 4.6, 'ambohibary': 7.1, 'ambohidrapeto': 8.9
+                    }
+                },
+                extrait: {
+                    name: "Mairie d'Antananarivo",
+                    distanceFrom33av: 0.3,
+                    duration: 1.0,
+                    distancesToQuartiers: {
+                        '67ha': 5.5, 'anosy': 2.9, 'andoharanofotsy': 6.8, 'ivato': 8.5,
+                        'talatamaty': 10.3, 'ambohijatovo': 1.5, 'ambodivona': 1.1,
+                        'analakely': 0.8, 'ankorondrano': 3.5, 'isotry': 2.4,
+                        'mahamasina': 2.1, 'tsaralalana': 1.6, 'antanimena': 1.0,
+                        'ampandrana': 4.5, 'faravohitra': 2.2, 'ankadifotsy': 6.1,
+                        'ankadikely': 6.5, 'ampahibe': 7.4, 'ambohimanarina': 9.8,
+                        'ambohimangakely': 9.0, 'ambohibao': 8.1, 'amboditsiry': 5.8,
+                        'ambohijanaka': 8.5, 'ambohidratrimo': 12.7, 'ambohimanga': 15.6,
+                        'andranomena': 4.1, 'ankadinandriana': 5.0, 'ankadivato': 5.4,
+                        'ankaditapaka': 6.6, 'ankaditoho': 6.2, 'ankoronga': 4.5,
+                        'antanimora': 3.8, 'antsahabe': 7.1, 'behoririka': 2.8,
+                        'faravohitra': 2.2, 'fiadanana': 3.4, 'isoraka': 2.6,
+                        'itaosy': 10.1, 'mahazo': 4.9, 'manjakaray': 6.0,
+                        'miarinarivo': 11.5, 'nanisana': 4.2, 'soarano': 3.0,
+                        'tambohobe': 7.7, 'tsimbazaza': 1.8, 'tsararay': 4.7,
+                        'ankaditany': 5.6, 'ankaditapaka': 6.6, 'ankadivato': 5.4,
+                        'ambohitrimanjaka': 9.2, 'ambatobe': 7.0, 'ambohitsoa': 5.7,
+                        'ankadimanga': 5.1, 'ambohibary': 7.6, 'ambohidrapeto': 9.4
+                    }
+                },
+                casier: {
+                    name: "Tribunal d'Antananarivo",
+                    distanceFrom33av: 1.2,
+                    duration: 2.5,
+                    distancesToQuartiers: {
+                        '67ha': 5.8, 'anosy': 3.2, 'andoharanofotsy': 7.1, 'ivato': 8.8,
+                        'talatamaty': 10.6, 'ambohijatovo': 1.8, 'ambodivona': 1.4,
+                        'analakely': 1.1, 'ankorondrano': 3.8, 'isotry': 2.7,
+                        'mahamasina': 2.4, 'tsaralalana': 1.9, 'antanimena': 1.3,
+                        'ampandrana': 4.8, 'faravohitra': 2.5, 'ankadifotsy': 6.4,
+                        'ankadikely': 6.8, 'ampahibe': 7.7, 'ambohimanarina': 10.1,
+                        'ambohimangakely': 9.3, 'ambohibao': 8.4, 'amboditsiry': 6.1,
+                        'ambohijanaka': 8.8, 'ambohidratrimo': 13.0, 'ambohimanga': 15.9,
+                        'andranomena': 4.4, 'ankadinandriana': 5.3, 'ankadivato': 5.7,
+                        'ankaditapaka': 6.9, 'ankaditoho': 6.5, 'ankoronga': 4.8,
+                        'antanimora': 4.1, 'antsahabe': 7.4, 'behoririka': 3.1,
+                        'faravohitra': 2.5, 'fiadanana': 3.7, 'isoraka': 2.9,
+                        'itaosy': 10.4, 'mahazo': 5.2, 'manjakaray': 6.3,
+                        'miarinarivo': 11.8, 'nanisana': 4.5, 'soarano': 3.3,
+                        'tambohobe': 8.0, 'tsimbazaza': 2.1, 'tsararay': 5.0,
+                        'ankaditany': 5.9, 'ankaditapaka': 6.9, 'ankadivato': 5.7,
+                        'ambohitrimanjaka': 9.5, 'ambatobe': 7.3, 'ambohitsoa': 6.0,
+                        'ankadimanga': 5.4, 'ambohibary': 7.9, 'ambohidrapeto': 9.7
+                    }
+                },
+                scolarite: {
+                    name: "Ministère de l'Éducation",
+                    distanceFrom33av: 0.7,
+                    duration: 1.5,
+                    distancesToQuartiers: {
+                        '67ha': 5.4, 'anosy': 3.0, 'andoharanofotsy': 6.9, 'ivato': 8.6,
+                        'talatamaty': 10.4, 'ambohijatovo': 1.6, 'ambodivona': 1.2,
+                        'analakely': 0.9, 'ankorondrano': 3.6, 'isotry': 2.5,
+                        'mahamasina': 2.2, 'tsaralalana': 1.7, 'antanimena': 1.1,
+                        'ampandrana': 4.6, 'faravohitra': 2.3, 'ankadifotsy': 6.2,
+                        'ankadikely': 6.6, 'ampahibe': 7.5, 'ambohimanarina': 9.9,
+                        'ambohimangakely': 9.1, 'ambohibao': 8.2, 'amboditsiry': 5.9,
+                        'ambohijanaka': 8.6, 'ambohidratrimo': 12.8, 'ambohimanga': 15.7,
+                        'andranomena': 4.2, 'ankadinandriana': 5.1, 'ankadivato': 5.5,
+                        'ankaditapaka': 6.7, 'ankaditoho': 6.3, 'ankoronga': 4.6,
+                        'antanimora': 3.9, 'antsahabe': 7.2, 'behoririka': 2.9,
+                        'faravohitra': 2.3, 'fiadanana': 3.5, 'isoraka': 2.7,
+                        'itaosy': 10.2, 'mahazo': 5.0, 'manjakaray': 6.1,
+                        'miarinarivo': 11.6, 'nanisana': 4.3, 'soarano': 3.1,
+                        'tambohobe': 7.8, 'tsimbazaza': 2.0, 'tsararay': 4.9,
+                        'ankaditany': 5.8, 'ankaditapaka': 6.8, 'ankadivato': 5.6,
+                        'ambohitrimanjaka': 9.4, 'ambatobe': 7.2, 'ambohitsoa': 5.9,
+                        'ankadimanga': 5.3, 'ambohibary': 7.8, 'ambohidrapeto': 9.6
+                    }
+                },
+                diplome: {
+                    name: "Ministère de l'ESup",
+                    distanceFrom33av: 0.6,
+                    duration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 5.3, 'anosy': 2.9, 'andoharanofotsy': 6.8, 'ivato': 8.5,
+                        'talatamaty': 10.3, 'ambohijatovo': 1.5, 'ambodivona': 1.1,
+                        'analakely': 0.8, 'ankorondrano': 3.5, 'isotry': 2.4,
+                        'mahamasina': 2.1, 'tsaralalana': 1.6, 'antanimena': 1.0,
+                        'ampandrana': 4.5, 'faravohitra': 2.2, 'ankadifotsy': 6.1,
+                        'ankadikely': 6.5, 'ampahibe': 7.4, 'ambohimanarina': 9.8,
+                        'ambohimangakely': 9.0, 'ambohibao': 8.1, 'amboditsiry': 5.8,
+                        'ambohijanaka': 8.5, 'ambohidratrimo': 12.7, 'ambohimanga': 15.6,
+                        'andranomena': 4.1, 'ankadinandriana': 5.0, 'ankadivato': 5.4,
+                        'ankaditapaka': 6.6, 'ankaditoho': 6.2, 'ankoronga': 4.5,
+                        'antanimora': 3.8, 'antsahabe': 7.1, 'behoririka': 2.8,
+                        'faravohitra': 2.2, 'fiadanana': 3.4, 'isoraka': 2.6,
+                        'itaosy': 10.1, 'mahazo': 4.9, 'manjakaray': 6.0,
+                        'miarinarivo': 11.5, 'nanisana': 4.2, 'soarano': 3.0,
+                        'tambohobe': 7.7, 'tsimbazaza': 1.8, 'tsararay': 4.7,
+                        'ankaditany': 5.6, 'ankaditapaka': 6.6, 'ankadivato': 5.4,
+                        'ambohitrimanjaka': 9.2, 'ambatobe': 7.0, 'ambohitsoa': 5.7,
+                        'ankadimanga': 5.1, 'ambohibary': 7.6, 'ambohidrapeto': 9.4
+                    }
+                }
+            },
+
+            // 2. Admins secondaires (50)
+            autres: {
+                mairie_antananarivo: {
+                    name: "Mairie d'Antananarivo",
+                    distanceFrom33av: 0.3,
+                    defaultDuration: 1.0,
+                    distancesToQuartiers: {
+                        '67ha': 5.5, 'anosy': 2.9, 'andoharanofotsy': 6.8, 'ivato': 8.5,
+                        'talatamaty': 10.3, 'ambohijatovo': 1.5, 'ambodivona': 1.1,
+                        'analakely': 0.8, 'ankorondrano': 3.5, 'isotry': 2.4,
+                        'mahamasina': 2.1, 'tsaralalana': 1.6, 'antanimena': 1.0,
+                        'ampandrana': 4.5, 'faravohitra': 2.2, 'ankadifotsy': 6.1,
+                        'ankadikely': 6.5, 'ampahibe': 7.4, 'ambohimanarina': 9.8,
+                        'ambohimangakely': 9.0, 'ambohibao': 8.1, 'amboditsiry': 5.8,
+                        'ambohijanaka': 8.5, 'ambohidratrimo': 12.7, 'ambohimanga': 15.6,
+                        'andranomena': 4.1, 'ankadinandriana': 5.0, 'ankadivato': 5.4,
+                        'ankaditapaka': 6.6, 'ankaditoho': 6.2, 'ankoronga': 4.5,
+                        'antanimora': 3.8, 'antsahabe': 7.1, 'behoririka': 2.8,
+                        'faravohitra': 2.2, 'fiadanana': 3.4, 'isoraka': 2.6,
+                        'itaosy': 10.1, 'mahazo': 4.9, 'manjakaray': 6.0,
+                        'miarinarivo': 11.5, 'nanisana': 4.2, 'soarano': 3.0,
+                        'tambohobe': 7.7, 'tsimbazaza': 1.8, 'tsararay': 4.7,
+                        'ankaditany': 5.6, 'ankaditapaka': 6.6, 'ankadivato': 5.4,
+                        'ambohitrimanjaka': 9.2, 'ambatobe': 7.0, 'ambohitsoa': 5.7,
+                        'ankadimanga': 5.1, 'ambohibary': 7.6, 'ambohidrapeto': 9.4
+                    }
+                },
+                commune_urban: {
+                    name: "Commune Urbaine",
+                    distanceFrom33av: 0.9,
+                    defaultDuration: 1.5,
+                    distancesToQuartiers: {
+                        '67ha': 5.8, 'anosy': 3.2, 'andoharanofotsy': 7.1, 'ivato': 8.8,
+                        'talatamaty': 10.6, 'ambohijatovo': 1.8, 'ambodivona': 1.4,
+                        'analakely': 1.1, 'ankorondrano': 3.8, 'isotry': 2.7,
+                        'mahamasina': 2.4, 'tsaralalana': 1.9, 'antanimena': 1.3,
+                        'ampandrana': 4.8, 'faravohitra': 2.5, 'ankadifotsy': 6.4,
+                        'ankadikely': 6.8, 'ampahibe': 7.7, 'ambohimanarina': 10.1,
+                        'ambohimangakely': 9.3, 'ambohibao': 8.4, 'amboditsiry': 6.1,
+                        'ambohijanaka': 8.8, 'ambohidratrimo': 13.0, 'ambohimanga': 15.9,
+                        'andranomena': 4.4, 'ankadinandriana': 5.3, 'ankadivato': 5.7,
+                        'ankaditapaka': 6.9, 'ankaditoho': 6.5, 'ankoronga': 4.8,
+                        'antanimora': 4.1, 'antsahabe': 7.4, 'behoririka': 3.1,
+                        'faravohitra': 2.5, 'fiadanana': 3.7, 'isoraka': 2.9,
+                        'itaosy': 10.4, 'mahazo': 5.2, 'manjakaray': 6.3,
+                        'miarinarivo': 11.8, 'nanisana': 4.5, 'soarano': 3.3,
+                        'tambohobe': 8.0, 'tsimbazaza': 2.1, 'tsararay': 5.0,
+                        'ankaditany': 5.9, 'ankaditapaka': 6.9, 'ankadivato': 5.7,
+                        'ambohitrimanjaka': 9.5, 'ambatobe': 7.3, 'ambohitsoa': 6.0,
+                        'ankadimanga': 5.4, 'ambohibary': 7.9, 'ambohidrapeto': 9.7
+                    }
+                },
+                tribunal_instance: {
+                    name: "Tribunal d'Instance",
+                    distanceFrom33av: 1.5,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 6.2, 'anosy': 3.6, 'andoharanofotsy': 7.5, 'ivato': 9.2,
+                        'talatamaty': 11.0, 'ambohijatovo': 2.2, 'ambodivona': 1.8,
+                        'analakely': 1.5, 'ankorondrano': 4.2, 'isotry': 3.1,
+                        'mahamasina': 2.8, 'tsaralalana': 2.3, 'antanimena': 1.7,
+                        'ampandrana': 5.2, 'faravohitra': 2.9, 'ankadifotsy': 6.8,
+                        'ankadikely': 7.2, 'ampahibe': 8.1, 'ambohimanarina': 10.5,
+                        'ambohimangakely': 9.7, 'ambohibao': 8.8, 'amboditsiry': 6.5,
+                        'ambohijanaka': 9.2, 'ambohidratrimo': 13.4, 'ambohimanga': 16.3,
+                        'andranomena': 4.8, 'ankadinandriana': 5.7, 'ankadivato': 6.1,
+                        'ankaditapaka': 7.3, 'ankaditoho': 6.9, 'ankoronga': 5.2,
+                        'antanimora': 4.5, 'antsahabe': 7.8, 'behoririka': 3.5,
+                        'faravohitra': 2.9, 'fiadanana': 4.1, 'isoraka': 3.3,
+                        'itaosy': 10.8, 'mahazo': 5.6, 'manjakaray': 6.7,
+                        'miarinarivo': 12.2, 'nanisana': 4.9, 'soarano': 3.7,
+                        'tambohobe': 8.4, 'tsimbazaza': 2.5, 'tsararay': 5.4,
+                        'ankaditany': 6.3, 'ankaditapaka': 7.3, 'ankadivato': 6.1,
+                        'ambohitrimanjaka': 9.9, 'ambatobe': 7.7, 'ambohitsoa': 6.4,
+                        'ankadimanga': 5.8, 'ambohibary': 8.3, 'ambohidrapeto': 10.1
+                    }
+                },
+                                tribunal_commerce: {
+                    name: "Tribunal de Commerce",
+                    distanceFrom33av: 1.8,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 6.5, 'anosy': 3.9, 'andoharanofotsy': 7.8, 'ivato': 9.5,
+                        'talatamaty': 11.3, 'ambohijatovo': 2.5, 'ambodivona': 2.1,
+                        'analakely': 1.8, 'ankorondrano': 4.5, 'isotry': 3.4,
+                        'mahamasina': 3.1, 'tsaralalana': 2.6, 'antanimena': 2.0,
+                        'ampandrana': 5.5, 'faravohitra': 3.2, 'ankadifotsy': 7.1,
+                        'ankadikely': 7.5, 'ampahibe': 8.4, 'ambohimanarina': 10.8,
+                        'ambohimangakely': 10.0, 'ambohibao': 9.1, 'amboditsiry': 6.8,
+                        'ambohijanaka': 9.5, 'ambohidratrimo': 13.7, 'ambohimanga': 16.6,
+                        'andranomena': 5.1, 'ankadinandriana': 6.0, 'ankadivato': 6.4,
+                        'ankaditapaka': 7.6, 'ankaditoho': 7.2, 'ankoronga': 5.5,
+                        'antanimora': 4.8, 'antsahabe': 8.1, 'behoririka': 3.8,
+                        'faravohitra': 3.2, 'fiadanana': 4.4, 'isoraka': 3.6,
+                        'itaosy': 11.1, 'mahazo': 5.9, 'manjakaray': 7.0,
+                        'miarinarivo': 12.5, 'nanisana': 5.2, 'soarano': 4.0,
+                        'tambohobe': 8.7, 'tsimbazaza': 2.8, 'tsararay': 5.7,
+                        'ankaditany': 6.6, 'ankaditapaka': 7.6, 'ankadivato': 6.4,
+                        'ambohitrimanjaka': 10.2, 'ambatobe': 8.0, 'ambohitsoa': 6.7,
+                        'ankadimanga': 6.1, 'ambohibary': 8.6, 'ambohidrapeto': 10.4
+                    }
+                },
+                tribunal_travail: {
+                    name: "Tribunal du Travail",
+                    distanceFrom33av: 1.7,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 6.4, 'anosy': 3.8, 'andoharanofotsy': 7.7, 'ivato': 9.4,
+                        'talatamaty': 11.2, 'ambohijatovo': 2.4, 'ambodivona': 2.0,
+                        'analakely': 1.7, 'ankorondrano': 4.4, 'isotry': 3.3,
+                        'mahamasina': 3.0, 'tsaralalana': 2.5, 'antanimena': 1.9,
+                        'ampandrana': 5.4, 'faravohitra': 3.1, 'ankadifotsy': 7.0,
+                        'ankadikely': 7.4, 'ampahibe': 8.3, 'ambohimanarina': 10.7,
+                        'ambohimangakely': 9.9, 'ambohibao': 9.0, 'amboditsiry': 6.7,
+                        'ambohijanaka': 9.4, 'ambohidratrimo': 13.6, 'ambohimanga': 16.5,
+                        'andranomena': 5.0, 'ankadinandriana': 5.9, 'ankadivato': 6.3,
+                        'ankaditapaka': 7.5, 'ankaditoho': 7.1, 'ankoronga': 5.4,
+                        'antanimora': 4.7, 'antsahabe': 8.0, 'behoririka': 3.7,
+                        'faravohitra': 3.1, 'fiadanana': 4.3, 'isoraka': 3.5,
+                        'itaosy': 11.0, 'mahazo': 5.8, 'manjakaray': 6.9,
+                        'miarinarivo': 12.4, 'nanisana': 5.1, 'soarano': 3.9,
+                        'tambohobe': 8.6, 'tsimbazaza': 2.7, 'tsararay': 5.6,
+                        'ankaditany': 6.5, 'ankaditapaka': 7.5, 'ankadivato': 6.3,
+                        'ambohitrimanjaka': 10.1, 'ambatobe': 7.9, 'ambohitsoa': 6.6,
+                        'ankadimanga': 6.0, 'ambohibary': 8.5, 'ambohidrapeto': 10.3
+                    }
+                },
+                tribunal_administratif: {
+                    name: "Tribunal Administratif",
+                    distanceFrom33av: 1.6,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 6.3, 'anosy': 3.7, 'andoharanofotsy': 7.6, 'ivato': 9.3,
+                        'talatamaty': 11.1, 'ambohijatovo': 2.3, 'ambodivona': 1.9,
+                        'analakely': 1.6, 'ankorondrano': 4.3, 'isotry': 3.2,
+                        'mahamasina': 2.9, 'tsaralalana': 2.4, 'antanimena': 1.8,
+                        'ampandrana': 5.3, 'faravohitra': 3.0, 'ankadifotsy': 6.9,
+                        'ankadikely': 7.3, 'ampahibe': 8.2, 'ambohimanarina': 10.6,
+                        'ambohimangakely': 9.8, 'ambohibao': 8.9, 'amboditsiry': 6.6,
+                        'ambohijanaka': 9.3, 'ambohidratrimo': 13.5, 'ambohimanga': 16.4,
+                        'andranomena': 4.9, 'ankadinandriana': 5.8, 'ankadivato': 6.2,
+                        'ankaditapaka': 7.4, 'ankaditoho': 7.0, 'ankoronga': 5.3,
+                        'antanimora': 4.6, 'antsahabe': 7.9, 'behoririka': 3.6,
+                        'faravohitra': 3.0, 'fiadanana': 4.2, 'isoraka': 3.4,
+                        'itaosy': 10.9, 'mahazo': 5.7, 'manjakaray': 6.8,
+                        'miarinarivo': 12.3, 'nanisana': 5.0, 'soarano': 3.8,
+                        'tambohobe': 8.5, 'tsimbazaza': 2.6, 'tsararay': 5.5,
+                        'ankaditany': 6.4, 'ankaditapaka': 7.4, 'ankadivato': 6.2,
+                        'ambohitrimanjaka': 10.0, 'ambatobe': 7.8, 'ambohitsoa': 6.5,
+                        'ankadimanga': 5.9, 'ambohibary': 8.4, 'ambohidrapeto': 10.2
+                    }
+                },
+                tribunal_finances: {
+                    name: "Tribunal des Finances",
+                    distanceFrom33av: 1.4,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 6.1, 'anosy': 3.5, 'andoharanofotsy': 7.4, 'ivato': 9.1,
+                        'talatamaty': 10.9, 'ambohijatovo': 2.1, 'ambodivona': 1.7,
+                        'analakely': 1.4, 'ankorondrano': 4.1, 'isotry': 3.0,
+                        'mahamasina': 2.7, 'tsaralalana': 2.2, 'antanimena': 1.6,
+                        'ampandrana': 5.1, 'faravohitra': 2.8, 'ankadifotsy': 6.7,
+                        'ankadikely': 7.1, 'ampahibe': 8.0, 'ambohimanarina': 10.4,
+                        'ambohimangakely': 9.6, 'ambohibao': 8.7, 'amboditsiry': 6.4,
+                        'ambohijanaka': 9.1, 'ambohidratrimo': 13.3, 'ambohimanga': 16.2,
+                        'andranomena': 4.7, 'ankadinandriana': 5.6, 'ankadivato': 6.0,
+                        'ankaditapaka': 7.2, 'ankaditoho': 6.8, 'ankoronga': 5.1,
+                        'antanimora': 4.4, 'antsahabe': 7.7, 'behoririka': 3.4,
+                        'faravohitra': 2.8, 'fiadanana': 4.0, 'isoraka': 3.2,
+                        'itaosy': 10.7, 'mahazo': 5.5, 'manjakaray': 6.6,
+                        'miarinarivo': 12.1, 'nanisana': 4.8, 'soarano': 3.6,
+                        'tambohobe': 8.3, 'tsimbazaza': 2.4, 'tsararay': 5.3,
+                        'ankaditany': 6.2, 'ankaditapaka': 7.2, 'ankadivato': 6.0,
+                        'ambohitrimanjaka': 9.8, 'ambatobe': 7.6, 'ambohitsoa': 6.3,
+                        'ankadimanga': 5.7, 'ambohibary': 8.2, 'ambohidrapeto': 10.0
+                    }
+                },
+                tribunal_penal: {
+                    name: "Tribunal Pénal",
+                    distanceFrom33av: 1.9,
+                    defaultDuration: 2.5,
+                    distancesToQuartiers: {
+                        '67ha': 6.6, 'anosy': 4.0, 'andoharanofotsy': 7.9, 'ivato': 9.6,
+                        'talatamaty': 11.4, 'ambohijatovo': 2.6, 'ambodivona': 2.2,
+                        'analakely': 1.9, 'ankorondrano': 4.6, 'isotry': 3.5,
+                        'mahamasina': 3.2, 'tsaralalana': 2.7, 'antanimena': 2.1,
+                        'ampandrana': 5.6, 'faravohitra': 3.3, 'ankadifotsy': 7.2,
+                        'ankadikely': 7.6, 'ampahibe': 8.5, 'ambohimanarina': 10.9,
+                        'ambohimangakely': 10.1, 'ambohibao': 9.2, 'amboditsiry': 6.9,
+                        'ambohijanaka': 9.6, 'ambohidratrimo': 13.8, 'ambohimanga': 16.7,
+                        'andranomena': 5.2, 'ankadinandriana': 6.1, 'ankadivato': 6.5,
+                        'ankaditapaka': 7.7, 'ankaditoho': 7.3, 'ankoronga': 5.6,
+                        'antanimora': 4.9, 'antsahabe': 8.2, 'behoririka': 3.9,
+                        'faravohitra': 3.3, 'fiadanana': 4.5, 'isoraka': 3.7,
+                        'itaosy': 11.2, 'mahazo': 6.0, 'manjakaray': 7.1,
+                        'miarinarivo': 12.6, 'nanisana': 5.3, 'soarano': 4.1,
+                        'tambohobe': 8.8, 'tsimbazaza': 2.9, 'tsararay': 5.8,
+                        'ankaditany': 6.7, 'ankaditapaka': 7.7, 'ankadivato': 6.5,
+                        'ambohitrimanjaka': 10.3, 'ambatobe': 8.1, 'ambohitsoa': 6.8,
+                        'ankadimanga': 6.2, 'ambohibary': 8.7, 'ambohidrapeto': 10.5
+                    }
+                },
+                tribunal_militaire: {
+                    name: "Tribunal Militaire",
+                    distanceFrom33av: 2.1,
+                    defaultDuration: 2.5,
+                    distancesToQuartiers: {
+                        '67ha': 6.8, 'anosy': 4.2, 'andoharanofotsy': 8.1, 'ivato': 9.8,
+                        'talatamaty': 11.6, 'ambohijatovo': 2.8, 'ambodivona': 2.4,
+                        'analakely': 2.1, 'ankorondrano': 4.8, 'isotry': 3.7,
+                        'mahamasina': 3.4, 'tsaralalana': 2.9, 'antanimena': 2.3,
+                        'ampandrana': 5.8, 'faravohitra': 3.5, 'ankadifotsy': 7.4,
+                        'ankadikely': 7.8, 'ampahibe': 8.7, 'ambohimanarina': 11.1,
+                        'ambohimangakely': 10.3, 'ambohibao': 9.4, 'amboditsiry': 7.1,
+                        'ambohijanaka': 9.8, 'ambohidratrimo': 14.0, 'ambohimanga': 16.9,
+                        'andranomena': 5.4, 'ankadinandriana': 6.3, 'ankadivato': 6.7,
+                        'ankaditapaka': 7.9, 'ankaditoho': 7.5, 'ankoronga': 5.8,
+                        'antanimora': 5.1, 'antsahabe': 8.4, 'behoririka': 4.1,
+                        'faravohitra': 3.5, 'fiadanana': 4.7, 'isoraka': 3.9,
+                        'itaosy': 11.4, 'mahazo': 6.2, 'manjakaray': 7.3,
+                        'miarinarivo': 12.8, 'nanisana': 5.5, 'soarano': 4.3,
+                        'tambohobe': 9.0, 'tsimbazaza': 3.1, 'tsararay': 6.0,
+                        'ankaditany': 6.9, 'ankaditapaka': 7.9, 'ankadivato': 6.7,
+                        'ambohitrimanjaka': 10.5, 'ambatobe': 8.3, 'ambohitsoa': 7.0,
+                        'ankadimanga': 6.4, 'ambohibary': 8.9, 'ambohidrapeto': 10.7
+                    }
+                },
+                tribunal_enfants: {
+                    name: "Tribunal pour Enfants",
+                    distanceFrom33av: 1.3,
+                    defaultDuration: 1.5,
+                    distancesToQuartiers: {
+                        '67ha': 6.0, 'anosy': 3.4, 'andoharanofotsy': 7.3, 'ivato': 9.0,
+                        'talatamaty': 10.8, 'ambohijatovo': 2.0, 'ambodivona': 1.6,
+                        'analakely': 1.3, 'ankorondrano': 4.0, 'isotry': 2.9,
+                        'mahamasina': 2.6, 'tsaralalana': 2.1, 'antanimena': 1.5,
+                        'ampandrana': 5.0, 'faravohitra': 2.7, 'ankadifotsy': 6.6,
+                        'ankadikely': 7.0, 'ampahibe': 7.9, 'ambohimanarina': 10.3,
+                        'ambohimangakely': 9.5, 'ambohibao': 8.6, 'amboditsiry': 6.3,
+                        'ambohijanaka': 9.0, 'ambohidratrimo': 13.2, 'ambohimanga': 16.1,
+                        'andranomena': 4.6, 'ankadinandriana': 5.5, 'ankadivato': 5.9,
+                        'ankaditapaka': 7.1, 'ankaditoho': 6.7, 'ankoronga': 5.0,
+                        'antanimora': 4.3, 'antsahabe': 7.6, 'behoririka': 3.3,
+                        'faravohitra': 2.7, 'fiadanana': 3.9, 'isoraka': 3.1,
+                        'itaosy': 10.6, 'mahazo': 5.4, 'manjakaray': 6.5,
+                        'miarinarivo': 12.0, 'nanisana': 4.7, 'soarano': 3.5,
+                        'tambohobe': 8.2, 'tsimbazaza': 2.3, 'tsararay': 5.2,
+                        'ankaditany': 6.1, 'ankaditapaka': 7.1, 'ankadivato': 5.9,
+                        'ambohitrimanjaka': 9.7, 'ambatobe': 7.5, 'ambohitsoa': 6.2,
+                        'ankadimanga': 5.6, 'ambohibary': 8.1, 'ambohidrapeto': 9.9
+                    }
+                },
+                tribunal_affaires_familiales: {
+                    name: "Tribunal des Affaires Familiales",
+                    distanceFrom33av: 1.2,
+                    defaultDuration: 1.5,
+                    distancesToQuartiers: {
+                        '67ha': 5.9, 'anosy': 3.3, 'andoharanofotsy': 7.2, 'ivato': 8.9,
+                        'talatamaty': 10.7, 'ambohijatovo': 1.9, 'ambodivona': 1.5,
+                        'analakely': 1.2, 'ankorondrano': 3.9, 'isotry': 2.8,
+                        'mahamasina': 2.5, 'tsaralalana': 2.0, 'antanimena': 1.4,
+                        'ampandrana': 4.9, 'faravohitra': 2.6, 'ankadifotsy': 6.5,
+                        'ankadikely': 6.9, 'ampahibe': 7.8, 'ambohimanarina': 10.2,
+                        'ambohimangakely': 9.4, 'ambohibao': 8.5, 'amboditsiry': 6.2,
+                        'ambohijanaka': 8.9, 'ambohidratrimo': 13.1, 'ambohimanga': 16.0,
+                        'andranomena': 4.5, 'ankadinandriana': 5.4, 'ankadivato': 5.8,
+                        'ankaditapaka': 7.0, 'ankaditoho': 6.6, 'ankoronga': 4.9,
+                        'antanimora': 4.2, 'antsahabe': 7.5, 'behoririka': 3.2,
+                        'faravohitra': 2.6, 'fiadanana': 3.8, 'isoraka': 3.0,
+                        'itaosy': 10.5, 'mahazo': 5.3, 'manjakaray': 6.4,
+                        'miarinarivo': 11.9, 'nanisana': 4.6, 'soarano': 3.4,
+                        'tambohobe': 8.1, 'tsimbazaza': 2.2, 'tsararay': 5.1,
+                        'ankaditany': 6.0, 'ankaditapaka': 7.0, 'ankadivato': 5.8,
+                        'ambohitrimanjaka': 9.6, 'ambatobe': 7.4, 'ambohitsoa': 6.1,
+                        'ankadimanga': 5.5, 'ambohibary': 8.0, 'ambohidrapeto': 9.8
+                    }
+                },
+                tribunal_affaires_sociales: {
+                    name: "Tribunal des Affaires Sociales",
+                    distanceFrom33av: 1.1,
+                    defaultDuration: 1.5,
+                    distancesToQuartiers: {
+                        '67ha': 5.8, 'anosy': 3.2, 'andoharanofotsy': 7.1, 'ivato': 8.8,
+                        'talatamaty': 10.6, 'ambohijatovo': 1.8, 'ambodivona': 1.4,
+                        'analakely': 1.1, 'ankorondrano': 3.8, 'isotry': 2.7,
+                        'mahamasina': 2.4, 'tsaralalana': 1.9, 'antanimena': 1.3,
+                        'ampandrana': 4.8, 'faravohitra': 2.5, 'ankadifotsy': 6.4,
+                        'ankadikely': 6.8, 'ampahibe': 7.7, 'ambohimanarina': 10.1,
+                        'ambohimangakely': 9.3, 'ambohibao': 8.4, 'amboditsiry': 6.1,
+                        'ambohijanaka': 8.8, 'ambohidratrimo': 13.0, 'ambohimanga': 15.9,
+                        'andranomena': 4.4, 'ankadinandriana': 5.3, 'ankadivato': 5.7,
+                        'ankaditapaka': 6.9, 'ankaditoho': 6.5, 'ankoronga': 4.8,
+                        'antanimora': 4.1, 'antsahabe': 7.4, 'behoririka': 3.1,
+                        'faravohitra': 2.5, 'fiadanana': 3.7, 'isoraka': 2.9,
+                        'itaosy': 10.4, 'mahazo': 5.2, 'manjakaray': 6.3,
+                        'miarinarivo': 11.8, 'nanisana': 4.5, 'soarano': 3.3,
+                        'tambohobe': 8.0, 'tsimbazaza': 2.1, 'tsararay': 5.0,
+                        'ankaditany': 5.9, 'ankaditapaka': 6.9, 'ankadivato': 5.7,
+                        'ambohitrimanjaka': 9.5, 'ambatobe': 7.3, 'ambohitsoa': 6.0,
+                        'ankadimanga': 5.4, 'ambohibary': 7.9, 'ambohidrapeto': 9.7
+                    }
+                },
+                tribunal_affaires_maritimes: {
+                    name: "Tribunal des Affaires Maritimes",
+                    distanceFrom33av: 1.0,
+                    defaultDuration: 1.5,
+                    distancesToQuartiers: {
+                        '67ha': 5.7, 'anosy': 3.1, 'andoharanofotsy': 7.0, 'ivato': 8.7,
+                        'talatamaty': 10.5, 'ambohijatovo': 1.7, 'ambodivona': 1.3,
+                        'analakely': 1.0, 'ankorondrano': 3.7, 'isotry': 2.6,
+                        'mahamasina': 2.3, 'tsaralalana': 1.8, 'antanimena': 1.2,
+                        'ampandrana': 4.7, 'faravohitra': 2.4, 'ankadifotsy': 6.3,
+                        'ankadikely': 6.7, 'ampahibe': 7.6, 'ambohimanarina': 10.0,
+                        'ambohimangakely': 9.2, 'ambohibao': 8.3, 'amboditsiry': 6.0,
+                        'ambohijanaka': 8.7, 'ambohidratrimo': 12.9, 'ambohimanga': 15.8,
+                        'andranomena': 4.3, 'ankadinandriana': 5.2, 'ankadivato': 5.6,
+                        'ankaditapaka': 6.8, 'ankaditoho': 6.4, 'ankoronga': 4.7,
+                        'antanimora': 4.0, 'antsahabe': 7.3, 'behoririka': 3.0,
+                        'faravohitra': 2.4, 'fiadanana': 3.6, 'isoraka': 2.8,
+                        'itaosy': 10.3, 'mahazo': 5.1, 'manjakaray': 6.2,
+                        'miarinarivo': 11.7, 'nanisana': 4.4, 'soarano': 3.2,
+                        'tambohobe': 7.9, 'tsimbazaza': 2.0, 'tsararay': 4.9,
+                        'ankaditany': 5.8, 'ankaditapaka': 6.8, 'ankadivato': 5.6,
+                        'ambohitrimanjaka': 9.4, 'ambatobe': 7.2, 'ambohitsoa': 5.9,
+                        'ankadimanga': 5.3, 'ambohibary': 7.8, 'ambohidrapeto': 9.6
+                    }
+                },
+                tribunal_affaires_rurales: {
+                    name: "Tribunal des Affaires Rurales",
+                    distanceFrom33av: 1.5,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 6.2, 'anosy': 3.6, 'andoharanofotsy': 7.5, 'ivato': 9.2,
+                        'talatamaty': 11.0, 'ambohijatovo': 2.2, 'ambodivona': 1.8,
+                        'analakely': 1.5, 'ankorondrano': 4.2, 'isotry': 3.1,
+                        'mahamasina': 2.8, 'tsaralalana': 2.3, 'antanimena': 1.7,
+                        'ampandrana': 5.2, 'faravohitra': 2.9, 'ankadifotsy': 6.8,
+                        'ankadikely': 7.2, 'ampahibe': 8.1, 'ambohimanarina': 10.5,
+                        'ambohimangakely': 9.7, 'ambohibao': 8.8, 'amboditsiry': 6.5,
+                        'ambohijanaka': 9.2, 'ambohidratrimo': 13.4, 'ambohimanga': 16.3,
+                        'andranomena': 4.8, 'ankadinandriana': 5.7, 'ankadivato': 6.1,
+                        'ankaditapaka': 7.3, 'ankaditoho': 6.9, 'ankoronga': 5.2,
+                        'antanimora': 4.5, 'antsahabe': 7.8, 'behoririka': 3.5,
+                        'faravohitra': 2.9, 'fiadanana': 4.1, 'isoraka': 3.3,
+                        'itaosy': 10.8, 'mahazo': 5.6, 'manjakaray': 6.7,
+                        'miarinarivo': 12.2, 'nanisana': 4.9, 'soarano': 3.7,
+                        'tambohobe': 8.4, 'tsimbazaza': 2.5, 'tsararay': 5.4,
+                        'ankaditany': 6.3, 'ankaditapaka': 7.3, 'ankadivato': 6.1,
+                        'ambohitrimanjaka': 9.9, 'ambatobe': 7.7, 'ambohitsoa': 6.4,
+                        'ankadimanga': 5.8, 'ambohibary': 8.3, 'ambohidrapeto': 10.1
+                    }
+                },
+                tribunal_affaires_urbaines: {
+                    name: "Tribunal des Affaires Urbaines",
+                    distanceFrom33av: 1.4,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 6.1, 'anosy': 3.5, 'andoharanofotsy': 7.4, 'ivato': 9.1,
+                        'talatamaty': 10.9, 'ambohijatovo': 2.1, 'ambodivona': 1.7,
+                        'analakely': 1.4, 'ankorondrano': 4.1, 'isotry': 3.0,
+                        'mahamasina': 2.7, 'tsaralalana': 2.2, 'antanimena': 1.6,
+                        'ampandrana': 5.1, 'faravohitra': 2.8, 'ankadifotsy': 6.7,
+                        'ankadikely': 7.1, 'ampahibe': 8.0, 'ambohimanarina': 10.4,
+                        'ambohimangakely': 9.6, 'ambohibao': 8.7, 'amboditsiry': 6.4,
+                        'ambohijanaka': 9.1, 'ambohidratrimo': 13.3, 'ambohimanga': 16.2,
+                        'andranomena': 4.7, 'ankadinandriana': 5.6, 'ankadivato': 6.0,
+                        'ankaditapaka': 7.2, 'ankaditoho': 6.8, 'ankoronga': 5.1,
+                        'antanimora': 4.4, 'antsahabe': 7.7, 'behoririka': 3.4,
+                        'faravohitra': 2.8, 'fiadanana': 4.0, 'isoraka': 3.2,
+                        'itaosy': 10.7, 'mahazo': 5.5, 'manjakaray': 6.6,
+                        'miarinarivo': 12.1, 'nanisana': 4.8, 'soarano': 3.6,
+                        'tambohobe': 8.3, 'tsimbazaza': 2.4, 'tsararay': 5.3,
+                        'ankaditany': 6.2, 'ankaditapaka': 7.2, 'ankadivato': 6.0,
+                        'ambohitrimanjaka': 9.8, 'ambatobe': 7.6, 'ambohitsoa': 6.3,
+                        'ankadimanga': 5.7, 'ambohibary': 8.2, 'ambohidrapeto': 10.0
+                    }
+                },
+                tribunal_affaires_foncieres: {
+                    name: "Tribunal des Affaires Foncières",
+                    distanceFrom33av: 1.6,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 6.3, 'anosy': 3.7, 'andoharanofotsy': 7.6, 'ivato': 9.3,
+                        'talatamaty': 11.1, 'ambohijatovo': 2.3, 'ambodivona': 1.9,
+                        'analakely': 1.6, 'ankorondrano': 4.3, 'isotry': 3.2,
+                        'mahamasina': 2.9, 'tsaralalana': 2.4, 'antanimena': 1.8,
+                        'ampandrana': 5.3, 'faravohitra': 3.0, 'ankadifotsy': 6.9,
+                        'ankadikely': 7.3, 'ampahibe': 8.2, 'ambohimanarina': 10.6,
+                        'ambohimangakely': 9.8, 'ambohibao': 8.9, 'amboditsiry': 6.6,
+                        'ambohijanaka': 9.3, 'ambohidratrimo': 13.5, 'ambohimanga': 16.4,
+                        'andranomena': 4.9, 'ankadinandriana': 5.8, 'ankadivato': 6.2,
+                        'ankaditapaka': 7.4, 'ankaditoho': 7.0, 'ankoronga': 5.3,
+                        'antanimora': 4.6, 'antsahabe': 7.9, 'behoririka': 3.6,
+                        'faravohitra': 3.0, 'fiadanana': 4.2, 'isoraka': 3.4,
+                        'itaosy': 10.9, 'mahazo': 5.7, 'manjakaray': 6.8,
+                        'miarinarivo': 12.3, 'nanisana': 5.0, 'soarano': 3.8,
+                        'tambohobe': 8.5, 'tsimbazaza': 2.6, 'tsararay': 5.5,
+                        'ankaditany': 6.4, 'ankaditapaka': 7.4, 'ankadivato': 6.2,
+                        'ambohitrimanjaka': 10.0, 'ambatobe': 7.8, 'ambohitsoa': 6.5,
+                        'ankadimanga': 5.9, 'ambohibary': 8.4, 'ambohidrapeto': 10.2
+                    }
+                },
+                tribunal_affaires_minieres: {
+                    name: "Tribunal des Affaires Minières",
+                    distanceFrom33av: 1.7,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 6.4, 'anosy': 3.8, 'andoharanofotsy': 7.7, 'ivato': 9.4,
+                        'talatamaty': 11.2, 'ambohijatovo': 2.4, 'ambodivona': 2.0,
+                        'analakely': 1.7, 'ankorondrano': 4.4, 'isotry': 3.3,
+                        'mahamasina': 3.0, 'tsaralalana': 2.5, 'antanimena': 1.9,
+                        'ampandrana': 5.4, 'faravohitra': 3.1, 'ankadifotsy': 7.0,
+                        'ankadikely': 7.4, 'ampahibe': 8.3, 'ambohimanarina': 10.7,
+                        'ambohimangakely': 9.9, 'ambohibao': 9.0, 'amboditsiry': 6.7,
+                        'ambohijanaka': 9.4, 'ambohidratrimo': 13.6, 'ambohimanga': 16.5,
+                        'andranomena': 5.0, 'ankadinandriana': 5.9, 'ankadivato': 6.3,
+                        'ankaditapaka': 7.5, 'ankaditoho': 7.1, 'ankoronga': 5.4,
+                        'antanimora': 4.7, 'antsahabe': 8.0, 'behoririka': 3.7,
+                        'faravohitra': 3.1, 'fiadanana': 4.3, 'isoraka': 3.5,
+                        'itaosy': 11.0, 'mahazo': 5.8, 'manjakaray': 6.9,
+                        'miarinarivo': 12.4, 'nanisana': 5.1, 'soarano': 3.9,
+                        'tambohobe': 8.6, 'tsimbazaza': 2.7, 'tsararay': 5.6,
+                        'ankaditany': 6.5, 'ankaditapaka': 7.5, 'ankadivato': 6.3,
+                        'ambohitrimanjaka': 10.1, 'ambatobe': 7.9, 'ambohitsoa': 6.6,
+                        'ankadimanga': 6.0, 'ambohibary': 8.5, 'ambohidrapeto': 10.3
+                    }
+                },
+                tribunal_affaires_petrolieres: {
+                    name: "Tribunal des Affaires Pétrolières",
+                    distanceFrom33av: 1.8,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 6.5, 'anosy': 3.9, 'andoharanofotsy': 7.8, 'ivato': 9.5,
+                        'talatamaty': 11.3, 'ambohijatovo': 2.5, 'ambodivona': 2.1,
+                        'analakely': 1.8, 'ankorondrano': 4.5, 'isotry': 3.4,
+                        'mahamasina': 3.1, 'tsaralalana': 2.6, 'antanimena': 2.0,
+                        'ampandrana': 5.5, 'faravohitra': 3.2, 'ankadifotsy': 7.1,
+                        'ankadikely': 7.5, 'ampahibe': 8.4, 'ambohimanarina': 10.8,
+                        'ambohimangakely': 10.0, 'ambohibao': 9.1, 'amboditsiry': 6.8,
+                        'ambohijanaka': 9.5, 'ambohidratrimo': 13.7, 'ambohimanga': 16.6,
+                        'andranomena': 5.1, 'ankadinandriana': 6.0, 'ankadivato': 6.4,
+                        'ankaditapaka': 7.6, 'ankaditoho': 7.2, 'ankoronga': 5.5,
+                        'antanimora': 4.8, 'antsahabe': 8.1, 'behoririka': 3.8,
+                        'faravohitra': 3.2, 'fiadanana': 4.4, 'isoraka': 3.6,
+                        'itaosy': 11.1, 'mahazo': 5.9, 'manjakaray': 7.0,
+                        'miarinarivo': 12.5, 'nanisana': 5.2, 'soarano': 4.0,
+                        'tambohobe': 8.7, 'tsimbazaza': 2.8, 'tsararay': 5.7,
+                        'ankaditany': 6.6, 'ankaditapaka': 7.6, 'ankadivato': 6.4,
+                        'ambohitrimanjaka': 10.2, 'ambatobe': 8.0, 'ambohitsoa': 6.7,
+                        'ankadimanga': 6.1, 'ambohibary': 8.6, 'ambohidrapeto': 10.4
+                    }
+                },
+                tribunal_affaires_energetiques: {
+                    name: "Tribunal des Affaires Énergétiques",
+                    distanceFrom33av: 1.9,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 6.6, 'anosy': 4.0, 'andoharanofotsy': 7.9, 'ivato': 9.6,
+                        'talatamaty': 11.4, 'ambohijatovo': 2.6, 'ambodivona': 2.2,
+                        'analakely': 1.9, 'ankorondrano': 4.6, 'isotry': 3.5,
+                        'mahamasina': 3.2, 'tsaralalana': 2.7, 'antanimena': 2.1,
+                        'ampandrana': 5.6, 'faravohitra': 3.3, 'ankadifotsy': 7.2,
+                        'ankadikely': 7.6, 'ampahibe': 8.5, 'ambohimanarina': 10.9,
+                        'ambohimangakely': 10.1, 'ambohibao': 9.2, 'amboditsiry': 6.9,
+                        'ambohijanaka': 9.6, 'ambohidratrimo': 13.8, 'ambohimanga': 16.7,
+                        'andranomena': 5.2, 'ankadinandriana': 6.1, 'ankadivato': 6.5,
+                        'ankaditapaka': 7.7, 'ankaditoho': 7.3, 'ankoronga': 5.6,
+                        'antanimora': 4.9, 'antsahabe': 8.2, 'behoririka': 3.9,
+                        'faravohitra': 3.3, 'fiadanana': 4.5, 'isoraka': 3.7,
+                        'itaosy': 11.2, 'mahazo': 6.0, 'manjakaray': 7.1,
+                        'miarinarivo': 12.6, 'nanisana': 5.3, 'soarano': 4.1,
+                        'tambohobe': 8.8, 'tsimbazaza': 2.9, 'tsararay': 5.8,
+                        'ankaditany': 6.7, 'ankaditapaka': 7.7, 'ankadivato': 6.5,
+                        'ambohitrimanjaka': 10.3, 'ambatobe': 8.1, 'ambohitsoa': 6.8,
+                        'ankadimanga': 6.2, 'ambohibary': 8.7, 'ambohidrapeto': 10.5
+                    }
+                },
+                tribunal_affaires_transport: {
+                    name: "Tribunal des Affaires de Transport",
+                    distanceFrom33av: 2.0,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 6.7, 'anosy': 4.1, 'andoharanofotsy': 8.0, 'ivato': 9.7,
+                        'talatamaty': 11.5, 'ambohijatovo': 2.7, 'ambodivona': 2.3,
+                        'analakely': 2.0, 'ankorondrano': 4.7, 'isotry': 3.6,
+                        'mahamasina': 3.3, 'tsaralalana': 2.8, 'antanimena': 2.2,
+                        'ampandrana': 5.7, 'faravohitra': 3.4, 'ankadifotsy': 7.3,
+                        'ankadikely': 7.7, 'ampahibe': 8.6, 'ambohimanarina': 11.0,
+                        'ambohimangakely': 10.2, 'ambohibao': 9.3, 'amboditsiry': 7.0,
+                        'ambohijanaka': 9.7, 'ambohidratrimo': 13.9, 'ambohimanga': 16.8,
+                        'andranomena': 5.3, 'ankadinandriana': 6.2, 'ankadivato': 6.6,
+                        'ankaditapaka': 7.8, 'ankaditoho': 7.4, 'ankoronga': 5.7,
+                        'antanimora': 5.0, 'antsahabe': 8.3, 'behoririka': 4.0,
+                        'faravohitra': 3.4, 'fiadanana': 4.6, 'isoraka': 3.8,
+                        'itaosy': 11.3, 'mahazo': 6.1, 'manjakaray': 7.2,
+                        'miarinarivo': 12.7, 'nanisana': 5.4, 'soarano': 4.2,
+                        'tambohobe': 8.9, 'tsimbazaza': 3.0, 'tsararay': 5.9,
+                        'ankaditany': 6.8, 'ankaditapaka': 7.8, 'ankadivato': 6.6,
+                        'ambohitrimanjaka': 10.4, 'ambatobe': 8.2, 'ambohitsoa': 6.9,
+                        'ankadimanga': 6.3, 'ambohibary': 8.8, 'ambohidrapeto': 10.6
+                    }
+                },
+                tribunal_affaires_communication: {
+                    name: "Tribunal des Affaires de Communication",
+                    distanceFrom33av: 2.1,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 6.8, 'anosy': 4.2, 'andoharanofotsy': 8.1, 'ivato': 9.8,
+                        'talatamaty': 11.6, 'ambohijatovo': 2.8, 'ambodivona': 2.4,
+                        'analakely': 2.1, 'ankorondrano': 4.8, 'isotry': 3.7,
+                        'mahamasina': 3.4, 'tsaralalana': 2.9, 'antanimena': 2.3,
+                        'ampandrana': 5.8, 'faravohitra': 3.5, 'ankadifotsy': 7.4,
+                        'ankadikely': 7.8, 'ampahibe': 8.7, 'ambohimanarina': 11.1,
+                        'ambohimangakely': 10.3, 'ambohibao': 9.4, 'amboditsiry': 7.1,
+                        'ambohijanaka': 9.8, 'ambohidratrimo': 14.0, 'ambohimanga': 16.9,
+                        'andranomena': 5.4, 'ankadinandriana': 6.3, 'ankadivato': 6.7,
+                        'ankaditapaka': 7.9, 'ankaditoho': 7.5, 'ankoronga': 5.8,
+                        'antanimora': 5.1, 'antsahabe': 8.4, 'behoririka': 4.1,
+                        'faravohitra': 3.5, 'fiadanana': 4.7, 'isoraka': 3.9,
+                        'itaosy': 11.4, 'mahazo': 6.2, 'manjakaray': 7.3,
+                        'miarinarivo': 12.8, 'nanisana': 5.5, 'soarano': 4.3,
+                        'tambohobe': 9.0, 'tsimbazaza': 3.1, 'tsararay': 6.0,
+                        'ankaditany': 6.9, 'ankaditapaka': 7.9, 'ankadivato': 6.7,
+                        'ambohitrimanjaka': 10.5, 'ambatobe': 8.3, 'ambohitsoa': 7.0,
+                        'ankadimanga': 6.4, 'ambohibary': 8.9, 'ambohidrapeto': 10.7
+                    }
+                },
+                tribunal_affaires_culturelles: {
+                    name: "Tribunal des Affaires Culturelles",
+                    distanceFrom33av: 2.2,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 6.9, 'anosy': 4.3, 'andoharanofotsy': 8.2, 'ivato': 9.9,
+                        'talatamaty': 11.7, 'ambohijatovo': 2.9, 'ambodivona': 2.5,
+                        'analakely': 2.2, 'ankorondrano': 4.9, 'isotry': 3.8,
+                        'mahamasina': 3.5, 'tsaralalana': 3.0, 'antanimena': 2.4,
+                        'ampandrana': 5.9, 'faravohitra': 3.6, 'ankadifotsy': 7.5,
+                        'ankadikely': 7.9, 'ampahibe': 8.8, 'ambohimanarina': 11.2,
+                        'ambohimangakely': 10.4, 'ambohibao': 9.5, 'amboditsiry': 7.2,
+                        'ambohijanaka': 9.9, 'ambohidratrimo': 14.1, 'ambohimanga': 17.0,
+                        'andranomena': 5.5, 'ankadinandriana': 6.4, 'ankadivato': 6.8,
+                        'ankaditapaka': 8.0, 'ankaditoho': 7.6, 'ankoronga': 5.9,
+                        'antanimora': 5.2, 'antsahabe': 8.5, 'behoririka': 4.2,
+                        'faravohitra': 3.6, 'fiadanana': 4.8, 'isoraka': 4.0,
+                        'itaosy': 11.5, 'mahazo': 6.3, 'manjakaray': 7.4,
+                        'miarinarivo': 12.9, 'nanisana': 5.6, 'soarano': 4.4,
+                        'tambohobe': 9.1, 'tsimbazaza': 3.2, 'tsararay': 6.1,
+                        'ankaditany': 7.0, 'ankaditapaka': 8.0, 'ankadivato': 6.8,
+                        'ambohitrimanjaka': 10.6, 'ambatobe': 8.4, 'ambohitsoa': 7.1,
+                        'ankadimanga': 6.5, 'ambohibary': 9.0, 'ambohidrapeto': 10.8
+                    }
+                },
+                tribunal_affaires_sportives: {
+                    name: "Tribunal des Affaires Sportives",
+                    distanceFrom33av: 2.3,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 7.0, 'anosy': 4.4, 'andoharanofotsy': 8.3, 'ivato': 10.0,
+                        'talatamaty': 11.8, 'ambohijatovo': 3.0, 'ambodivona': 2.6,
+                        'analakely': 2.3, 'ankorondrano': 5.0, 'isotry': 3.9,
+                        'mahamasina': 3.6, 'tsaralalana': 3.1, 'antanimena': 2.5,
+                        'ampandrana': 6.0, 'faravohitra': 3.7, 'ankadifotsy': 7.6,
+                        'ankadikely': 8.0, 'ampahibe': 8.9, 'ambohimanarina': 11.3,
+                        'ambohimangakely': 10.5, 'ambohibao': 9.6, 'amboditsiry': 7.3,
+                        'ambohijanaka': 10.0, 'ambohidratrimo': 14.2, 'ambohimanga': 17.1,
+                        'andranomena': 5.6, 'ankadinandriana': 6.5, 'ankadivato': 6.9,
+                        'ankaditapaka': 8.1, 'ankaditoho': 7.7, 'ankoronga': 6.0,
+                        'antanimora': 5.3, 'antsahabe': 8.6, 'behoririka': 4.3,
+                        'faravohitra': 3.7, 'fiadanana': 4.9, 'isoraka': 4.1,
+                        'itaosy': 11.6, 'mahazo': 6.4, 'manjakaray': 7.5,
+                        'miarinarivo': 13.0, 'nanisana': 5.7, 'soarano': 4.5,
+                        'tambohobe': 9.2, 'tsimbazaza': 3.3, 'tsararay': 6.2,
+                        'ankaditany': 7.1, 'ankaditapaka': 8.1, 'ankadivato': 6.9,
+                        'ambohitrimanjaka': 10.7, 'ambatobe': 8.5, 'ambohitsoa': 7.2,
+                        'ankadimanga': 6.6, 'ambohibary': 9.1, 'ambohidrapeto': 10.9
+                    }
+                },
+                tribunal_affaires_touristiques: {
+                    name: "Tribunal des Affaires Touristiques",
+                    distanceFrom33av: 2.4,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 7.1, 'anosy': 4.5, 'andoharanofotsy': 8.4, 'ivato': 10.1,
+                        'talatamaty': 11.9, 'ambohijatovo': 3.1, 'ambodivona': 2.7,
+                        'analakely': 2.4, 'ankorondrano': 5.1, 'isotry': 4.0,
+                        'mahamasina': 3.7, 'tsaralalana': 3.2, 'antanimena': 2.6,
+                        'ampandrana': 6.1, 'faravohitra': 3.8, 'ankadifotsy': 7.7,
+                        'ankadikely': 8.1, 'ampahibe': 9.0, 'ambohimanarina': 11.4,
+                        'ambohimangakely': 10.6, 'ambohibao': 9.7, 'amboditsiry': 7.4,
+                        'ambohijanaka': 10.1, 'ambohidratrimo': 14.3, 'ambohimanga': 17.2,
+                        'andranomena': 5.7, 'ankadinandriana': 6.6, 'ankadivato': 7.0,
+                        'ankaditapaka': 8.2, 'ankaditoho': 7.8, 'ankoronga': 6.1,
+                        'antanimora': 5.4, 'antsahabe': 8.7, 'behoririka': 4.4,
+                        'faravohitra': 3.8, 'fiadanana': 5.0, 'isoraka': 4.2,
+                        'itaosy': 11.7, 'mahazo': 6.5, 'manjakaray': 7.6,
+                        'miarinarivo': 13.1, 'nanisana': 5.8, 'soarano': 4.6,
+                        'tambohobe': 9.3, 'tsimbazaza': 3.4, 'tsararay': 6.3,
+                        'ankaditany': 7.2, 'ankaditapaka': 8.2, 'ankadivato': 7.0,
+                        'ambohitrimanjaka': 10.8, 'ambatobe': 8.6, 'ambohitsoa': 7.3,
+                        'ankadimanga': 6.7, 'ambohibary': 9.2, 'ambohidrapeto': 11.0
+                    }
+                },
+                tribunal_affaires_educatives: {
+                    name: "Tribunal des Affaires Éducatives",
+                    distanceFrom33av: 2.5,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 7.2, 'anosy': 4.6, 'andoharanofotsy': 8.5, 'ivato': 10.2,
+                        'talatamaty': 12.0, 'ambohijatovo': 3.2, 'ambodivona': 2.8,
+                        'analakely': 2.5, 'ankorondrano': 5.2, 'isotry': 4.1,
+                        'mahamasina': 3.8, 'tsaralalana': 3.3, 'antanimena': 2.7,
+                        'ampandrana': 6.2, 'faravohitra': 3.9, 'ankadifotsy': 7.8,
+                        'ankadikely': 8.2, 'ampahibe': 9.1, 'ambohimanarina': 11.5,
+                        'ambohimangakely': 10.7, 'ambohibao': 9.8, 'amboditsiry': 7.5,
+                        'ambohijanaka': 10.2, 'ambohidratrimo': 14.4, 'ambohimanga': 17.3,
+                        'andranomena': 5.8, 'ankadinandriana': 6.7, 'ankadivato': 7.1,
+                        'ankaditapaka': 8.3, 'ankaditoho': 7.9, 'ankoronga': 6.2,
+                        'antanimora': 5.5, 'antsahabe': 8.8, 'behoririka': 4.5,
+                        'faravohitra': 3.9, 'fiadanana': 5.1, 'isoraka': 4.3,
+                        'itaosy': 11.8, 'mahazo': 6.6, 'manjakaray': 7.7,
+                        'miarinarivo': 13.2, 'nanisana': 5.9, 'soarano': 4.7,
+                        'tambohobe': 9.4, 'tsimbazaza': 3.5, 'tsararay': 6.4,
+                        'ankaditany': 7.3, 'ankaditapaka': 8.3, 'ankadivato': 7.1,
+                        'ambohitrimanjaka': 10.9, 'ambatobe': 8.7, 'ambohitsoa': 7.4,
+                        'ankadimanga': 6.8, 'ambohibary': 9.3, 'ambohidrapeto': 11.1
+                    }
+                },
+                tribunal_affaires_scientifiques: {
+                    name: "Tribunal des Affaires Scientifiques",
+                    distanceFrom33av: 2.6,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 7.3, 'anosy': 4.7, 'andoharanofotsy': 8.6, 'ivato': 10.3,
+                        'talatamaty': 12.1, 'ambohijatovo': 3.3, 'ambodivona': 2.9,
+                        'analakely': 2.6, 'ankorondrano': 5.3, 'isotry': 4.2,
+                        'mahamasina': 3.9, 'tsaralalana': 3.4, 'antanimena': 2.8,
+                        'ampandrana': 6.3, 'faravohitra': 4.0, 'ankadifotsy': 7.9,
+                        'ankadikely': 8.3, 'ampahibe': 9.2, 'ambohimanarina': 11.6,
+                        'ambohimangakely': 10.8, 'ambohibao': 9.9, 'amboditsiry': 7.6,
+                        'ambohijanaka': 10.3, 'ambohidratrimo': 14.5, 'ambohimanga': 17.4,
+                        'andranomena': 5.9, 'ankadinandriana': 6.8, 'ankadivato': 7.2,
+                        'ankaditapaka': 8.4, 'ankaditoho': 8.0, 'ankoronga': 6.3,
+                        'antanimora': 5.6, 'antsahabe': 8.9, 'behoririka': 4.6,
+                        'faravohitra': 4.0, 'fiadanana': 5.2, 'isoraka': 4.4,
+                        'itaosy': 11.9, 'mahazo': 6.7, 'manjakaray': 7.8,
+                        'miarinarivo': 13.3, 'nanisana': 6.0, 'soarano': 4.8,
+                        'tambohobe': 9.5, 'tsimbazaza': 3.6, 'tsararay': 6.5,
+                        'ankaditany': 7.4, 'ankaditapaka': 8.4, 'ankadivato': 7.2,
+                        'ambohitrimanjaka': 11.0, 'ambatobe': 8.8, 'ambohitsoa': 7.5,
+                        'ankadimanga': 6.9, 'ambohibary': 9.4, 'ambohidrapeto': 11.2
+                    }
+                },
+                tribunal_affaires_technologiques: {
+                    name: "Tribunal des Affaires Technologiques",
+                    distanceFrom33av: 2.7,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 7.4, 'anosy': 4.8, 'andoharanofotsy': 8.7, 'ivato': 10.4,
+                        'talatamaty': 12.2, 'ambohijatovo': 3.4, 'ambodivona': 3.0,
+                        'analakely': 2.7, 'ankorondrano': 5.4, 'isotry': 4.3,
+                        'mahamasina': 4.0, 'tsaralalana': 3.5, 'antanimena': 2.9,
+                        'ampandrana': 6.4, 'faravohitra': 4.1, 'ankadifotsy': 8.0,
+                        'ankadikely': 8.4, 'ampahibe': 9.3, 'ambohimanarina': 11.7,
+                        'ambohimangakely': 10.9, 'ambohibao': 10.0, 'amboditsiry': 7.7,
+                        'ambohijanaka': 10.4, 'ambohidratrimo': 14.6, 'ambohimanga': 17.5,
+                        'andranomena': 6.0, 'ankadinandriana': 6.9, 'ankadivato': 7.3,
+                        'ankaditapaka': 8.5, 'ankaditoho': 8.1, 'ankoronga': 6.4,
+                        'antanimora': 5.7, 'antsahabe': 9.0, 'behoririka': 4.7,
+                        'faravohitra': 4.1, 'fiadanana': 5.3, 'isoraka': 4.5,
+                        'itaosy': 12.0, 'mahazo': 6.8, 'manjakaray': 7.9,
+                        'miarinarivo': 13.4, 'nanisana': 6.1, 'soarano': 4.9,
+                        'tambohobe': 9.6, 'tsimbazaza': 3.7, 'tsararay': 6.6,
+                        'ankaditany': 7.5, 'ankaditapaka': 8.5, 'ankadivato': 7.3,
+                        'ambohitrimanjaka': 11.1, 'ambatobe': 8.9, 'ambohitsoa': 7.6,
+                        'ankadimanga': 7.0, 'ambohibary': 9.5, 'ambohidrapeto': 11.3
+                    }
+                },
+                tribunal_affaires_medicales: {
+                    name: "Tribunal des Affaires Médicales",
+                    distanceFrom33av: 2.8,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 7.5, 'anosy': 4.9, 'andoharanofotsy': 8.8, 'ivato': 10.5,
+                        'talatamaty': 12.3, 'ambohijatovo': 3.5, 'ambodivona': 3.1,
+                        'analakely': 2.8, 'ankorondrano': 5.5, 'isotry': 4.4,
+                        'mahamasina': 4.1, 'tsaralalana': 3.6, 'antanimena': 3.0,
+                        'ampandrana': 6.5, 'faravohitra': 4.2, 'ankadifotsy': 8.1,
+                        'ankadikely': 8.5, 'ampahibe': 9.4, 'ambohimanarina': 11.8,
+                        'ambohimangakely': 11.0, 'ambohibao': 10.1, 'amboditsiry': 7.8,
+                        'ambohijanaka': 10.5, 'ambohidratrimo': 14.7, 'ambohimanga': 17.6,
+                        'andranomena': 6.1, 'ankadinandriana': 7.0, 'ankadivato': 7.4,
+                        'ankaditapaka': 8.6, 'ankaditoho': 8.2, 'ankoronga': 6.5,
+                        'antanimora': 5.8, 'antsahabe': 9.1, 'behoririka': 4.8,
+                        'faravohitra': 4.2, 'fiadanana': 5.4, 'isoraka': 4.6,
+                        'itaosy': 12.1, 'mahazo': 6.9, 'manjakaray': 8.0,
+                        'miarinarivo': 13.5, 'nanisana': 6.2, 'soarano': 5.0,
+                        'tambohobe': 9.7, 'tsimbazaza': 3.8, 'tsararay': 6.7,
+                        'ankaditany': 7.6, 'ankaditapaka': 8.6, 'ankadivato': 7.4,
+                        'ambohitrimanjaka': 11.2, 'ambatobe': 9.0, 'ambohitsoa': 7.7,
+                        'ankadimanga': 7.1, 'ambohibary': 9.6, 'ambohidrapeto': 11.4
+                    }
+                },
+                tribunal_affaires_pharmaceutiques: {
+                    name: "Tribunal des Affaires Pharmaceutiques",
+                    distanceFrom33av: 2.9,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 7.6, 'anosy': 5.0, 'andoharanofotsy': 8.9, 'ivato': 10.6,
+                        'talatamaty': 12.4, 'ambohijatovo': 3.6, 'ambodivona': 3.2,
+                        'analakely': 2.9, 'ankorondrano': 5.6, 'isotry': 4.5,
+                        'mahamasina': 4.2, 'tsaralalana': 3.7, 'antanimena': 3.1,
+                        'ampandrana': 6.6, 'faravohitra': 4.3, 'ankadifotsy': 8.2,
+                        'ankadikely': 8.6, 'ampahibe': 9.5, 'ambohimanarina': 11.9,
+                        'ambohimangakely': 11.1, 'ambohibao': 10.2, 'amboditsiry': 7.9,
+                        'ambohijanaka': 10.6, 'ambohidratrimo': 14.8, 'ambohimanga': 17.7,
+                        'andranomena': 6.2, 'ankadinandriana': 7.1, 'ankadivato': 7.5,
+                        'ankaditapaka': 8.7, 'ankaditoho': 8.3, 'ankoronga': 6.6,
+                        'antanimora': 5.9, 'antsahabe': 9.2, 'behoririka': 4.9,
+                        'faravohitra': 4.3, 'fiadanana': 5.5, 'isoraka': 4.7,
+                        'itaosy': 12.2, 'mahazo': 7.0, 'manjakaray': 8.1,
+                        'miarinarivo': 13.6, 'nanisana': 6.3, 'soarano': 5.1,
+                        'tambohobe': 9.8, 'tsimbazaza': 3.9, 'tsararay': 6.8,
+                        'ankaditany': 7.7, 'ankaditapaka': 8.7, 'ankadivato': 7.5,
+                        'ambohitrimanjaka': 11.3, 'ambatobe': 9.1, 'ambohitsoa': 7.8,
+                        'ankadimanga': 7.2, 'ambohibary': 9.7, 'ambohidrapeto': 11.5
+                    }
+                },
+                tribunal_affaires_veterinaires: {
+                    name: "Tribunal des Affaires Vétérinaires",
+                    distanceFrom33av: 3.0,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 7.7, 'anosy': 5.1, 'andoharanofotsy': 9.0, 'ivato': 10.7,
+                        'talatamaty': 12.5, 'ambohijatovo': 3.7, 'ambodivona': 3.3,
+                        'analakely': 3.0, 'ankorondrano': 5.7, 'isotry': 4.6,
+                        'mahamasina': 4.3, 'tsaralalana': 3.8, 'antanimena': 3.2,
+                        'ampandrana': 6.7, 'faravohitra': 4.4, 'ankadifotsy': 8.3,
+                        'ankadikely': 8.7, 'ampahibe': 9.6, 'ambohimanarina': 12.0,
+                        'ambohimangakely': 11.2, 'ambohibao': 10.3, 'amboditsiry': 8.0,
+                        'ambohijanaka': 10.7, 'ambohidratrimo': 14.9, 'ambohimanga': 17.8,
+                        'andranomena': 6.3, 'ankadinandriana': 7.2, 'ankadivato': 7.6,
+                        'ankaditapaka': 8.8, 'ankaditoho': 8.4, 'ankoronga': 6.7,
+                        'antanimora': 6.0, 'antsahabe': 9.3, 'behoririka': 5.0,
+                        'faravohitra': 4.4, 'fiadanana': 5.6, 'isoraka': 4.8,
+                        'itaosy': 12.3, 'mahazo': 7.1, 'manjakaray': 8.2,
+                        'miarinarivo': 13.7, 'nanisana': 6.4, 'soarano': 5.2,
+                        'tambohobe': 9.9, 'tsimbazaza': 4.0, 'tsararay': 6.9,
+                        'ankaditany': 7.8, 'ankaditapaka': 8.8, 'ankadivato': 7.6,
+                        'ambohitrimanjaka': 11.4, 'ambatobe': 9.2, 'ambohitsoa': 7.9,
+                        'ankadimanga': 7.3, 'ambohibary': 9.8, 'ambohidrapeto': 11.6
+                    }
+                },
+                tribunal_affaires_agricoles: {
+                    name: "Tribunal des Affaires Agricoles",
+                    distanceFrom33av: 3.1,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 7.8, 'anosy': 5.2, 'andoharanofotsy': 9.1, 'ivato': 10.8,
+                        'talatamaty': 12.6, 'ambohijatovo': 3.8, 'ambodivona': 3.4,
+                        'analakely': 3.1, 'ankorondrano': 5.8, 'isotry': 4.7,
+                        'mahamasina': 4.4, 'tsaralalana': 3.9, 'antanimena': 3.3,
+                        'ampandrana': 6.8, 'faravohitra': 4.5, 'ankadifotsy': 8.4,
+                        'ankadikely': 8.8, 'ampahibe': 9.7, 'ambohimanarina': 12.1,
+                        'ambohimangakely': 11.3, 'ambohibao': 10.4, 'amboditsiry': 8.1,
+                        'ambohijanaka': 10.8, 'ambohidratrimo': 15.0, 'ambohimanga': 17.9,
+                        'andranomena': 6.4, 'ankadinandriana': 7.3, 'ankadivato': 7.7,
+                        'ankaditapaka': 8.9, 'ankaditoho': 8.5, 'ankoronga': 6.8,
+                        'antanimora': 6.1, 'antsahabe': 9.4, 'behoririka': 5.1,
+                        'faravohitra': 4.5, 'fiadanana': 5.7, 'isoraka': 4.9,
+                        'itaosy': 12.4, 'mahazo': 7.2, 'manjakaray': 8.3,
+                        'miarinarivo': 13.8, 'nanisana': 6.5, 'soarano': 5.3,
+                        'tambohobe': 10.0, 'tsimbazaza': 4.1, 'tsararay': 7.0,
+                        'ankaditany': 7.9, 'ankaditapaka': 8.9, 'ankadivato': 7.7,
+                        'ambohitrimanjaka': 11.5, 'ambatobe': 9.3, 'ambohitsoa': 8.0,
+                        'ankadimanga': 7.4, 'ambohibary': 9.9, 'ambohidrapeto': 11.7
+                    }
+                },
+                tribunal_affaires_peche: {
+                    name: "Tribunal des Affaires de Pêche",
+                    distanceFrom33av: 3.2,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 7.9, 'anosy': 5.3, 'andoharanofotsy': 9.2, 'ivato': 10.9,
+                        'talatamaty': 12.7, 'ambohijatovo': 3.9, 'ambodivona': 3.5,
+                        'analakely': 3.2, 'ankorondrano': 5.9, 'isotry': 4.8,
+                        'mahamasina': 4.5, 'tsaralalana': 4.0, 'antanimena': 3.4,
+                        'ampandrana': 6.9, 'faravohitra': 4.6, 'ankadifotsy': 8.5,
+                        'ankadikely': 8.9, 'ampahibe': 9.8, 'ambohimanarina': 12.2,
+                        'ambohimangakely': 11.4, 'ambohibao': 10.5, 'amboditsiry': 8.2,
+                        'ambohijanaka': 10.9, 'ambohidratrimo': 15.1, 'ambohimanga': 18.0,
+                        'andranomena': 6.5, 'ankadinandriana': 7.4, 'ankadivato': 7.8,
+                        'ankaditapaka': 9.0, 'ankaditoho': 8.6, 'ankoronga': 6.9,
+                        'antanimora': 6.2, 'antsahabe': 9.5, 'behoririka': 5.2,
+                        'faravohitra': 4.6, 'fiadanana': 5.8, 'isoraka': 5.0,
+                        'itaosy': 12.5, 'mahazo': 7.3, 'manjakaray': 8.4,
+                        'miarinarivo': 13.9, 'nanisana': 6.6, 'soarano': 5.4,
+                        'tambohobe': 10.1, 'tsimbazaza': 4.2, 'tsararay': 7.1,
+                        'ankaditany': 8.0, 'ankaditapaka': 9.0, 'ankadivato': 7.8,
+                        'ambohitrimanjaka': 11.6, 'ambatobe': 9.4, 'ambohitsoa': 8.1,
+                        'ankadimanga': 7.5, 'ambohibary': 10.0, 'ambohidrapeto': 11.8
+                    }
+                },
+                tribunal_affaires_elevage: {
+                    name: "Tribunal des Affaires d'Élevage",
+                    distanceFrom33av: 3.3,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 8.0, 'anosy': 5.4, 'andoharanofotsy': 9.3, 'ivato': 11.0,
+                        'talatamaty': 12.8, 'ambohijatovo': 4.0, 'ambodivona': 3.6,
+                        'analakely': 3.3, 'ankorondrano': 6.0, 'isotry': 4.9,
+                        'mahamasina': 4.6, 'tsaralalana': 4.1, 'antanimena': 3.5,
+                        'ampandrana': 7.0, 'faravohitra': 4.7, 'ankadifotsy': 8.6,
+                        'ankadikely': 9.0, 'ampahibe': 9.9, 'ambohimanarina': 12.3,
+                        'ambohimangakely': 11.5, 'ambohibao': 10.6, 'amboditsiry': 8.3,
+                        'ambohijanaka': 11.0, 'ambohidratrimo': 15.2, 'ambohimanga': 18.1,
+                        'andranomena': 6.6, 'ankadinandriana': 7.5, 'ankadivato': 7.9,
+                        'ankaditapaka': 9.1, 'ankaditoho': 8.7, 'ankoronga': 7.0,
+                        'antanimora': 6.3, 'antsahabe': 9.6, 'behoririka': 5.3,
+                        'faravohitra': 4.7, 'fiadanana': 5.9, 'isoraka': 5.1,
+                        'itaosy': 12.6, 'mahazo': 7.4, 'manjakaray': 8.5,
+                        'miarinarivo': 14.0, 'nanisana': 6.7, 'soarano': 5.5,
+                        'tambohobe': 10.2, 'tsimbazaza': 4.3, 'tsararay': 7.2,
+                        'ankaditany': 8.1, 'ankaditapaka': 9.1, 'ankadivato': 7.9,
+                        'ambohitrimanjaka': 11.7, 'ambatobe': 9.5, 'ambohitsoa': 8.2,
+                        'ankadimanga': 7.6, 'ambohibary': 10.1, 'ambohidrapeto': 11.9
+                    }
+                },
+                tribunal_affaires_forets: {
+                    name: "Tribunal des Affaires Forestières",
+                    distanceFrom33av: 3.4,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 8.1, 'anosy': 5.5, 'andoharanofotsy': 9.4, 'ivato': 11.1,
+                        'talatamaty': 12.9, 'ambohijatovo': 4.1, 'ambodivona': 3.7,
+                        'analakely': 3.4, 'ankorondrano': 6.1, 'isotry': 5.0,
+                        'mahamasina': 4.7, 'tsaralalana': 4.2, 'antanimena': 3.6,
+                        'ampandrana': 7.1, 'faravohitra': 4.8, 'ankadifotsy': 8.7,
+                        'ankadikely': 9.1, 'ampahibe': 10.0, 'ambohimanarina': 12.4,
+                        'ambohimangakely': 11.6, 'ambohibao': 10.7, 'amboditsiry': 8.4,
+                        'ambohijanaka': 11.1, 'ambohidratrimo': 15.3, 'ambohimanga': 18.2,
+                        'andranomena': 6.7, 'ankadinandriana': 7.6, 'ankadivato': 8.0,
+                        'ankaditapaka': 9.2, 'ankaditoho': 8.8, 'ankoronga': 7.1,
+                        'antanimora': 6.4, 'antsahabe': 9.7, 'behoririka': 5.4,
+                        'faravohitra': 4.8, 'fiadanana': 6.0, 'isoraka': 5.2,
+                        'itaosy': 12.7, 'mahazo': 7.5, 'manjakaray': 8.6,
+                        'miarinarivo': 14.1, 'nanisana': 6.8, 'soarano': 5.6,
+                        'tambohobe': 10.3, 'tsimbazaza': 4.4, 'tsararay': 7.3,
+                        'ankaditany': 8.2, 'ankaditapaka': 9.2, 'ankadivato': 8.0,
+                        'ambohitrimanjaka': 11.8, 'ambatobe': 9.6, 'ambohitsoa': 8.3,
+                        'ankadimanga': 7.7, 'ambohibary': 10.2, 'ambohidrapeto': 12.0
+                    }
+                },
+                tribunal_affaires_environnement: {
+                    name: "Tribunal des Affaires Environnementales",
+                    distanceFrom33av: 3.5,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 8.2, 'anosy': 5.6, 'andoharanofotsy': 9.5, 'ivato': 11.2,
+                        'talatamaty': 13.0, 'ambohijatovo': 4.2, 'ambodivona': 3.8,
+                        'analakely': 3.5, 'ankorondrano': 6.2, 'isotry': 5.1,
+                        'mahamasina': 4.8, 'tsaralalana': 4.3, 'antanimena': 3.7,
+                        'ampandrana': 7.2, 'faravohitra': 4.9, 'ankadifotsy': 8.8,
+                        'ankadikely': 9.2, 'ampahibe': 10.1, 'ambohimanarina': 12.5,
+                        'ambohimangakely': 11.7, 'ambohibao': 10.8, 'amboditsiry': 8.5,
+                        'ambohijanaka': 11.2, 'ambohidratrimo': 15.4, 'ambohimanga': 18.3,
+                        'andranomena': 6.8, 'ankadinandriana': 7.7, 'ankadivato': 8.1,
+                        'ankaditapaka': 9.3, 'ankaditoho': 8.9, 'ankoronga': 7.2,
+                        'antanimora': 6.5, 'antsahabe': 9.8, 'behoririka': 5.5,
+                        'faravohitra': 4.9, 'fiadanana': 6.1, 'isoraka': 5.3,
+                        'itaosy': 12.8, 'mahazo': 7.6, 'manjakaray': 8.7,
+                        'miarinarivo': 14.2, 'nanisana': 6.9, 'soarano': 5.7,
+                        'tambohobe': 10.4, 'tsimbazaza': 4.5, 'tsararay': 7.4,
+                        'ankaditany': 8.3, 'ankaditapaka': 9.3, 'ankadivato': 8.1,
+                        'ambohitrimanjaka': 11.9, 'ambatobe': 9.7, 'ambohitsoa': 8.4,
+                        'ankadimanga': 7.8, 'ambohibary': 10.3, 'ambohidrapeto': 12.1
+                    }
+                },
+                tribunal_affaires_eau: {
+                    name: "Tribunal des Affaires de l'Eau",
+                    distanceFrom33av: 3.6,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 8.3, 'anosy': 5.7, 'andoharanofotsy': 9.6, 'ivato': 11.3,
+                        'talatamaty': 13.1, 'ambohijatovo': 4.3, 'ambodivona': 3.9,
+                        'analakely': 3.6, 'ankorondrano': 6.3, 'isotry': 5.2,
+                        'mahamasina': 4.9, 'tsaralalana': 4.4, 'antanimena': 3.8,
+                        'ampandrana': 7.3, 'faravohitra': 5.0, 'ankadifotsy': 8.9,
+                        'ankadikely': 9.3, 'ampahibe': 10.2, 'ambohimanarina': 12.6,
+                        'ambohimangakely': 11.8, 'ambohibao': 10.9, 'amboditsiry': 8.6,
+                        'ambohijanaka': 11.3, 'ambohidratrimo': 15.5, 'ambohimanga': 18.4,
+                        'andranomena': 6.9, 'ankadinandriana': 7.8, 'ankadivato': 8.2,
+                        'ankaditapaka': 9.4, 'ankaditoho': 9.0, 'ankoronga': 7.3,
+                        'antanimora': 6.6, 'antsahabe': 9.9, 'behoririka': 5.6,
+                        'faravohitra': 5.0, 'fiadanana': 6.2, 'isoraka': 5.4,
+                        'itaosy': 12.9, 'mahazo': 7.7, 'manjakaray': 8.8,
+                        'miarinarivo': 14.3, 'nanisana': 7.0, 'soarano': 5.8,
+                        'tambohobe': 10.5, 'tsimbazaza': 4.6, 'tsararay': 7.5,
+                        'ankaditany': 8.4, 'ankaditapaka': 9.4, 'ankadivato': 8.2,
+                        'ambohitrimanjaka': 12.0, 'ambatobe': 9.8, 'ambohitsoa': 8.5,
+                        'ankadimanga': 7.9, 'ambohibary': 10.4, 'ambohidrapeto': 12.2
+                    }
+                },
+                tribunal_affaires_assainissement: {
+                    name: "Tribunal des Affaires d'Assainissement",
+                    distanceFrom33av: 3.7,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 8.4, 'anosy': 5.8, 'andoharanofotsy': 9.7, 'ivato': 11.4,
+                        'talatamaty': 13.2, 'ambohijatovo': 4.4, 'ambodivona': 4.0,
+                        'analakely': 3.7, 'ankorondrano': 6.4, 'isotry': 5.3,
+                        'mahamasina': 5.0, 'tsaralalana': 4.5, 'antanimena': 3.9,
+                        'ampandrana': 7.4, 'faravohitra': 5.1, 'ankadifotsy': 9.0,
+                        'ankadikely': 9.4, 'ampahibe': 10.3, 'ambohimanarina': 12.7,
+                        'ambohimangakely': 11.9, 'ambohibao': 11.0, 'amboditsiry': 8.7,
+                        'ambohijanaka': 11.4, 'ambohidratrimo': 15.6, 'ambohimanga': 18.5,
+                        'andranomena': 7.0, 'ankadinandriana': 7.9, 'ankadivato': 8.3,
+                        'ankaditapaka': 9.5, 'ankaditoho': 9.1, 'ankoronga': 7.4,
+                        'antanimora': 6.7, 'antsahabe': 10.0, 'behoririka': 5.7,
+                        'faravohitra': 5.1, 'fiadanana': 6.3, 'isoraka': 5.5,
+                        'itaosy': 13.0, 'mahazo': 7.8, 'manjakaray': 8.9,
+                        'miarinarivo': 14.4, 'nanisana': 7.1, 'soarano': 5.9,
+                        'tambohobe': 10.6, 'tsimbazaza': 4.7, 'tsararay': 7.6,
+                        'ankaditany': 8.5, 'ankaditapaka': 9.5, 'ankadivato': 8.3,
+                        'ambohitrimanjaka': 12.1, 'ambatobe': 9.9, 'ambohitsoa': 8.6,
+                        'ankadimanga': 8.0, 'ambohibary': 10.5, 'ambohidrapeto': 12.3
+                    }
+                },
+                tribunal_affaires_habitat: {
+                    name: "Tribunal des Affaires d'Habitat",
+                    distanceFrom33av: 3.8,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 8.5, 'anosy': 5.9, 'andoharanofotsy': 9.8, 'ivato': 11.5,
+                        'talatamaty': 13.3, 'ambohijatovo': 4.5, 'ambodivona': 4.1,
+                        'analakely': 3.8, 'ankorondrano': 6.5, 'isotry': 5.4,
+                        'mahamasina': 5.1, 'tsaralalana': 4.6, 'antanimena': 4.0,
+                        'ampandrana': 7.5, 'faravohitra': 5.2, 'ankadifotsy': 9.1,
+                        'ankadikely': 9.5, 'ampahibe': 10.4, 'ambohimanarina': 12.8,
+                        'ambohimangakely': 12.0, 'ambohibao': 11.1, 'amboditsiry': 8.8,
+                        'ambohijanaka': 11.5, 'ambohidratrimo': 15.7, 'ambohimanga': 18.6,
+                        'andranomena': 7.1, 'ankadinandriana': 8.0, 'ankadivato': 8.4,
+                        'ankaditapaka': 9.6, 'ankaditoho': 9.2, 'ankoronga': 7.5,
+                        'antanimora': 6.8, 'antsahabe': 10.1, 'behoririka': 5.8,
+                        'faravohitra': 5.2, 'fiadanana': 6.4, 'isoraka': 5.6,
+                        'itaosy': 13.1, 'mahazo': 7.9, 'manjakaray': 9.0,
+                        'miarinarivo': 14.5, 'nanisana': 7.2, 'soarano': 6.0,
+                        'tambohobe': 10.7, 'tsimbazaza': 4.8, 'tsararay': 7.7,
+                        'ankaditany': 8.6, 'ankaditapaka': 9.6, 'ankadivato': 8.4,
+                        'ambohitrimanjaka': 12.2, 'ambatobe': 10.0, 'ambohitsoa': 8.7,
+                        'ankadimanga': 8.1, 'ambohibary': 10.6, 'ambohidrapeto': 12.4
+                    }
+                },
+                tribunal_affaires_urbanisme: {
+                    name: "Tribunal des Affaires d'Urbanisme",
+                    distanceFrom33av: 3.9,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 8.6, 'anosy': 6.0, 'andoharanofotsy': 9.9, 'ivato': 11.6,
+                        'talatamaty': 13.4, 'ambohijatovo': 4.6, 'ambodivona': 4.2,
+                        'analakely': 3.9, 'ankorondrano': 6.6, 'isotry': 5.5,
+                        'mahamasina': 5.2, 'tsaralalana': 4.7, 'antanimena': 4.1,
+                        'ampandrana': 7.6, 'faravohitra': 5.3, 'ankadifotsy': 9.2,
+                        'ankadikely': 9.6, 'ampahibe': 10.5, 'ambohimanarina': 12.9,
+                        'ambohimangakely': 12.1, 'ambohibao': 11.2, 'amboditsiry': 8.9,
+                        'ambohijanaka': 11.6, 'ambohidratrimo': 15.8, 'ambohimanga': 18.7,
+                        'andranomena': 7.2, 'ankadinandriana': 8.1, 'ankadivato': 8.5,
+                        'ankaditapaka': 9.7, 'ankaditoho': 9.3, 'ankoronga': 7.6,
+                        'antanimora': 6.9, 'antsahabe': 10.2, 'behoririka': 5.9,
+                        'faravohitra': 5.3, 'fiadanana': 6.5, 'isoraka': 5.7,
+                        'itaosy': 13.2, 'mahazo': 8.0, 'manjakaray': 9.1,
+                        'miarinarivo': 14.6, 'nanisana': 7.3, 'soarano': 6.1,
+                        'tambohobe': 10.8, 'tsimbazaza': 4.9, 'tsararay': 7.8,
+                        'ankaditany': 8.7, 'ankaditapaka': 9.7, 'ankadivato': 8.5,
+                        'ambohitrimanjaka': 12.3, 'ambatobe': 10.1, 'ambohitsoa': 8.8,
+                        'ankadimanga': 8.2, 'ambohibary': 10.7, 'ambohidrapeto': 12.5
+                    }
+                },
+                tribunal_affaires_construction: {
+                    name: "Tribunal des Affaires de Construction",
+                    distanceFrom33av: 4.0,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 8.7, 'anosy': 6.1, 'andoharanofotsy': 10.0, 'ivato': 11.7,
+                        'talatamaty': 13.5, 'ambohijatovo': 4.7, 'ambodivona': 4.3,
+                        'analakely': 4.0, 'ankorondrano': 6.7, 'isotry': 5.6,
+                        'mahamasina': 5.3, 'tsaralalana': 4.8, 'antanimena': 4.2,
+                        'ampandrana': 7.7, 'faravohitra': 5.4, 'ankadifotsy': 9.3,
+                        'ankadikely': 9.7, 'ampahibe': 10.6, 'ambohimanarina': 13.0,
+                        'ambohimangakely': 12.2, 'ambohibao': 11.3, 'amboditsiry': 9.0,
+                        'ambohijanaka': 11.7, 'ambohidratrimo': 15.9, 'ambohimanga': 18.8,
+                        'andranomena': 7.3, 'ankadinandriana': 8.2, 'ankadivato': 8.6,
+                        'ankaditapaka': 9.8, 'ankaditoho': 9.4, 'ankoronga': 7.7,
+                        'antanimora': 7.0, 'antsahabe': 10.3, 'behoririka': 6.0,
+                        'faravohitra': 5.4, 'fiadanana': 6.6, 'isoraka': 5.8,
+                        'itaosy': 13.3, 'mahazo': 8.1, 'manjakaray': 9.2,
+                        'miarinarivo': 14.7, 'nanisana': 7.4, 'soarano': 6.2,
+                        'tambohobe': 10.9, 'tsimbazaza': 5.0, 'tsararay': 7.9,
+                        'ankaditany': 8.8, 'ankaditapaka': 9.8, 'ankadivato': 8.6,
+                        'ambohitrimanjaka': 12.4, 'ambatobe': 10.2, 'ambohitsoa': 8.9,
+                        'ankadimanga': 8.3, 'ambohibary': 10.8, 'ambohidrapeto': 12.6
+                    }
+                },
+                tribunal_affaires_transport_aerien: {
+                    name: "Tribunal des Affaires de Transport Aérien",
+                    distanceFrom33av: 4.1,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 8.8, 'anosy': 6.2, 'andoharanofotsy': 10.1, 'ivato': 11.8,
+                        'talatamaty': 13.6, 'ambohijatovo': 4.8, 'ambodivona': 4.4,
+                        'analakely': 4.1, 'ankorondrano': 6.8, 'isotry': 5.7,
+                        'mahamasina': 5.4, 'tsaralalana': 4.9, 'antanimena': 4.3,
+                        'ampandrana': 7.8, 'faravohitra': 5.5, 'ankadifotsy': 9.4,
+                        'ankadikely': 9.8, 'ampahibe': 10.7, 'ambohimanarina': 13.1,
+                        'ambohimangakely': 12.3, 'ambohibao': 11.4, 'amboditsiry': 9.1,
+                        'ambohijanaka': 11.8, 'ambohidratrimo': 16.0, 'ambohimanga': 18.9,
+                        'andranomena': 7.4, 'ankadinandriana': 8.3, 'ankadivato': 8.7,
+                        'ankaditapaka': 9.9, 'ankaditoho': 9.5, 'ankoronga': 7.8,
+                        'antanimora': 7.1, 'antsahabe': 10.4, 'behoririka': 6.1,
+                        'faravohitra': 5.5, 'fiadanana': 6.7, 'isoraka': 5.9,
+                        'itaosy': 13.4, 'mahazo': 8.2, 'manjakaray': 9.3,
+                        'miarinarivo': 14.8, 'nanisana': 7.5, 'soarano': 6.3,
+                        'tambohobe': 11.0, 'tsimbazaza': 5.1, 'tsararay': 8.0,
+                        'ankaditany': 8.9, 'ankaditapaka': 9.9, 'ankadivato': 8.7,
+                        'ambohitrimanjaka': 12.5, 'ambatobe': 10.3, 'ambohitsoa': 9.0,
+                        'ankadimanga': 8.4, 'ambohibary': 10.9, 'ambohidrapeto': 12.7
+                    }
+                },
+                tribunal_affaires_transport_maritime: {
+                    name: "Tribunal des Affaires de Transport Maritime",
+                    distanceFrom33av: 4.2,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 8.9, 'anosy': 6.3, 'andoharanofotsy': 10.2, 'ivato': 11.9,
+                        'talatamaty': 13.7, 'ambohijatovo': 4.9, 'ambodivona': 4.5,
+                        'analakely': 4.2, 'ankorondrano': 6.9, 'isotry': 5.8,
+                        'mahamasina': 5.5, 'tsaralalana': 5.0, 'antanimena': 4.4,
+                        'ampandrana': 7.9, 'faravohitra': 5.6, 'ankadifotsy': 9.5,
+                        'ankadikely': 9.9, 'ampahibe': 10.8, 'ambohimanarina': 13.2,
+                        'ambohimangakely': 12.4, 'ambohibao': 11.5, 'amboditsiry': 9.2,
+                        'ambohijanaka': 11.9, 'ambohidratrimo': 16.1, 'ambohimanga': 19.0,
+                        'andranomena': 7.5, 'ankadinandriana': 8.4, 'ankadivato': 8.8,
+                        'ankaditapaka': 10.0, 'ankaditoho': 9.6, 'ankoronga': 7.9,
+                        'antanimora': 7.2, 'antsahabe': 10.5, 'behoririka': 6.2,
+                        'faravohitra': 5.6, 'fiadanana': 6.8, 'isoraka': 6.0,
+                        'itaosy': 13.5, 'mahazo': 8.3, 'manjakaray': 9.4,
+                        'miarinarivo': 14.9, 'nanisana': 7.6, 'soarano': 6.4,
+                        'tambohobe': 11.1, 'tsimbazaza': 5.2, 'tsararay': 8.1,
+                        'ankaditany': 9.0, 'ankaditapaka': 10.0, 'ankadivato': 8.8,
+                        'ambohitrimanjaka': 12.6, 'ambatobe': 10.4, 'ambohitsoa': 9.1,
+                        'ankadimanga': 8.5, 'ambohibary': 11.0, 'ambohidrapeto': 12.8
+                    }
+                },
+                tribunal_affaires_transport_terrestre: {
+                    name: "Tribunal des Affaires de Transport Terrestre",
+                    distanceFrom33av: 4.3,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 9.0, 'anosy': 6.4, 'andoharanofotsy': 10.3, 'ivato': 12.0,
+                        'talatamaty': 13.8, 'ambohijatovo': 5.0, 'ambodivona': 4.6,
+                        'analakely': 4.3, 'ankorondrano': 7.0, 'isotry': 5.9,
+                        'mahamasina': 5.6, 'tsaralalana': 5.1, 'antanimena': 4.5,
+                        'ampandrana': 8.0, 'faravohitra': 5.7, 'ankadifotsy': 9.6,
+                        'ankadikely': 10.0, 'ampahibe': 10.9, 'ambohimanarina': 13.3,
+                        'ambohimangakely': 12.5, 'ambohibao': 11.6, 'amboditsiry': 9.3,
+                        'ambohijanaka': 12.0, 'ambohidratrimo': 16.2, 'ambohimanga': 19.1,
+                        'andranomena': 7.6, 'ankadinandriana': 8.5, 'ankadivato': 8.9,
+                        'ankaditapaka': 10.1, 'ankaditoho': 9.7, 'ankoronga': 8.0,
+                        'antanimora': 7.3, 'antsahabe': 10.6, 'behoririka': 6.3,
+                        'faravohitra': 5.7, 'fiadanana': 6.9, 'isoraka': 6.1,
+                        'itaosy': 13.6, 'mahazo': 8.4, 'manjakaray': 9.5,
+                        'miarinarivo': 15.0, 'nanisana': 7.7, 'soarano': 6.5,
+                        'tambohobe': 11.2, 'tsimbazaza': 5.3, 'tsararay': 8.2,
+                        'ankaditany': 9.1, 'ankaditapaka': 10.1, 'ankadivato': 8.9,
+                        'ambohitrimanjaka': 12.7, 'ambatobe': 10.5, 'ambohitsoa': 9.2,
+                        'ankadimanga': 8.6, 'ambohibary': 11.1, 'ambohidrapeto': 12.9
+                    }
+                },
+                tribunal_affaires_douanes: {
+                    name: "Tribunal des Affaires Douanières",
+                    distanceFrom33av: 4.4,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 9.1, 'anosy': 6.5, 'andoharanofotsy': 10.4, 'ivato': 12.1,
+                        'talatamaty': 13.9, 'ambohijatovo': 5.1, 'ambodivona': 4.7,
+                        'analakely': 4.4, 'ankorondrano': 7.1, 'isotry': 6.0,
+                        'mahamasina': 5.7, 'tsaralalana': 5.2, 'antanimena': 4.6,
+                        'ampandrana': 8.1, 'faravohitra': 5.8, 'ankadifotsy': 9.7,
+                        'ankadikely': 10.1, 'ampahibe': 11.0, 'ambohimanarina': 13.4,
+                        'ambohimangakely': 12.6, 'ambohibao': 11.7, 'amboditsiry': 9.4,
+                        'ambohijanaka': 12.1, 'ambohidratrimo': 16.3, 'ambohimanga': 19.2,
+                        'andranomena': 7.7, 'ankadinandriana': 8.6, 'ankadivato': 9.0,
+                        'ankaditapaka': 10.2, 'ankaditoho': 9.8, 'ankoronga': 8.1,
+                        'antanimora': 7.4, 'antsahabe': 10.7, 'behoririka': 6.4,
+                        'faravohitra': 5.8, 'fiadanana': 7.0, 'isoraka': 6.2,
+                        'itaosy': 13.7, 'mahazo': 8.5, 'manjakaray': 9.6,
+                        'miarinarivo': 15.1, 'nanisana': 7.8, 'soarano': 6.6,
+                        'tambohobe': 11.3, 'tsimbazaza': 5.4, 'tsararay': 8.3,
+                        'ankaditany': 9.2, 'ankaditapaka': 10.2, 'ankadivato': 9.0,
+                        'ambohitrimanjaka': 12.8, 'ambatobe': 10.6, 'ambohitsoa': 9.3,
+                        'ankadimanga': 8.7, 'ambohibary': 11.2, 'ambohidrapeto': 13.0
+                    }
+                },
+                tribunal_affaires_fiscales: {
+                    name: "Tribunal des Affaires Fiscales",
+                    distanceFrom33av: 4.5,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 9.2, 'anosy': 6.6, 'andoharanofotsy': 10.5, 'ivato': 12.2,
+                        'talatamaty': 14.0, 'ambohijatovo': 5.2, 'ambodivona': 4.8,
+                        'analakely': 4.5, 'ankorondrano': 7.2, 'isotry': 6.1,
+                        'mahamasina': 5.8, 'tsaralalana': 5.3, 'antanimena': 4.7,
+                        'ampandrana': 8.2, 'faravohitra': 5.9, 'ankadifotsy': 9.8,
+                        'ankadikely': 10.2, 'ampahibe': 11.1, 'ambohimanarina': 13.5,
+                        'ambohimangakely': 12.7, 'ambohibao': 11.8, 'amboditsiry': 9.5,
+                        'ambohijanaka': 12.2, 'ambohidratrimo': 16.4, 'ambohimanga': 19.3,
+                        'andranomena': 7.8, 'ankadinandriana': 8.7, 'ankadivato': 9.1,
+                        'ankaditapaka': 10.3, 'ankaditoho': 9.9, 'ankoronga': 8.2,
+                        'antanimora': 7.5, 'antsahabe': 10.8, 'behoririka': 6.5,
+                        'faravohitra': 5.9, 'fiadanana': 7.1, 'isoraka': 6.3,
+                        'itaosy': 13.8, 'mahazo': 8.6, 'manjakaray': 9.7,
+                        'miarinarivo': 15.2, 'nanisana': 7.9, 'soarano': 6.7,
+                        'tambohobe': 11.4, 'tsimbazaza': 5.5, 'tsararay': 8.4,
+                        'ankaditany': 9.3, 'ankaditapaka': 10.3, 'ankadivato': 9.1,
+                        'ambohitrimanjaka': 12.9, 'ambatobe': 10.7, 'ambohitsoa': 9.4,
+                        'ankadimanga': 8.8, 'ambohibary': 11.3, 'ambohidrapeto': 13.1
+                    }
+                },
+                tribunal_affaires_budgetaires: {
+                    name: "Tribunal des Affaires Budgétaires",
+                    distanceFrom33av: 4.6,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 9.3, 'anosy': 6.7, 'andoharanofotsy': 10.6, 'ivato': 12.3,
+                        'talatamaty': 14.1, 'ambohijatovo': 5.3, 'ambodivona': 4.9,
+                        'analakely': 4.6, 'ankorondrano': 7.3, 'isotry': 6.2,
+                        'mahamasina': 5.9, 'tsaralalana': 5.4, 'antanimena': 4.8,
+                        'ampandrana': 8.3, 'faravohitra': 6.0, 'ankadifotsy': 9.9,
+                        'ankadikely': 10.3, 'ampahibe': 11.2, 'ambohimanarina': 13.6,
+                        'ambohimangakely': 12.8, 'ambohibao': 11.9, 'amboditsiry': 9.6,
+                        'ambohijanaka': 12.3, 'ambohidratrimo': 16.5, 'ambohimanga': 19.4,
+                        'andranomena': 7.9, 'ankadinandriana': 8.8, 'ankadivato': 9.2,
+                        'ankaditapaka': 10.4, 'ankaditoho': 10.0, 'ankoronga': 8.3,
+                        'antanimora': 7.6, 'antsahabe': 10.9, 'behoririka': 6.6,
+                        'faravohitra': 6.0, 'fiadanana': 7.2, 'isoraka': 6.4,
+                        'itaosy': 13.9, 'mahazo': 8.7, 'manjakaray': 9.8,
+                        'miarinarivo': 15.3, 'nanisana': 8.0, 'soarano': 6.8,
+                        'tambohobe': 11.5, 'tsimbazaza': 5.6, 'tsararay': 8.5,
+                        'ankaditany': 9.4, 'ankaditapaka': 10.4, 'ankadivato': 9.2,
+                        'ambohitrimanjaka': 13.0, 'ambatobe': 10.8, 'ambohitsoa': 9.5,
+                        'ankadimanga': 8.9, 'ambohibary': 11.4, 'ambohidrapeto': 13.2
+                    }
+                },
+                tribunal_affaires_comptables: {
+                    name: "Tribunal des Affaires Comptables",
+                    distanceFrom33av: 4.7,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 9.4, 'anosy': 6.8, 'andoharanofotsy': 10.7, 'ivato': 12.4,
+                        'talatamaty': 14.2, 'ambohijatovo': 5.4, 'ambodivona': 5.0,
+                        'analakely': 4.7, 'ankorondrano': 7.4, 'isotry': 6.3,
+                        'mahamasina': 6.0, 'tsaralalana': 5.5, 'antanimena': 4.9,
+                        'ampandrana': 8.4, 'faravohitra': 6.1, 'ankadifotsy': 10.0,
+                        'ankadikely': 10.4, 'ampahibe': 11.3, 'ambohimanarina': 13.7,
+                        'ambohimangakely': 12.9, 'ambohibao': 12.0, 'amboditsiry': 9.7,
+                        'ambohijanaka': 12.4, 'ambohidratrimo': 16.6, 'ambohimanga': 19.5,
+                        'andranomena': 8.0, 'ankadinandriana': 8.9, 'ankadivato': 9.3,
+                        'ankaditapaka': 10.5, 'ankaditoho': 10.1, 'ankoronga': 8.4,
+                        'antanimora': 7.7, 'antsahabe': 11.0, 'behoririka': 6.7,
+                        'faravohitra': 6.1, 'fiadanana': 7.3, 'isoraka': 6.5,
+                        'itaosy': 14.0, 'mahazo': 8.8, 'manjakaray': 9.9,
+                        'miarinarivo': 15.4, 'nanisana': 8.1, 'soarano': 6.9,
+                        'tambohobe': 11.6, 'tsimbazaza': 5.7, 'tsararay': 8.6,
+                        'ankaditany': 9.5, 'ankaditapaka': 10.5, 'ankadivato': 9.3,
+                        'ambohitrimanjaka': 13.1, 'ambatobe': 10.9, 'ambohitsoa': 9.6,
+                        'ankadimanga': 9.0, 'ambohibary': 11.5, 'ambohidrapeto': 13.3
+                    }
+                },
+                tribunal_affaires_investissement: {
+                    name: "Tribunal des Affaires d'Investissement",
+                    distanceFrom33av: 4.8,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 9.5, 'anosy': 6.9, 'andoharanofotsy': 10.8, 'ivato': 12.5,
+                        'talatamaty': 14.3, 'ambohijatovo': 5.5, 'ambodivona': 5.1,
+                        'analakely': 4.8, 'ankorondrano': 7.5, 'isotry': 6.4,
+                        'mahamasina': 6.1, 'tsaralalana': 5.6, 'antanimena': 5.0,
+                        'ampandrana': 8.5, 'faravohitra': 6.2, 'ankadifotsy': 10.1,
+                        'ankadikely': 10.5, 'ampahibe': 11.4, 'ambohimanarina': 13.8,
+                        'ambohimangakely': 13.0, 'ambohibao': 12.1, 'amboditsiry': 9.8,
+                        'ambohijanaka': 12.5, 'ambohidratrimo': 16.7, 'ambohimanga': 19.6,
+                        'andranomena': 8.1, 'ankadinandriana': 9.0, 'ankadivato': 9.4,
+                        'ankaditapaka': 10.6, 'ankaditoho': 10.2, 'ankoronga': 8.5,
+                        'antanimora': 7.8, 'antsahabe': 11.1, 'behoririka': 6.8,
+                        'faravohitra': 6.2, 'fiadanana': 7.4, 'isoraka': 6.6,
+                        'itaosy': 14.1, 'mahazo': 8.9, 'manjakaray': 10.0,
+                        'miarinarivo': 15.5, 'nanisana': 8.2, 'soarano': 7.0,
+                        'tambohobe': 11.7, 'tsimbazaza': 5.8, 'tsararay': 8.7,
+                        'ankaditany': 9.6, 'ankaditapaka': 10.6, 'ankadivato': 9.4,
+                        'ambohitrimanjaka': 13.2, 'ambatobe': 11.0, 'ambohitsoa': 9.7,
+                        'ankadimanga': 9.1, 'ambohibary': 11.6, 'ambohidrapeto': 13.4
+                    }
+                },
+                tribunal_affaires_entreprises: {
+                    name: "Tribunal des Affaires d'Entreprises",
+                    distanceFrom33av: 4.9,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 9.6, 'anosy': 7.0, 'andoharanofotsy': 10.9, 'ivato': 12.6,
+                        'talatamaty': 14.4, 'ambohijatovo': 5.6, 'ambodivona': 5.2,
+                        'analakely': 4.9, 'ankorondrano': 7.6, 'isotry': 6.5,
+                        'mahamasina': 6.2, 'tsaralalana': 5.7, 'antanimena': 5.1,
+                        'ampandrana': 8.6, 'faravohitra': 6.3, 'ankadifotsy': 10.2,
+                        'ankadikely': 10.6, 'ampahibe': 11.5, 'ambohimanarina': 13.9,
+                        'ambohimangakely': 13.1, 'ambohibao': 12.2, 'amboditsiry': 9.9,
+                        'ambohijanaka': 12.6, 'ambohidratrimo': 16.8, 'ambohimanga': 19.7,
+                        'andranomena': 8.2, 'ankadinandriana': 9.1, 'ankadivato': 9.5,
+                        'ankaditapaka': 10.7, 'ankaditoho': 10.3, 'ankoronga': 8.6,
+                        'antanimora': 7.9, 'antsahabe': 11.2, 'behoririka': 6.9,
+                        'faravohitra': 6.3, 'fiadanana': 7.5, 'isoraka': 6.7,
+                        'itaosy': 14.2, 'mahazo': 9.0, 'manjakaray': 10.1,
+                        'miarinarivo': 15.6, 'nanisana': 8.3, 'soarano': 7.1,
+                        'tambohobe': 11.8, 'tsimbazaza': 5.9, 'tsararay': 8.8,
+                        'ankaditany': 9.7, 'ankaditapaka': 10.7, 'ankadivato': 9.5,
+                        'ambohitrimanjaka': 13.3, 'ambatobe': 11.1, 'ambohitsoa': 9.8,
+                        'ankadimanga': 9.2, 'ambohibary': 11.7, 'ambohidrapeto': 13.5
+                    }
+                },
+                tribunal_affaires_industrie: {
+                    name: "Tribunal des Affaires Industrielles",
+                    distanceFrom33av: 5.0,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 9.7, 'anosy': 7.1, 'andoharanofotsy': 11.0, 'ivato': 12.7,
+                        'talatamaty': 14.5, 'ambohijatovo': 5.7, 'ambodivona': 5.3,
+                        'analakely': 5.0, 'ankorondrano': 7.7, 'isotry': 6.6,
+                        'mahamasina': 6.3, 'tsaralalana': 5.8, 'antanimena': 5.2,
+                        'ampandrana': 8.7, 'faravohitra': 6.4, 'ankadifotsy': 10.3,
+                        'ankadikely': 10.7, 'ampahibe': 11.6, 'ambohimanarina': 14.0,
+                        'ambohimangakely': 13.2, 'ambohibao': 12.3, 'amboditsiry': 10.0,
+                        'ambohijanaka': 12.7, 'ambohidratrimo': 16.9, 'ambohimanga': 19.8,
+                        'andranomena': 8.3, 'ankadinandriana': 9.2, 'ankadivato': 9.6,
+                        'ankaditapaka': 10.8, 'ankaditoho': 10.4, 'ankoronga': 8.7,
+                        'antanimora': 8.0, 'antsahabe': 11.3, 'behoririka': 7.0,
+                        'faravohitra': 6.4, 'fiadanana': 7.6, 'isoraka': 6.8,
+                        'itaosy': 14.3, 'mahazo': 9.1, 'manjakaray': 10.2,
+                        'miarinarivo': 15.7, 'nanisana': 8.4, 'soarano': 7.2,
+                        'tambohobe': 11.9, 'tsimbazaza': 6.0, 'tsararay': 8.9,
+                        'ankaditany': 9.8, 'ankaditapaka': 10.8, 'ankadivato': 9.6,
+                        'ambohitrimanjaka': 13.4, 'ambatobe': 11.2, 'ambohitsoa': 9.9,
+                        'ankadimanga': 9.3, 'ambohibary': 11.8, 'ambohidrapeto': 13.6
+                    }
+                },
+                tribunal_affaires_commerce: {
+                    name: "Tribunal des Affaires Commerciales",
+                    distanceFrom33av: 5.1,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 9.8, 'anosy': 7.2, 'andoharanofotsy': 11.1, 'ivato': 12.8,
+                        'talatamaty': 14.6, 'ambohijatovo': 5.8, 'ambodivona': 5.4,
+                        'analakely': 5.1, 'ankorondrano': 7.8, 'isotry': 6.7,
+                        'mahamasina': 6.4, 'tsaralalana': 5.9, 'antanimena': 5.3,
+                        'ampandrana': 8.8, 'faravohitra': 6.5, 'ankadifotsy': 10.4,
+                        'ankadikely': 10.8, 'ampahibe': 11.7, 'ambohimanarina': 14.1,
+                        'ambohimangakely': 13.3, 'ambohibao': 12.4, 'amboditsiry': 10.1,
+                        'ambohijanaka': 12.8, 'ambohidratrimo': 17.0, 'ambohimanga': 19.9,
+                        'andranomena': 8.4, 'ankadinandriana': 9.3, 'ankadivato': 9.7,
+                        'ankaditapaka': 10.9, 'ankaditoho': 10.5, 'ankoronga': 8.8,
+                        'antanimora': 8.1, 'antsahabe': 11.4, 'behoririka': 7.1,
+                        'faravohitra': 6.5, 'fiadanana': 7.7, 'isoraka': 6.9,
+                        'itaosy': 14.4, 'mahazo': 9.2, 'manjakaray': 10.3,
+                        'miarinarivo': 15.8, 'nanisana': 8.5, 'soarano': 7.3,
+                        'tambohobe': 12.0, 'tsimbazaza': 6.1, 'tsararay': 9.0,
+                        'ankaditany': 9.9, 'ankaditapaka': 10.9, 'ankadivato': 9.7,
+                        'ambohitrimanjaka': 13.5, 'ambatobe': 11.3, 'ambohitsoa': 10.0,
+                        'ankadimanga': 9.4, 'ambohibary': 11.9, 'ambohidrapeto': 13.7
+                    }
+                },
+                tribunal_affaires_artisanat: {
+                    name: "Tribunal des Affaires d'Artisanat",
+                    distanceFrom33av: 5.2,
+                    defaultDuration: 2.0,
+                    distancesToQuartiers: {
+                        '67ha': 9.9, 'anosy': 7.3, 'andoharanofotsy': 11.2, 'ivato': 12.9,
+                        'talatamaty': 14.7, 'ambohijatovo': 5.9, 'ambodivona': 5.5,
+                        'analakely': 5.2, 'ankorondrano': 7.9, 'isotry': 6.8,
+                        'mahamasina': 6.5, 'tsaralalana': 6.0, 'antanimena': 5.4,
+                        'ampandrana': 8.9, 'faravohitra': 6.6, 'ankadifotsy': 10.5,
+                        'ankadikely': 10.9, 'ampahibe': 11.8, 'ambohimanarina': 14.2,
+                        'ambohimangakely': 13.4, 'ambohibao': 12.5, 'amboditsiry': 10.2,
+                        'ambohijanaka': 12.9, 'ambohidratrimo': 17.1, 'ambohimanga': 20.0,
+                        'andranomena': 8.5, 'ankadinandriana': 9.4, 'ankadivato': 9.8,
+                        'ankaditapaka': 11.0, 'ankaditoho': 10.6, 'ankoronga': 8.9,
+                        'antanimora': 8.2, 'antsahabe': 11.5, 'behoririka': 7.2,
+                        'faravohitra': 6.6, 'fiadanana': 7.8, 'isoraka': 7.0,
+                        'itaosy': 14.5, 'mahazo': 9.3, 'manjakaray': 10.4,
+                        'miarinarivo': 15.9, 'nanisana': 8.6, 'soarano': 7.4,
+                        'tambohobe': 12.1, 'tsimbazaza': 6.2, 'tsararay': 9.1,
+                        'ankaditany': 10.0, 'ankaditapaka': 11.0, 'ankadivato': 9.8,
+                        'ambohitrimanjaka': 13.6, 'ambatobe': 11.4, 'ambohitsoa': 10.1,
+                        'ankadimanga': 9.5, 'ambohibary': 12.0, 'ambohidrapeto': 13.8
+                    }
+                },
+            },
+
+            // 3. Quartiers (50)
+            quartiers: {
+                '67ha': { zone: "Nord-ouest" },
+                'anosy': { zone: "Centre" },
+                'andoharanofotsy': { zone: "Nord-est" },
+                'ivato': { zone: "Aéroport" },
+                'talatamaty': { zone: "Sud-est" },
+                'ambohijatovo': { zone: "Centre" },
+                'ambodivona': { zone: "Centre historique" },
+                'analakely': { zone: "Centre commercial" },
+                'ankorondrano': { zone: "Ouest" },
+                'isotry': { zone: "Sud-ouest" },
+                'mahamasina': { zone: "Sud" },
+                'tsaralalana': { zone: "Centre" },
+                'antanimena': { zone: "Centre" },
+                'ampandrana': { zone: "Nord" },
+                'faravohitra': { zone: "Colline" },
+                'ankadifotsy': { zone: "Est" },
+                'ankadikely': { zone: "Est" },
+                'ampahibe': { zone: "Ouest" },
+                'ambohimanarina': { zone: "Sud-ouest" },
+                'ambohimangakely': { zone: "Est" },
+                'ambohibao': { zone: "Ouest" },
+                'amboditsiry': { zone: "Nord" },
+                'ambohijanaka': { zone: "Nord" },
+                'ambohidratrimo': { zone: "Périphérie" },
+                'ambohimanga': { zone: "Périphérie" },
+                'andranomena': { zone: "Ouest" },
+                'ankadinandriana': { zone: "Est" },
+                'ankadivato': { zone: "Est" },
+                'ankaditapaka': { zone: "Est" },
+                'ankaditoho': { zone: "Est" },
+                'ankoronga': { zone: "Ouest" },
+                'antanimora': { zone: "Sud" },
+                'antsahabe': { zone: "Nord" },
+                'behoririka': { zone: "Centre" },
+                'fiadanana': { zone: "Ouest" },
+                'isoraka': { zone: "Centre" },
+                'itaosy': { zone: "Sud" },
+                'mahazo': { zone: "Ouest" },
+                'manjakaray': { zone: "Nord" },
+                'miarinarivo': { zone: "Périphérie" },
+                'nanisana': { zone: "Ouest" },
+                'soarano': { zone: "Centre" },
+                'tambohobe': { zone: "Nord" },
+                'tsimbazaza': { zone: "Centre" },
+                'tsararay': { zone: "Est" },
+                'ankaditany': { zone: "Est" },
+                'ambohitrimanjaka': { zone: "Périphérie" },
+                'ambatobe': { zone: "Nord" },
+                'ambohitsoa': { zone: "Ouest" },
+                'ankadimanga': { zone: "Est" },
+                'ambohibary': { zone: "Ouest" },
+                'ambohidrapeto': { zone: "Sud" }
+            }
         };
 
-        document.addEventListener('DOMContentLoaded', function() {
-            // Gestion de "Lire la suite"
-            const btnLireSuite = document.getElementById('btn-lire-suite');
-            const fullStory = document.getElementById('fullStory');
-            
-            btnLireSuite.addEventListener('click', function() {
-                if (fullStory.style.display === 'block') {
-                    fullStory.style.display = 'none';
-                    btnLireSuite.textContent = 'Lire la suite';
-                } else {
-                    fullStory.style.display = 'block';
-                    btnLireSuite.textContent = 'Réduire';
-                }
-            });
-            
-            // Gestion du type de dossier
-            const dossierType = document.getElementById('dossier-type');
-            const autreDossierGroup = document.getElementById('autre-dossier-group');
-            
-            dossierType.addEventListener('change', function() {
-                if (this.value === 'autre') {
-                    autreDossierGroup.style.display = 'block';
-                } else {
-                    autreDossierGroup.style.display = 'none';
-                    updateMap();
-                }
-                calculerMontant();
-            });
-            
-            // Initialisation des cartes
-            function initMaps() {
-                // Carte principale
-                map = L.map('map').setView(departureCoords, 15);
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                }).addTo(map);
-                
-                // Carte de suivi
-                trackingMap = L.map('tracking-map').setView(departureCoords, 15);
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                }).addTo(trackingMap);
-                
-                // Ajouter le marqueur de départ
-                departureMarker = L.marker(departureCoords, {
-                    icon: L.icon({
-                        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
-                        iconSize: [25, 41],
-                        iconAnchor: [12, 41],
-                        popupAnchor: [1, -34]
-                    }),
-                    title: "Point de départ: 33 Av. de L'Independance"
-                }).addTo(map);
-                
-                document.querySelector('.map-overlay').style.display = 'none';
+        // FONCTIONS DE CALCUL
+        function detecterQuartier(adresse) {
+            adresse = adresse.toLowerCase();
+            for (const quartier in distanceData.quartiers) {
+                if (adresse.includes(quartier)) return quartier;
             }
-            
-            // Initialiser les cartes
-            initMaps();
-            
-            // Calcul du montant (simplifié pour la démo)
-            function calculerMontant() {
-                // Simulation de calcul de distance et durée
-                const distance = Math.floor(Math.random() * 20) + 5; // 5-25 km
-                const duree = dossierType.value ? (Math.random() * 3 + 1).toFixed(1) : 0; // 1-4 heures si dossier admin
-                
-                const montantLivraison = 5500 * distance;
-                const montantDemarche = 10000 * duree;
-                const montantTotal = montantLivraison + montantDemarche;
-                
-                document.getElementById('montant').textContent = montantTotal.toLocaleString('fr-FR') + ' Ar';
-                document.getElementById('montant-paiement').textContent = montantTotal.toLocaleString('fr-FR') + ' Ar';
-            }
-            
-            // Mise à jour de la carte lorsque les adresses changent
-            function updateMap() {
-                const dossierTypeValue = document.getElementById('dossier-type').value;
-                const deliveryAddress = document.getElementById('adresse-livraison').value;
-                
-                if (!dossierTypeValue || !deliveryAddress) return;
-                
-                // Supprimer les anciens marqueurs s'ils existent
-                if (adminMarker) map.removeLayer(adminMarker);
-                if (deliveryMarker) map.removeLayer(deliveryMarker);
-                if (courierRoute) map.removeControl(courierRoute);
-                
-                // Géocodage de l'adresse administrative (simplifié avec coordonnées fixes)
-                const adminLocation = adminLocations[dossierTypeValue] || { 
-                    name: document.getElementById('autre-dossier').value,
-                    coords: [-18.9070, 47.5240] // Coordonnées par défaut pour "autre"
-                };
-                
-                adminMarker = L.marker(adminLocation.coords, {
-                    icon: L.icon({
-                        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-                        iconSize: [25, 41],
-                        iconAnchor: [12, 41],
-                        popupAnchor: [1, -34]
-                    }),
-                    title: adminLocation.name
-                }).addTo(map).bindPopup(adminLocation.name);
-                
-                // Géocodage de l'adresse de livraison (simplifié avec coordonnées aléatoires proches)
-                const deliveryCoords = [
-                    adminLocation.coords[0] + (Math.random() * 0.01 - 0.005),
-                    adminLocation.coords[1] + (Math.random() * 0.01 - 0.005)
-                ];
-                
-                deliveryMarker = L.marker(deliveryCoords, {
-                    icon: L.icon({
-                        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
-                        iconSize: [25, 41],
-                        iconAnchor: [12, 41],
-                        popupAnchor: [1, -34]
-                    }),
-                    title: "Livraison: " + deliveryAddress
-                }).addTo(map).bindPopup("Livraison: " + deliveryAddress);
-                
-                // Calculer et afficher l'itinéraire
-                courierRoute = L.Routing.control({
-                    waypoints: [
-                        L.latLng(departureCoords[0], departureCoords[1]),
-                        L.latLng(adminLocation.coords[0], adminLocation.coords[1]),
-                        L.latLng(deliveryCoords[0], deliveryCoords[1])
-                    ],
-                    routeWhileDragging: true,
-                    showAlternatives: false,
-                    addWaypoints: false,
-                    draggableWaypoints: false,
-                    fitSelectedRoutes: true,
-                    lineOptions: {
-                        styles: [{color: '#3366ff', opacity: 0.7, weight: 5}]
-                    }
-                }).addTo(map);
-                
-                // Ajuster la vue pour voir tous les points
-                const featureGroup = L.featureGroup([departureMarker, adminMarker, deliveryMarker]);
-                map.fitBounds(featureGroup.getBounds().pad(0.2));
-            }
-            
-            // Simuler le suivi en temps réel après paiement
-            function simulateTracking() {
-                if (!departureMarker || !adminMarker || !deliveryMarker) return;
-                
-                // Supprimer l'ancien itinéraire de suivi s'il existe
-                if (courierRoute) trackingMap.removeControl(courierRoute);
-                if (courierMarker) trackingMap.removeLayer(courierMarker);
-                
-                // Créer un nouvel itinéraire pour la carte de suivi
-                courierRoute = L.Routing.control({
-                    waypoints: [
-                        L.latLng(departureCoords[0], departureCoords[1]),
-                        L.latLng(adminMarker.getLatLng().lat, adminMarker.getLatLng().lng),
-                        L.latLng(deliveryMarker.getLatLng().lat, deliveryMarker.getLatLng().lng)
-                    ],
-                    routeWhileDragging: true,
-                    show: false,
-                    addWaypoints: false,
-                    draggableWaypoints: false,
-                    fitSelectedRoutes: false,
-                    lineOptions: {
-                        styles: [{color: '#3366ff', opacity: 0.5, weight: 5}]
-                    }
-                }).addTo(trackingMap);
-                
-                // Ajouter les marqueurs à la carte de suivi
-                L.marker(departureCoords, {
-                    icon: L.icon({
-                        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
-                        iconSize: [25, 41],
-                        iconAnchor: [12, 41],
-                        popupAnchor: [1, -34]
-                    })
-                }).addTo(trackingMap).bindPopup("Départ");
-                
-                L.marker(adminMarker.getLatLng(), {
-                    icon: L.icon({
-                        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-                        iconSize: [25, 41],
-                        iconAnchor: [12, 41],
-                        popupAnchor: [1, -34]
-                    })
-                }).addTo(trackingMap).bindPopup("Démarche administrative");
-                
-                L.marker(deliveryMarker.getLatLng(), {
-                    icon: L.icon({
-                        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
-                        iconSize: [25, 41],
-                        iconAnchor: [12, 41],
-                        popupAnchor: [1, -34]
-                    })
-                }).addTo(trackingMap).bindPopup("Livraison");
-                
-                // Ajouter un marqueur mobile pour simuler le coursier
-                courierMarker = L.marker(departureCoords, {
-                    icon: L.icon({
-                        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-gold.png',
-                        iconSize: [25, 41],
-                        iconAnchor: [12, 41],
-                        popupAnchor: [1, -34]
-                    }),
-                    zIndexOffset: 1000
-                }).addTo(trackingMap).bindPopup("Coursier en route");
-                
-                // Obtenir les points de l'itinéraire
-                courierRoute.on('routesfound', function(e) {
-                    const routes = e.routes;
-                    const route = routes[0];
-                    const coordinates = route.coordinates;
-                    
-                    // Animation du marqueur
-                    animateCourier(coordinates);
-                });
-                
-                // Ajuster la vue pour voir tout l'itinéraire
-                const featureGroup = L.featureGroup([
-                    L.marker(departureCoords),
-                    L.marker(adminMarker.getLatLng()),
-                    L.marker(deliveryMarker.getLatLng())
-                ]);
-                trackingMap.fitBounds(featureGroup.getBounds().pad(0.2));
-            }
-            
-            // Animation du marqueur du coursier
-            function animateCourier(coordinates) {
-				let i = 0;
-				const totalPoints = coordinates.length;
-				const interval = 5000; // Vitesse d'animation (ms)
-				
-				const stepDurations = {
-					'Commande confirmée': 0.1,
-					'Coursier en route': 0.3,
-					'Démarche en cours': 0.4, 
-					'Livraison en cours': 0.15,
-					'Commande terminée': 0.05
-				};
-				
-				const transitionPoints = {
-					toCoursier: Math.floor(totalPoints * stepDurations['Commande confirmée']),
-					toDemarche: Math.floor(totalPoints * (stepDurations['Commande confirmée'] + stepDurations['Coursier en route'])),
-					toLivraison: Math.floor(totalPoints * (stepDurations['Commande confirmée'] + stepDurations['Coursier en route'] + stepDurations['Démarche en cours'])),
-					toTermine: totalPoints - 1 // Modifié ici
-				};
+            return '67ha'; // Quartier par défaut
+        }
 
-				function moveMarker() {
-					// Modifier la condition pour inclure le dernier point
-					if (i <= transitionPoints.toTermine) { // <= au lieu de <
-						courierMarker.setLatLng([coordinates[i].lat, coordinates[i].lng]);
+        function detecterAdmin(description) {
+            description = description.toLowerCase();
+            for (const admin in distanceData.autres) {
+                if (description.includes(admin.split('_')[0])) return admin;
+            }
+            return 'mairie_antananarivo'; // Admin par défaut
+        }
+
+        // Variables globales pour les marqueurs et itinéraires
+		// Variables globales pour les marqueurs et itinéraires
+		let startMarker, endMarker, adminMarker, routeControl, trackingRouteControl;
+		let courierMarker;
+		let courierIcon;
+		let trackingCoordinates = [];
+
+		// Initialisation des cartes
+		const map = L.map('map').setView([-18.9083, 47.5261], 15);
+		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+		}).addTo(map);
+		document.querySelector('.map-overlay').style.display = 'none';
+
+		// Initialisation de la carte de suivi
+		const trackingMap = L.map('tracking-map').setView([-18.9083, 47.5261], 15);
+		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+		}).addTo(trackingMap);
+
+		// Fonction pour mettre à jour la carte avec les marqueurs et itinéraires
+		function updateMap(dossierType, livraisonInput) {
+			// Coordonnées par défaut (33 Av. de L'Independance)
+			const startCoords = L.latLng(-18.9083, 47.5261);
+			
+			// Effacer les anciens marqueurs et itinéraires
+			if (startMarker) map.removeLayer(startMarker);
+			if (adminMarker) map.removeLayer(adminMarker);
+			if (endMarker) map.removeLayer(endMarker);
+			if (routeControl) {
+				try {
+					map.removeControl(routeControl);
+				} catch (err) {
+					console.warn("Erreur lors de la suppression du routeControl :", err);
+				}
+				routeControl = null;
+			}
+
+			// Ajouter le marqueur de départ
+			startMarker = L.marker(startCoords).addTo(map)
+				.bindPopup("Point de départ: 33 Av. de L'Independance")
+				.openPopup();
+			
+			if (dossierType && dossierType !== 'autre') {
+				// Coordonnées approximatives de l'administration
+				const adminCoords = L.latLng(-18.9100, 47.5300);
+				
+				// Ajouter le marqueur de l'administration
+				adminMarker = L.marker(adminCoords).addTo(map)
+					.bindPopup(distanceData.principales[dossierType].name)
+					.openPopup();
+				
+				// Ajouter l'itinéraire du départ à l'administration
+				routeControl = L.Routing.control({
+					waypoints: [startCoords, adminCoords],
+					routeWhileDragging: false,
+					show: false
+				}).addTo(map);
+				
+				if (livraisonInput) {
+					// Coordonnées approximatives de la livraison
+					const endCoords = L.latLng(-18.9150, 47.5350);
+					
+					// Ajouter le marqueur de livraison
+					endMarker = L.marker(endCoords).addTo(map)
+						.bindPopup("Point de livraison: " + livraisonInput)
+						.openPopup();
+					
+					// Mettre à jour l'itinéraire pour inclure la livraison
+					map.removeControl(routeControl);
+					routeControl = L.Routing.control({
+						waypoints: [startCoords, adminCoords, endCoords],
+						routeWhileDragging: true,
+						show: false
+					}).addTo(map);
+				}
+			} else if (dossierType === 'autre') {
+				const autreDossierInput = document.getElementById('autre-dossier').value;
+				if (autreDossierInput) {
+					// Coordonnées approximatives de l'administration
+					const adminCoords = L.latLng(-18.9120, 47.5280);
+					
+					// Ajouter le marqueur de l'administration
+					adminMarker = L.marker(adminCoords).addTo(map)
+						.bindPopup("Administration: " + autreDossierInput)
+						.openPopup();
+					
+					// Ajouter l'itinéraire du départ à l'administration
+					routeControl = L.Routing.control({
+						waypoints: [startCoords, adminCoords],
+						routeWhileDragging: true,
+						show: false
+					}).addTo(map);
+					
+					if (livraisonInput) {
+						// Coordonnées approximatives de la livraison
+						const endCoords = L.latLng(-18.9150, 47.5350);
 						
-						if (i < transitionPoints.toCoursier) {
-							setActiveStatus(0);
-						} else if (i < transitionPoints.toDemarche) {
-							setActiveStatus(1);
-						} else if (i < transitionPoints.toLivraison) {
-							setActiveStatus(2);
-						} else if (i < transitionPoints.toTermine) {
-							setActiveStatus(3);
-						} else {
-							// Dernier point atteint
-							setActiveStatus(4); // Commande terminée
-						}
-
-						i++;
-						setTimeout(moveMarker, interval);
+						// Ajouter le marqueur de livraison
+						endMarker = L.marker(endCoords).addTo(map)
+							.bindPopup("Point de livraison: " + livraisonInput)
+							.openPopup();
+						
+						// Mettre à jour l'itinéraire pour inclure la livraison
+						map.removeControl(routeControl);
+						routeControl = L.Routing.control({
+							waypoints: [startCoords, adminCoords, endCoords],
+							routeWhileDragging: true,
+							show: false
+						}).addTo(map);
 					}
 				}
-				
-				moveMarker();
 			}
-            
-            // Mettre à jour la barre de statut en fonction de la progression
-            function updateStatus(progress) {
-                const statusItems = document.querySelectorAll('.status-item');
-                
-                if (progress < 0.25) {
-                    // Statut 1 actif
-                    setActiveStatus(0);
-                } else if (progress < 0.5) {
-                    // Statut 2 actif
-                    setActiveStatus(1);
-                } else if (progress < 0.75) {
-                    // Statut 3 actif
-                    setActiveStatus(2);
-                } else if (progress < 0.95) {
-                    // Statut 4 actif
-                    setActiveStatus(3);
-                } else {
-                    // Statut 5 actif
-                    setActiveStatus(4);
-                }
-            }
-            
-            function setActiveStatus(index) {
-                const statusItems = document.querySelectorAll('.status-item');
-                statusItems.forEach((item, i) => {
-                    if (i <= index) {
-                        item.classList.add('active');
-                        item.querySelector('i').className = 'fas fa-check-circle';
-                    } else {
-                        item.classList.remove('active');
-                        item.querySelector('i').className = 'far fa-circle';
-                    }
-                });
-            }
-            
-            // Écouteurs pour la mise à jour de la carte
-            document.getElementById('adresse-livraison')?.addEventListener('change', function() {
-                updateMap();
-                calculerMontant();
-            });
-            
-            document.getElementById('autre-dossier')?.addEventListener('change', function() {
-                updateMap();
-                calculerMontant();
-            });
-            
-            // Gestion du code de confirmation
-            const codeInputs = document.querySelectorAll('.confirmation-code input');
-            const showCodeCheckbox = document.getElementById('show-code');
-            
-            showCodeCheckbox.addEventListener('change', function() {
-                codeInputs.forEach(input => {
-                    if (this.checked) {
-                        input.classList.add('show-code');
-                    } else {
-                        input.classList.remove('show-code');
-                    }
-                });
-            });
-            
-            codeInputs.forEach((input, index) => {
-                input.addEventListener('input', function() {
-                    if (this.value.length === 1) {
-                        if (index < codeInputs.length - 1) {
-                            codeInputs[index + 1].focus();
-                        } else {
-                            this.blur();
-                        }
-                    }
-                });
-                
-                input.addEventListener('keydown', function(e) {
-                    if (e.key === 'Backspace' && this.value.length === 0 && index > 0) {
-                        codeInputs[index - 1].focus();
-                    }
-                });
-            });
-            
-            // Gestion du paiement
-            const paymentMethods = document.querySelectorAll('.payment-method');
-            paymentMethods.forEach(method => {
-                method.addEventListener('click', function() {
-                    paymentMethods.forEach(m => m.classList.remove('selected'));
-                    this.classList.add('selected');
-                });
-            });
-            
-            // Navigation entre sections
-            const btnContinuer = document.getElementById('btn-continuer');
-            const btnRetour = document.getElementById('btn-retour');
-            const btnPayer = document.getElementById('btn-payer');
-            const btnAccueil = document.getElementById('btn-accueil');
-            
-            const commanderSection = document.getElementById('commander');
-            const paiementSection = document.getElementById('paiement');
-            const confirmationSection = document.getElementById('confirmation');
-            
-            btnContinuer.addEventListener('click', function() {
-                if (!document.getElementById('dossier-type').value || 
-                    !document.getElementById('adresse-livraison').value) {
-                    alert('Veuillez remplir tous les champs obligatoires');
-                    return;
-                }
-                
-                commanderSection.style.display = 'none';
-                paiementSection.style.display = 'block';
-            });
-            
-            btnRetour.addEventListener('click', function() {
-                paiementSection.style.display = 'none';
-                commanderSection.style.display = 'block';
-            });
-            
-            btnPayer.addEventListener('click', function() {
-                const operator = document.querySelector('.payment-method.selected');
-                const phoneNumber = document.getElementById('numero-tel').value;
-                let codeComplete = true;
-                
-                codeInputs.forEach(input => {
-                    if (!input.value) codeComplete = false;
-                });
-                
-                if (!operator) {
-                    alert('Veuillez sélectionner un opérateur de paiement');
-                    return;
-                }
-                
-                if (!phoneNumber) {
-                    alert('Veuillez entrer votre numéro de téléphone');
-                    return;
-                }
-                
-                if (!codeComplete) {
-                    alert('Veuillez entrer le code de confirmation complet');
-                    return;
-                }
-                
-                paiementSection.style.display = 'none';
-                confirmationSection.style.display = 'block';
-                
-                // Simuler le suivi
-                setTimeout(simulateTracking, 1000);
-            });
-            
-            btnAccueil.addEventListener('click', function() {
-                confirmationSection.style.display = 'none';
-                commanderSection.style.display = 'block';
-                
-                // Réinitialisation du formulaire
-                document.getElementById('dossier-type').value = '';
-                document.getElementById('autre-dossier').value = '';
-                document.getElementById('adresse-livraison').value = '';
-                document.getElementById('instructions').value = '';
-                document.getElementById('numero-tel').value = '';
-                document.querySelectorAll('.payment-method').forEach(op => op.classList.remove('selected'));
-                codeInputs.forEach(input => input.value = '');
-                showCodeCheckbox.checked = false;
-                codeInputs.forEach(input => input.classList.remove('show-code'));
-                
-                // Réinitialiser les statuts
-                const statusItems = document.querySelectorAll('.status-item');
-                statusItems.forEach((item, index) => {
-                    if (index === 0) {
-                        item.classList.add('active');
-                        item.querySelector('i').className = 'fas fa-check-circle';
-                    } else {
-                        item.classList.remove('active');
-                        item.querySelector('i').className = 'far fa-circle';
-                    }
-                });
-            });
-        });
+		}
+
+		// Fonction pour générer les coordonnées de suivi
+		function generateTrackingCoordinates(start, admin, end) {
+			trackingCoordinates = [];
+			
+			// Générer des points entre le départ et l'administration
+			for (let i = 0; i <= 10; i++) {
+				const lat = start.lat + (admin.lat - start.lat) * (i / 10);
+				const lng = start.lng + (admin.lng - start.lng) * (i / 10);
+				trackingCoordinates.push({ lat, lng });
+			}
+			
+			// Générer des points entre l'administration et la livraison
+			for (let i = 0; i <= 10; i++) {
+				const lat = admin.lat + (end.lat - admin.lat) * (i / 10);
+				const lng = admin.lng + (end.lng - admin.lng) * (i / 10);
+				trackingCoordinates.push({ lat, lng });
+			}
+		}
+
+		// Fonction pour initialiser la carte de suivi
+		function initTrackingMap() {
+			const startPoint = L.latLng(-18.9083, 47.5261); // Point de départ
+			const adminPoint = L.latLng(-18.9100, 47.5300); // Point administratif
+			const endPoint = L.latLng(-18.9150, 47.5350); // Point de livraison
+
+			// Créer une icône personnalisée pour le coursier
+			courierIcon = L.icon({
+				iconUrl: 'https://cdn-icons-png.flaticon.com/512/535/535137.png',
+				iconSize: [32, 32],
+				iconAnchor: [16, 16]
+			});
+
+			// Créer le marqueur du coursier (invisible au début)
+			courierMarker = L.marker(startPoint, {
+				icon: courierIcon,
+				opacity: 0
+			}).addTo(trackingMap);
+
+			// Ajouter les marqueurs fixes
+			L.marker(startPoint).addTo(trackingMap).bindPopup("Départ");
+			L.marker(adminPoint).addTo(trackingMap).bindPopup("Administration");
+			L.marker(endPoint).addTo(trackingMap).bindPopup("Livraison");
+
+			// Générer des points intermédiaires pour l'animation
+			generateTrackingCoordinates(startPoint, adminPoint, endPoint);
+
+			// Ajuster la vue pour voir tout l'itinéraire
+			const bounds = L.latLngBounds([startPoint, adminPoint, endPoint]);
+			trackingMap.fitBounds(bounds);
+		}
+
+		// Fonction pour animer le coursier
+		function animateCourier() {
+			if (!trackingCoordinates.length) {
+				console.error("Aucune coordonnée de suivi disponible");
+				return;
+			}
+
+			let i = 0;
+			const totalPoints = trackingCoordinates.length;
+			const interval = 3500; // Vitesse d'animation (ms)
+			
+			// Points de transition entre les étapes
+			const transitionPoints = {
+				toCoursier: Math.floor(totalPoints * 0.1),
+				toDemarche: Math.floor(totalPoints * 0.4),
+				toLivraison: Math.floor(totalPoints * 0.8),
+				toTermine: totalPoints - 1
+			};
+
+			// Rendre le marqueur visible
+			courierMarker.setOpacity(1);
+
+			function moveMarker() {
+				if (i <= transitionPoints.toTermine) {
+					courierMarker.setLatLng([trackingCoordinates[i].lat, trackingCoordinates[i].lng]);
+					
+					if (i < transitionPoints.toCoursier) {
+						setActiveStatus(0); // Commande confirmée
+					} else if (i < transitionPoints.toDemarche) {
+						setActiveStatus(1); // Coursier en route
+					} else if (i < transitionPoints.toLivraison) {
+						setActiveStatus(2); // Démarche en cours
+					} else if (i < transitionPoints.toTermine) {
+						setActiveStatus(3); // Livraison en cours
+					} else {
+						setActiveStatus(4); // Commande terminée
+					}
+
+					i++;
+					setTimeout(moveMarker, interval);
+				}
+			}
+			
+			moveMarker();
+		}
+
+		// Fonction pour mettre à jour l'état visuel des étapes
+		function setActiveStatus(stepIndex) {
+			const steps = document.querySelectorAll('.status-item');
+			steps.forEach((step, index) => {
+				const icon = step.querySelector('i');
+				if (index <= stepIndex) {
+					step.classList.add('active');
+					icon.classList.remove('far', 'fa-circle');
+					icon.classList.add('fas', 'fa-check-circle');
+				} else {
+					step.classList.remove('active');
+					icon.classList.remove('fas', 'fa-check-circle');
+					icon.classList.add('far', 'fa-circle');
+				}
+			});
+		}
+
+		// Fonction pour calculer le montant
+		function calculerMontant() {
+			const dossierType = document.getElementById('dossier-type').value;
+			const livraisonInput = document.getElementById('adresse-livraison').value;
+			
+			// Mettre à jour la carte
+			updateMap(dossierType, livraisonInput);
+				
+			if (!dossierType) {
+				document.getElementById('montant').textContent = '0 Ar';
+				document.getElementById('distance-details').textContent = 'Distance totale : 0 km';
+				document.getElementById('admin-distance').textContent = 'Distance Av.33 → Admin : 0 km';
+				document.getElementById('delivery-distance').textContent = 'Distance Admin → Livraison : 0 km';
+				document.getElementById('duration-details').textContent = 'Durée estimée : 0 heures';
+				document.getElementById('delivery-cost').textContent = 'Frais de livraison : 0 Ar';
+				document.getElementById('admin-cost').textContent = 'Frais de démarche : 0 Ar';
+				document.getElementById('detailed-total').textContent = '0 Ar';
+				document.getElementById('price-details').style.display = 'block';
+				return 0;
+			}
+
+			if (dossierType !== 'autre') {
+				const admin = distanceData.principales[dossierType];
+				
+				if (!livraisonInput) {
+					const total = Math.round(admin.duration * 10000);
+					
+					document.getElementById('montant').textContent = total.toLocaleString('fr-FR') + ' Ar';
+					document.getElementById('distance-details').textContent = `Distance totale : ${admin.distanceFrom33av.toFixed(1)} km`;
+					document.getElementById('admin-distance').textContent = `Distance Av.33 → ${admin.name} : ${admin.distanceFrom33av} km`;
+					document.getElementById('delivery-distance').textContent = `Distance ${admin.name} → Livraison : 0 km`;
+					document.getElementById('duration-details').textContent = `Durée estimée : ${admin.duration} heures`;
+					document.getElementById('delivery-cost').textContent = 'Frais de livraison : 0 Ar';
+					document.getElementById('admin-cost').textContent = `Frais de démarche : ${Math.round(admin.duration * 10000).toLocaleString('fr-FR')} Ar`;
+					document.getElementById('detailed-total').textContent = total.toLocaleString('fr-FR') + ' Ar';
+					document.getElementById('price-details').style.display = 'block';
+					return total;
+				}
+				
+				const quartier = detecterQuartier(livraisonInput);
+				const distanceAdminQuartier = admin.distancesToQuartiers[quartier] || 4.0;
+				const distanceTotale = admin.distanceFrom33av + distanceAdminQuartier;
+				const total = Math.round(distanceTotale * 5500) + Math.round(admin.duration * 10000);
+				
+				document.getElementById('montant').textContent = total.toLocaleString('fr-FR') + ' Ar';
+				document.getElementById('distance-details').textContent = `Distance totale : ${distanceTotale.toFixed(1)} km`;
+				document.getElementById('admin-distance').textContent = `Distance Av.33 → ${admin.name} : ${admin.distanceFrom33av} km`;
+				document.getElementById('delivery-distance').textContent = `Distance ${admin.name} → Livraison : ${distanceAdminQuartier} km`;
+				document.getElementById('duration-details').textContent = `Durée estimée : ${admin.duration} heures`;
+				document.getElementById('delivery-cost').textContent = `Frais de livraison : ${Math.round(distanceTotale * 5500).toLocaleString('fr-FR')} Ar`;
+				document.getElementById('admin-cost').textContent = `Frais de démarche : ${Math.round(admin.duration * 10000).toLocaleString('fr-FR')} Ar`;
+				document.getElementById('detailed-total').textContent = total.toLocaleString('fr-FR') + ' Ar';
+				document.getElementById('price-details').style.display = 'block';
+				return total;
+			} else {
+				const autreDossierInput = document.getElementById('autre-dossier').value;
+				if (!autreDossierInput) {
+					document.getElementById('montant').textContent = '0 Ar';
+					document.getElementById('distance-details').textContent = 'Distance totale : 0 km';
+					document.getElementById('admin-distance').textContent = 'Distance Av.33 → Admin : 0 km';
+					document.getElementById('delivery-distance').textContent = 'Distance Admin → Livraison : 0 km';
+					document.getElementById('duration-details').textContent = 'Durée estimée : 0 heures';
+					document.getElementById('delivery-cost').textContent = 'Frais de livraison : 0 Ar';
+					document.getElementById('admin-cost').textContent = 'Frais de démarche : 0 Ar';
+					document.getElementById('detailed-total').textContent = '0 Ar';
+					document.getElementById('price-details').style.display = 'block';
+					return 0;
+				}
+
+				const admin = detecterAdmin(autreDossierInput);
+				const adminData = distanceData.autres[admin] || {
+					name: "Administration",
+					distanceFrom33av: 2.0,
+					defaultDuration: 1.5,
+					distancesToQuartiers: { [quartier]: 4.0 }
+				};
+				
+				if (!livraisonInput) {
+					const total = Math.round(adminData.defaultDuration * 10000);
+					
+					document.getElementById('montant').textContent = total.toLocaleString('fr-FR') + ' Ar';
+					document.getElementById('distance-details').textContent = `Distance totale : ${adminData.distanceFrom33av.toFixed(1)} km`;
+					document.getElementById('admin-distance').textContent = `Distance Av.33 → ${adminData.name} : ${adminData.distanceFrom33av} km`;
+					document.getElementById('delivery-distance').textContent = `Distance ${adminData.name} → Livraison : 0 km`;
+					document.getElementById('duration-details').textContent = `Durée estimée : ${adminData.defaultDuration} heures`;
+					document.getElementById('delivery-cost').textContent = 'Frais de livraison : 0 Ar';
+					document.getElementById('admin-cost').textContent = `Frais de démarche : ${Math.round(adminData.defaultDuration * 10000).toLocaleString('fr-FR')} Ar`;
+					document.getElementById('detailed-total').textContent = total.toLocaleString('fr-FR') + ' Ar';
+					document.getElementById('price-details').style.display = 'block';
+					return total;
+				}
+				
+				const quartier = detecterQuartier(livraisonInput);
+				const distanceAdminQuartier = adminData.distancesToQuartiers[quartier] || 4.0;
+				const distanceTotale = adminData.distanceFrom33av + distanceAdminQuartier;
+				const total = Math.round(distanceTotale * 5500) + Math.round(adminData.defaultDuration * 10000);
+				
+				document.getElementById('montant').textContent = total.toLocaleString('fr-FR') + ' Ar';
+				document.getElementById('distance-details').textContent = `Distance totale : ${distanceTotale.toFixed(1)} km`;
+				document.getElementById('admin-distance').textContent = `Distance Av.33 → ${adminData.name} : ${adminData.distanceFrom33av} km`;
+				document.getElementById('delivery-distance').textContent = `Distance ${adminData.name} → Livraison : ${distanceAdminQuartier} km`;
+				document.getElementById('duration-details').textContent = `Durée estimée : ${adminData.defaultDuration} heures`;
+				document.getElementById('delivery-cost').textContent = `Frais de livraison : ${Math.round(distanceTotale * 5500).toLocaleString('fr-FR')} Ar`;
+				document.getElementById('admin-cost').textContent = `Frais de démarche : ${Math.round(adminData.defaultDuration * 10000).toLocaleString('fr-FR')} Ar`;
+				document.getElementById('detailed-total').textContent = total.toLocaleString('fr-FR') + ' Ar';
+				document.getElementById('price-details').style.display = 'block';
+				return total;
+			}
+		}
+
+		// INITIALISATION
+		document.addEventListener('DOMContentLoaded', function() {
+			// Gestion de "Lire la suite"
+			const btnLireSuite = document.getElementById('btn-lire-suite');
+			const fullStory = document.getElementById('fullStory');
+			
+			btnLireSuite.addEventListener('click', function() {
+				if (fullStory.style.display === 'block') {
+					fullStory.style.display = 'none';
+					btnLireSuite.textContent = 'Lire la suite';
+				} else {
+					fullStory.style.display = 'block';
+					btnLireSuite.textContent = 'Réduire';
+				}
+			});
+			
+			// Gestion du type de dossier
+			const dossierType = document.getElementById('dossier-type');
+			const autreDossierGroup = document.getElementById('autre-dossier-group');
+			
+			dossierType.addEventListener('change', function() {
+				if (this.value === 'autre') {
+					autreDossierGroup.style.display = 'block';
+				} else {
+					autreDossierGroup.style.display = 'none';
+				}
+				calculerMontant();
+			});
+			
+			// Écouteurs pour le calcul
+			document.getElementById('adresse-livraison').addEventListener('input', calculerMontant);
+			document.getElementById('autre-dossier').addEventListener('input', calculerMontant);
+			
+			// Initialisation de la carte de suivi
+			initTrackingMap();
+			
+			// Navigation entre sections
+			const btnContinuer = document.getElementById('btn-continuer');
+			const btnRetour = document.getElementById('btn-retour');
+			const btnPayer = document.getElementById('btn-payer');
+			const btnAccueil = document.getElementById('btn-accueil');
+			
+			const commanderSection = document.getElementById('commander');
+			const paiementSection = document.getElementById('paiement');
+			const confirmationSection = document.getElementById('confirmation');
+			
+			btnContinuer.addEventListener('click', function() {
+				if (!document.getElementById('dossier-type').value || 
+					!document.getElementById('adresse-livraison').value) {
+					alert('Veuillez remplir tous les champs obligatoires');
+					return;
+				}
+				
+				// Récupérer le montant calculé et l'afficher dans la section paiement
+				const montant = document.getElementById('montant').textContent;
+				document.getElementById('montant-paiement').textContent = montant;
+				
+				commanderSection.style.display = 'none';
+				paiementSection.style.display = 'block';
+			});
+
+			// Gestion de la sélection des opérateurs de paiement
+			document.querySelectorAll('.payment-method').forEach(method => {
+				method.addEventListener('click', function() {
+					document.querySelectorAll('.payment-method').forEach(m => {
+						m.classList.remove('selected');
+					});
+					this.classList.add('selected');
+				});
+			});
+
+			// Gestion du code de confirmation à 4 chiffres
+			const codeInputs = document.querySelectorAll('.confirmation-code input');
+			codeInputs.forEach((input, index) => {
+				input.addEventListener('input', function(e) {
+					if (this.value.length === 1) {
+						if (index < codeInputs.length - 1) {
+							codeInputs[index + 1].focus();
+						}
+					}
+				});
+				
+				input.addEventListener('keydown', function(e) {
+					if (e.key === 'Backspace' && this.value.length === 0) {
+						if (index > 0) {
+							codeInputs[index - 1].focus();
+						}
+					}
+				});
+			});
+			
+			btnRetour.addEventListener('click', function() {
+				paiementSection.style.display = 'none';
+				commanderSection.style.display = 'block';
+			});
+			
+			btnPayer.addEventListener('click', function() {
+				const operator = document.querySelector('.payment-method.selected');
+				const phoneNumber = document.getElementById('numero-tel').value;
+				const codeInputs = document.querySelectorAll('.confirmation-code input');
+				let codeComplete = true;
+				
+				codeInputs.forEach(input => {
+					if (!input.value) codeComplete = false;
+				});
+				
+				if (!operator) {
+					alert('Veuillez sélectionner un opérateur de paiement');
+					return;
+				}
+				
+				if (!phoneNumber) {
+					alert('Veuillez entrer votre numéro de téléphone');
+					return;
+				}
+				
+				if (!codeComplete) {
+					alert('Veuillez entrer le code de confirmation complet');
+					return;
+				}
+				
+				paiementSection.style.display = 'none';
+				confirmationSection.style.display = 'block';
+				
+				// Redimensionner les cartes et démarrer l'animation
+				setTimeout(() => {
+					map.invalidateSize();
+					trackingMap.invalidateSize();
+					animateCourier();
+				}, 100);
+			});
+			
+			btnAccueil.addEventListener('click', function() {
+				confirmationSection.style.display = 'none';
+				commanderSection.style.display = 'block';
+				
+				// Réinitialisation
+				document.getElementById('dossier-type').value = '';
+				document.getElementById('autre-dossier').value = '';
+				document.getElementById('adresse-livraison').value = '';
+				document.getElementById('instructions').value = '';
+				document.getElementById('numero-tel').value = '';
+				document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+				document.querySelectorAll('.confirmation-code input').forEach(i => i.value = '');
+				document.getElementById('show-code').checked = false;
+				document.getElementById('price-details').style.display = 'none';
+				
+				// Réinitialiser le statut de suivi
+				document.querySelectorAll('.status-item').forEach((step, index) => {
+					const icon = step.querySelector('i');
+					if (index === 0) {
+						step.classList.add('active');
+						icon.classList.remove('far', 'fa-circle');
+						icon.classList.add('fas', 'fa-check-circle');
+					} else {
+						step.classList.remove('active');
+						icon.classList.remove('fas', 'fa-check-circle');
+						icon.classList.add('far', 'fa-circle');
+					}
+				});
+			});
+			
+			// Gestion de l'affichage du code
+			document.getElementById('show-code').addEventListener('change', function() {
+				document.querySelectorAll('.confirmation-code input').forEach(input => {
+					this.checked ? 
+						input.classList.add('show-code') : 
+						input.classList.remove('show-code');
+				});
+			});
+		});
     </script>
 </body>
 </html>
