@@ -3872,22 +3872,26 @@ function calculerDistanceLivraison(startAddress, endAddress) {
 				document.getElementById('price-details').style.display = 'block';
 				return total;
             } else { // MODE LIVRAISON
-        const startAddress = document.getElementById('adresse-recuperation').value;
-        const endAddress = document.getElementById('adresse-livraison-colis').value;
-        
-        const distance = calculerDistanceLivraison(startAddress, endAddress);
-        const fraisLivraison = Math.round(distance * 5500);
-        
-        // AFFICHAGE LIVRAISON SEULEMENT
-        document.getElementById('distance-livraison').textContent = `Distance : ${distance.toFixed(1)} km`;
-        document.getElementById('tarif-km').textContent = `Tarif par km : 5 500 Ar`;
-        document.getElementById('detailed-total').textContent = `${fraisLivraison.toLocaleString('fr-FR')} Ar`;
-        
-        document.getElementById('admin-details').style.display = 'none';
-        document.getElementById('livraison-details').style.display = 'block';
-        
-        return fraisLivraison;
-    }
+    const startAddress = document.getElementById('adresse-recuperation').value;
+    const endAddress = document.getElementById('adresse-livraison-colis').value;
+    
+    const distance = calculerDistanceLivraison(startAddress, endAddress);
+    const fraisLivraison = Math.round(distance * 5500);
+    
+    // Mettre à jour le montant principal et sa description
+    document.getElementById('montant').textContent = fraisLivraison.toLocaleString('fr-FR') + ' Ar';
+    document.getElementById('montant-description').textContent = '(Frais de livraison)';
+    
+    // AFFICHAGE LIVRAISON SEULEMENT
+    document.getElementById('distance-livraison').textContent = `Distance : ${distance.toFixed(1)} km`;
+    document.getElementById('tarif-km').textContent = `Tarif par km : 5 500 Ar`;
+    document.getElementById('detailed-total').textContent = `${fraisLivraison.toLocaleString('fr-FR')} Ar`;
+    
+    document.getElementById('admin-details').style.display = 'none';
+    document.getElementById('livraison-details').style.display = 'block';
+    
+    return fraisLivraison;
+}
         }
 
         // Fonction pour animer le coursier
